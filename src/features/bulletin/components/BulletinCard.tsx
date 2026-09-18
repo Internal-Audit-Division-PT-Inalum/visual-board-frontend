@@ -70,7 +70,6 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
     minute: '2-digit',
   });
 
-  // Backend might return http://localhost/storage/... instead of http://localhost:8000/storage/...
   const imageUrl = bulletin.image_url 
     ? bulletin.image_url.replace('http://localhost/', 'http://localhost:8000/') 
     : null;
@@ -82,7 +81,7 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
   return (
     <div className="relative flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group h-full">
       
-      {/* Visual Header (Image or Gradient Fallback) */}
+      {}
       <div className="w-full h-48 sm:h-52 overflow-hidden shrink-0 relative bg-slate-100">
         {imageUrl && !imageError ? (
           <img 
@@ -97,10 +96,10 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
           </div>
         )}
         
-        {/* Overlay Gradient for contrast */}
+        {}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/10 to-transparent" />
 
-        {/* Floating Category Badge */}
+        {}
         <div className="absolute top-4 left-4">
           <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full ${theme.badgeBg} ${theme.badgeText} shadow-md backdrop-blur-sm bg-opacity-90`}>
             {theme.icon}
@@ -111,7 +110,7 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
         </div>
       </div>
 
-      {/* Content */}
+      {}
       <div className="p-5 sm:p-6 flex flex-col flex-1 bg-white">
         <h3 className="text-lg sm:text-xl font-extrabold text-slate-800 leading-snug mb-3 group-hover:text-blue-700 transition-colors line-clamp-2">
           {bulletin.title}
@@ -121,7 +120,7 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
           dangerouslySetInnerHTML={{ __html: bulletin.content }}
         />
 
-        {/* Action Button to open Modal */}
+        {}
         <div className="mt-auto">
           <button 
             onClick={() => setIsModalOpen(true)}
@@ -132,7 +131,7 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
         </div>
       </div>
 
-      {/* Footer / Metadata */}
+      {}
       <div className="bg-slate-50 border-t border-slate-100 px-5 py-3.5 mt-auto flex items-center justify-between text-xs font-bold text-slate-500 shrink-0">
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center shrink-0">
@@ -146,7 +145,7 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
         </div>
       </div>
       
-      {/* PDF Modal / Content Modal */}
+      {}
       {isModalOpen && (
         <div className="fixed inset-0 z-[100] bg-slate-900/95 flex items-center justify-center p-4 sm:p-8 backdrop-blur-sm overflow-y-auto">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden relative flex flex-col my-auto max-h-[90vh]">
@@ -158,7 +157,7 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
             </button>
             
             <div className="overflow-y-auto flex-1 custom-scrollbar">
-              {/* Modal Banner */}
+              {}
               <div className="w-full h-48 sm:h-72 overflow-hidden shrink-0 relative bg-slate-100">
                 {imageUrl && !imageError ? (
                   <img 
@@ -185,7 +184,7 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
                 </div>
               </div>
 
-              {/* Modal Content */}
+              {}
               <div className="p-6 sm:p-8 bg-white">
                 <div className="flex items-center gap-4 text-sm font-bold text-slate-500 mb-8 pb-4 border-b border-slate-100">
                   <div className="flex items-center gap-2">
@@ -221,7 +220,7 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
         </div>
       )}
 
-      {/* Native Canvas PDF Viewer Modal */}
+      {}
       {isPdfViewerOpen && docUrl && (
         <PdfViewerModal 
           url={docUrl} 

@@ -12,7 +12,7 @@ export default function DepartmentHub() {
     <div className="flex flex-col h-full bg-white">
       <div className="max-w-[1920px] w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6 font-sans flex flex-col h-full">
         
-        {/* Header */}
+        {}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 pb-2 border-b border-slate-200 shrink-0">
           <div>
             <div className="flex items-center gap-2 text-[#0A2F66] font-bold text-xs tracking-widest mb-1 uppercase">
@@ -48,7 +48,7 @@ export default function DepartmentHub() {
           </div>
         </div>
 
-        {/* Content */}
+        {}
         <div className="flex-1 overflow-y-auto min-h-0 custom-scrollbar pr-2">
           {activeTab === 'informasi_umum' && (
             <div className="flex flex-col gap-8 pb-12 animate-in fade-in slide-in-from-bottom-2 duration-300">

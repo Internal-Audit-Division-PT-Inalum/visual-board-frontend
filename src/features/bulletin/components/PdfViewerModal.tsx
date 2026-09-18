@@ -4,7 +4,6 @@ import { X, ChevronLeft, ChevronRight, Loader2, ZoomIn, ZoomOut } from 'lucide-r
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
-// Configure PDF.js worker for Vite
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.mjs',
   import.meta.url,
@@ -34,7 +33,7 @@ export function PdfViewerModal({ url, onClose }: PdfViewerModalProps) {
   return (
     <div className="fixed inset-0 z-[120] bg-slate-900/98 flex flex-col p-4 sm:p-6 backdrop-blur-lg">
       
-      {/* Header Toolbar */}
+      {}
       <div className="flex items-center justify-between mb-4 max-w-6xl w-full mx-auto bg-slate-800/50 p-3 rounded-2xl border border-white/10 backdrop-blur-md">
         <div className="flex items-center gap-2 px-2 text-white/90">
           <button 
@@ -88,7 +87,7 @@ export function PdfViewerModal({ url, onClose }: PdfViewerModalProps) {
         </button>
       </div>
 
-      {/* PDF Viewer Area */}
+      {}
       <div className="flex-1 w-full max-w-6xl mx-auto rounded-2xl overflow-y-auto overflow-x-hidden shadow-2xl border border-white/10 bg-slate-900/50 flex flex-col relative custom-scrollbar">
         {isLoading && (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-white/50 bg-slate-900/50 z-10">

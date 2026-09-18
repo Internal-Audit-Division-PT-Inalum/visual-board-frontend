@@ -39,7 +39,7 @@ export function DivisionEmployees({ employees }: DivisionEmployeesProps) {
       <div className="p-5 flex-1 overflow-y-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {employees.map((employee, index) => {
-            // Level 1 & 2 (Manajemen) span full width, others take 1 column
+            
             const isManagement = employee.hierarchy_level && employee.hierarchy_level <= 2;
             const spanClass = isManagement ? 'sm:col-span-2' : '';
             
@@ -50,7 +50,6 @@ export function DivisionEmployees({ employees }: DivisionEmployeesProps) {
               return 'bg-slate-300 group-hover:bg-blue-500';
             };
 
-            // Warna ring/avatar berdasarkan level
             const getAvatarStyle = (level?: number) => {
               if (level === 1) return 'from-amber-500 to-amber-700 ring-amber-100 group-hover:ring-amber-200';
               if (level === 2) return 'from-emerald-500 to-emerald-700 ring-emerald-100 group-hover:ring-emerald-200';
