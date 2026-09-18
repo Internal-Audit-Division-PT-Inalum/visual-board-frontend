@@ -1,19 +1,8 @@
 
 
-
-
-
-
-
 export type AbnormalityStatus = 'open' | 'in_progress' | 'resolved';
 
-
 export type DayStatus = 'rencana' | 'ok_tanpa_5r' | 'ok_dengan_5r' | 'abnormal';
-
-
-
-
-
 
 export interface Abnormality {
   id: string;
@@ -53,11 +42,6 @@ export interface Abnormality {
   resolved_at: string | null;
 }
 
-
-
-
-
-
 export interface KaizenChampion {
   rank: number;
   user_id: string;
@@ -70,10 +54,6 @@ export interface KaizenChampion {
   kaizen_count: number;
 }
 
-
-
-
-
 export interface ZoneDetail {
   id: string;
   name: string;
@@ -82,10 +62,6 @@ export interface ZoneDetail {
   pic_pengganti?: string | null;
 }
 
-
-
-
-
 export interface Zone {
   id: string;
   name: string;
@@ -93,7 +69,6 @@ export interface Zone {
   pic_utama?: string | null;
   pic_pengganti?: string | null;
 }
-
 
 export interface ScheduleZoneRow {
   zone_id: string;
@@ -105,14 +80,12 @@ export interface ScheduleZoneRow {
   days: Record<string, DayStatus>;
 }
 
-
 export interface KioskDashboardResponse {
   
   open_abnormality_count: number;
   abnormality_resolved_today: number;
   abnormality_in_progress: number;
-  
-  
+
   compliance_percentage: number;
   
   safety_streak_days: number;
@@ -126,11 +99,9 @@ export interface KioskDashboardResponse {
   
   oee_percentage: number;
   oee_target: number;
-  
-  
+
   zones: ZoneDetail[];
-  
-  
+
   abnormalities: Abnormality[];
   
   kaizen_champions: KaizenChampion[];
@@ -144,11 +115,6 @@ export interface KioskDashboardResponse {
   reference_docs: GeneralDocument[];
 }
 
-
-
-
-
-
 export interface WeeklyTrendPoint {
   
   day: string;
@@ -158,11 +124,6 @@ export interface WeeklyTrendPoint {
   alert_count: number;
 }
 
-
-
-
-
-
 export interface UnavailableEmployee {
   user_id: string;
   name: string;
@@ -171,7 +132,6 @@ export interface UnavailableEmployee {
   
   leave_type: 'sick_leave' | 'annual_leave' | 'special_leave';
 }
-
 
 export interface AttendanceSummaryResponse {
   total_employees: number;
@@ -184,7 +144,6 @@ export interface AttendanceSummaryResponse {
   division_employees: DivisionEmployee[];
 }
 
-
 export interface DivisionEmployee {
   user_id: string;
   name: string;
@@ -196,22 +155,13 @@ export interface DivisionEmployee {
   hierarchy_level?: number;
 }
 
-
-
-
-
 export interface OrganizationDocument {
   id: string;
   title: string;
   description: string | null;
-  /** image_url maps to getFirstMediaUrl('document') from GeneralDocument model */
-  image_url: string | null;
+    image_url: string | null;
   category?: 'structure' | 'map_area';
 }
-
-
-
-
 
 export interface TrendMonthData {
   temuan: number | null;
@@ -230,10 +180,6 @@ export interface TrendAbnormalityResponse {
   matrix: TrendAbnormalityRow[];
 }
 
-
-
-
-
 export type GeneralDocumentCategory = 'basic_rule' | 'flow_process' | 'kaizen_report';
 
 export type GeneralDocumentDomain = 'visual_board' | 'organization';
@@ -248,11 +194,6 @@ export interface GeneralDocument {
   mime_type: string | null;
 }
 
-
-
-
-
-
 export interface BulletinsResponse {
   data: Bulletin[];
 }
@@ -266,20 +207,11 @@ export interface QuickLink {
   is_active: boolean;
 }
 
-
-
-
-
-
 export interface ApiSuccessResponse<T> {
   success: true;
   message: string;
   data: T;
 }
-
-
-
-
 
 export interface Bulletin {
   id: string;
