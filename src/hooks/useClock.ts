@@ -1,43 +1,42 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
 
 interface ClockState {
-  time: string;
-  date: string;
+	time: string;
+	date: string;
 }
 
 export function useClock(): ClockState {
-  const [clock, setClock] = useState<ClockState>({
-    time: '',
-    date: '',
-  });
+	const [clock, setClock] = useState<ClockState>({
+		time: "",
+		date: "",
+	});
 
-  useEffect(() => {
-    const updateClock = () => {
-      const now = new Date();
-      
-      const time = now.toLocaleTimeString('id-ID', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-      });
-      
-      const date = now.toLocaleDateString('id-ID', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
+	useEffect(() => {
+		const updateClock = () => {
+			const now = new Date();
 
-      setClock({ time: time.replace(/\./g, ':'), date });
-    };
+			const time = now.toLocaleTimeString("id-ID", {
+				hour: "2-digit",
+				minute: "2-digit",
+				second: "2-digit",
+				hour12: false,
+			});
 
-    updateClock(); 
-    const intervalId = setInterval(updateClock, 1000);
+			const date = now.toLocaleDateString("id-ID", {
+				weekday: "long",
+				year: "numeric",
+				month: "long",
+				day: "numeric",
+			});
 
-    return () => clearInterval(intervalId); 
-  }, []);
+			setClock({ time: time.replace(/\./g, ":"), date });
+		};
 
-  return clock;
+		updateClock();
+		const intervalId = setInterval(updateClock, 1000);
+
+		return () => clearInterval(intervalId);
+	}, []);
+
+	return clock;
 }
-
