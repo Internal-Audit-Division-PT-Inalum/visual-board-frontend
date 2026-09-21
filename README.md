@@ -33,9 +33,9 @@ Untuk memastikan performa Kiosk tidak bocor (*memory leak*) setelah menyala berh
 Kami sangat menghindari pola komponen datar (*flat hierarchy*) yang menumpuk. Seluruh logika dipecah berdasarkan area bisnis (*features*):
 
 *   **`src/features/general/`** - Komponen, *hooks*, dan API yang mengurus dasbor matriks 5R, *trend charts* (Recharts), dan antrean temuan audit.
-*   **`src/features/bulletin/`** & **`src/features/hub/`** - Mengelola logika pengambilan poster pengumuman, *carousel*, integrasi QR Code, dan mesin perender *file* PDF mading (`react-pdf`).
-*   **`src/features/organization/`** - Modul untuk merender daftar kehadiran, status ketersediaan karyawan, serta hierarki bagan departemen.
-*   **`src/features/schedule/`** - Mengurus urusan matriks jadwal audit bulanan (termasuk *parser* pembaca status hari).
+*   **`src/features/bulletin/`** - Mengelola logika pengambilan poster pengumuman, *carousel*, integrasi QR Code, dan tampilan pusat informasi mading.
+*   **`src/features/organization/`** - Modul untuk merender statistik absensi, status ketersediaan karyawan, serta hierarki bagan departemen.
+*   **`src/features/workstation/`** - Modul isolasi khusus untuk memantau detail penugasan area kerja (*Workstation*) tiap karyawan.
 *   **`src/components/`** - Hanya berisi komponen visual murni yang bisa dipakai ulang (tombol, label status, bingkai tata letak Kiosk utama).
 *   **`src/pages/`** - Bertindak sebagai kanvas utama. Tugasnya hanya menyatukan modul-modul dari folder `features` dan meneruskannya ke Router.
 *   **`src/lib/`** - Pengaturan klien Axios (*interceptors* sentral) dan utilitas *class-merger* bawaan komponen shadcn.
@@ -68,7 +68,7 @@ Langkah demi langkah untuk menyalakan mode pengembangan (*development*):
    ```bash
    cp .env.example .env
    ```
-   *Buka file `.env` dan pastikan konfigurasi jaringan `VITE_API_BASE_URL` mengarah ke `http://127.0.0.1:8000/api` atau alamat jaringan lokal server backend Anda.*
+   *Buka file `.env` dan pastikan konfigurasi jaringan `VITE_API_BASE_URL` mengarah ke alamat jaringan lokal server backend Anda. (Catatan: CORS untuk penyimpanan lokal `/storage` sudah otomatis ditangani melalui Vite Proxy).*
 
 4. **Jalankan *Development Server***
    ```bash
@@ -101,6 +101,7 @@ Jika aplikasi ini hendak dipasang permanen di mesin Kiosk Pabrik (seperti mini P
 
 ## 🧪 Aturan Penulisan Kode Internal (*Code Standards*)
 Bagi anggota tim pengembang atau kontributor, harap patuhi tiga prinsip utama ini:
-1. **Dilarang *Fetch* Data Secara Terbuka:** Dilarang keras memanggil `axios.get()` telanjang di dalam `useEffect`. Gunakan dan definisikan `useQuery` (React Query) di dalam folder `features/.../api/` lalu impor *hook* tersebut di komponen.
+1. **Gunakan Linter Bawaan (Biome):** Proyek ini sepenuhnya mengandalkan Biome untuk pengecekan kualitas (*linting*) dan pemformatan kode (*formatting*). Pastikan Editor Anda dikonfigurasi untuk menjalankan Biome saat menyimpan berkas (atau jalankan `npm run format`).
+2. **Dilarang *Fetch* Data Secara Terbuka:** Dilarang keras memanggil `axios.get()` telanjang di dalam `useEffect`. Gunakan dan definisikan `useQuery` (React Query) di dalam folder `features/.../api/` lalu impor *hook* tersebut di komponen.
 2. **Ketat dengan Tipe Data API:** Semua struktur JSON yang kembali dari API mutlak harus memiliki *Interface* TypeScript yang terdefinisi rapi di dalam `src/types/api.ts`.
 3. **Jaga Komponen Tetap Ramping:** Pecah elemen UI yang kompleks menjadi berkas-berkas terpisah di dalam direktori `components` fiturnya masing-masing. Jangan membiarkan satu *file* mencapai lebih dari 300 baris kode.
