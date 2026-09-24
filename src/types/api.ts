@@ -55,6 +55,7 @@ export interface KaizenChampion {
 export interface ZoneDetail {
 	id: string;
 	name: string;
+	area?: string | null;
 	standard_image_url: string | null;
 	pic_utama?: string | null;
 	pic_pengganti?: string | null;
@@ -63,6 +64,7 @@ export interface ZoneDetail {
 export interface Zone {
 	id: string;
 	name: string;
+	area?: string | null;
 	standard_image_url: string | null;
 	pic_utama?: string | null;
 	pic_pengganti?: string | null;
@@ -115,6 +117,18 @@ export interface KioskDashboardResponse {
 	trend_matrix: TrendAbnormalityRow[];
 
 	reference_docs: GeneralDocument[];
+
+	five_r_evaluations: FiveREvaluation[];
+	assessment_docs: GeneralDocument[];
+}
+
+export interface FiveREvaluation {
+	id: string;
+	month: number;
+	year: number;
+	type: "self_assessment" | "asesor";
+	total_score: number;
+	file_url?: string | null;
 }
 
 export interface WeeklyTrendPoint {
@@ -129,7 +143,7 @@ export interface UnavailableEmployee {
 	user_id: string;
 	name: string;
 	position: string;
-	leave_type: "sick_leave" | "annual_leave" | "special_leave";
+	leave_type: "sick_leave" | "annual_leave" | "special_leave" | "business_trip";
 	avatar_url?: string;
 }
 
@@ -138,6 +152,7 @@ export interface AttendanceSummaryResponse {
 	present_count: number;
 	on_leave_count: number;
 	sick_count: number;
+	business_trip_count: number;
 
 	unavailable_today: UnavailableEmployee[];
 
@@ -151,6 +166,7 @@ export interface DivisionEmployee {
 	unit: string;
 	hierarchy_level?: number;
 	avatar_url?: string;
+	today_status?: string | null;
 }
 
 export interface OrganizationDocument {
@@ -181,9 +197,17 @@ export interface TrendAbnormalityResponse {
 export type GeneralDocumentCategory =
 	| "basic_rule"
 	| "flow_process"
-	| "kaizen_report";
+	| "kaizen_report"
+	| "sor"
+	| "cog"
+	| "berat_badan"
+	| "self_assessment"
+	| "asesor";
 
-export type GeneralDocumentDomain = "visual_board" | "organization";
+export type GeneralDocumentDomain =
+	| "visual_board"
+	| "organization"
+	| "assessment";
 
 export interface GeneralDocument {
 	id: string;
@@ -220,8 +244,9 @@ export interface Bulletin {
 	content: string;
 	type: "general" | "health_safety" | "event" | "policy";
 	image_url: string | null;
-	document_url?: string | null;
+	document_url: string | null;
 	published_at: string;
+	expired_at: string | null;
 	author: string;
 }
 
@@ -238,6 +263,8 @@ export interface WorkstationData {
 	is_active: boolean;
 	standard_image_url: string | null;
 	zone?: { id: string; name: string };
+	pic_utama?: { id: string; namecode: string } | null;
+	pic_pengganti?: { id: string; namecode: string } | null;
 	employee?: {
 		id: string;
 		namecode: string;
