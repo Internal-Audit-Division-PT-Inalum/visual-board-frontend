@@ -1,4 +1,4 @@
-import { Link as LinkIcon, Megaphone } from "lucide-react";
+import { Link as LinkIcon } from "lucide-react";
 import { useState } from "react";
 import { BulletinBoard } from "@/features/bulletin/components/BulletinBoard";
 import { QrCodeGrid } from "@/features/bulletin/components/QrCodeGrid";

@@ -1,5 +1,4 @@
 import { Loader2, Megaphone, WifiOff } from "lucide-react";
-import { useState } from "react";
 import { useBulletins } from "../api/useBulletins";
 import { BulletinCard } from "./BulletinCard";
 

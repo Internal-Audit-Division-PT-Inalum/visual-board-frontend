@@ -8,7 +8,7 @@ import {
 	User,
 	X,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { DocumentViewerModal } from "@/components/shared/DocumentViewerModal";
 import { getBackendUrl } from "@/lib/utils";
 import type { Bulletin } from "@/types/api";
