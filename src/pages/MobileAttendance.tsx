@@ -11,6 +11,9 @@ import { api } from "@/lib/api";
 
 export default function MobileAttendance() {
 	const [namecode, setNamecode] = useState("");
+	const [status, setStatus] = useState<"present" | "business_trip" | "leave">(
+		"present",
+	);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isSuccess, setIsSuccess] = useState(false);
 
@@ -28,6 +31,7 @@ export default function MobileAttendance() {
 			// Menggunakan endpoint kiosk yang baru kita buat
 			await api.post("/hr/kiosk/attendances/scan", {
 				namecode: namecode.trim(),
+				status,
 			});
 
 			setIsSuccess(true);
@@ -65,6 +69,7 @@ export default function MobileAttendance() {
 						onClick={() => {
 							setIsSuccess(false);
 							setNamecode("");
+							setStatus("present");
 						}}
 						className="w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-xl hover:bg-slate-200 transition-colors"
 					>
@@ -133,6 +138,47 @@ export default function MobileAttendance() {
 									autoComplete="off"
 									autoFocus
 								/>
+							</div>
+						</div>
+
+						<div className="space-y-3">
+							<label className="text-sm font-bold text-slate-700 block">
+								Status Kehadiran
+							</label>
+							<div className="grid grid-cols-3 gap-2">
+								<button
+									type="button"
+									onClick={() => setStatus("present")}
+									className={`py-2 px-2 rounded-xl text-sm font-bold border transition-all ${
+										status === "present"
+											? "bg-emerald-50 border-emerald-500 text-emerald-700 shadow-sm"
+											: "bg-white border-slate-200 text-slate-500 hover:bg-slate-50"
+									}`}
+								>
+									Hadir
+								</button>
+								<button
+									type="button"
+									onClick={() => setStatus("business_trip")}
+									className={`py-2 px-2 rounded-xl text-sm font-bold border transition-all ${
+										status === "business_trip"
+											? "bg-sky-50 border-sky-500 text-sky-700 shadow-sm"
+											: "bg-white border-slate-200 text-slate-500 hover:bg-slate-50"
+									}`}
+								>
+									Dinas
+								</button>
+								<button
+									type="button"
+									onClick={() => setStatus("leave")}
+									className={`py-2 px-2 rounded-xl text-sm font-bold border transition-all ${
+										status === "leave"
+											? "bg-amber-50 border-amber-500 text-amber-700 shadow-sm"
+											: "bg-white border-slate-200 text-slate-500 hover:bg-slate-50"
+									}`}
+								>
+									Cuti
+								</button>
 							</div>
 						</div>
 
