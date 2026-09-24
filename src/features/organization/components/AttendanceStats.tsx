@@ -1,17 +1,17 @@
-import { CheckCircle, FileText, HeartPulse, Users } from "lucide-react";
+import { CheckCircle, FileText, Plane, Users } from "lucide-react";
 
 interface AttendanceStatsProps {
 	total: number;
 	present: number;
-	sick: number;
 	leave: number;
+	business_trip: number;
 }
 
 export function AttendanceStats({
 	total,
 	present,
-	sick,
 	leave,
+	business_trip,
 }: AttendanceStatsProps) {
 	const percentage = total > 0 ? Math.round((present / total) * 100) : 0;
 
@@ -42,22 +42,24 @@ export function AttendanceStats({
 				</div>
 				<div className="relative z-10">
 					<p className="text-slate-500 font-bold text-xs uppercase tracking-wider mb-1">
-						Cuti / Izin
+						Cuti
 					</p>
 					<h4 className="text-3xl font-black text-slate-800">{leave}</h4>
 				</div>
 			</div>
 
 			<div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-5 flex items-center gap-4 relative overflow-hidden group">
-				<div className="absolute -right-4 -top-4 w-24 h-24 bg-rose-50 rounded-full transition-transform group-hover:scale-150 duration-500 z-0"></div>
-				<div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center text-rose-600 relative z-10 shrink-0 shadow-sm border border-rose-200">
-					<HeartPulse className="w-6 h-6" />
+				<div className="absolute -right-4 -top-4 w-24 h-24 bg-sky-50 rounded-full transition-transform group-hover:scale-150 duration-500 z-0"></div>
+				<div className="w-12 h-12 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 relative z-10 shrink-0 shadow-sm border border-sky-200">
+					<Plane className="w-6 h-6" />
 				</div>
 				<div className="relative z-10">
 					<p className="text-slate-500 font-bold text-xs uppercase tracking-wider mb-1">
-						Sakit
+						Perjalanan Dinas
 					</p>
-					<h4 className="text-3xl font-black text-slate-800">{sick}</h4>
+					<h4 className="text-3xl font-black text-slate-800">
+						{business_trip}
+					</h4>
 				</div>
 			</div>
 
