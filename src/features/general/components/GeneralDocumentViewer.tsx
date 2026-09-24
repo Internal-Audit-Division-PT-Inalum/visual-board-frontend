@@ -2,18 +2,29 @@ import { FileText, Loader2, Maximize2, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { DocumentViewerModal } from "@/components/shared/DocumentViewerModal";
 import { useKioskData } from "@/features/general/api/useKioskData";
+import { getBackendUrl } from "@/lib/utils";
 import type { GeneralDocumentCategory } from "@/types/api";
 
 const CATEGORY_LABELS: Record<GeneralDocumentCategory, string> = {
 	basic_rule: "Basic Rule",
 	flow_process: "Flow Process",
 	kaizen_report: "Kaizen Report",
+	sor: "SOR",
+	cog: "COG",
+	berat_badan: "Challenge Weight Loss",
+	self_assessment: "Self Assessment",
+	asesor: "Assessment by Asesor",
 };
 
 const CATEGORY_COLORS: Record<GeneralDocumentCategory, string> = {
 	basic_rule: "bg-blue-100 text-blue-700 border-blue-200",
 	flow_process: "bg-amber-100 text-amber-700 border-amber-200",
 	kaizen_report: "bg-emerald-100 text-emerald-700 border-emerald-200",
+	sor: "bg-purple-100 text-purple-700 border-purple-200",
+	cog: "bg-indigo-100 text-indigo-700 border-indigo-200",
+	berat_badan: "bg-rose-100 text-rose-700 border-rose-200",
+	self_assessment: "bg-teal-100 text-teal-700 border-teal-200",
+	asesor: "bg-sky-100 text-sky-700 border-sky-200",
 };
 
 const CATEGORIES: GeneralDocumentCategory[] = [
@@ -69,9 +80,7 @@ function SingleViewer({ category }: GeneralDocumentViewerProps) {
 
 	const current = documents[currentIndex];
 	const isPdf = current.mime_type === "application/pdf";
-	const url = current.document_url?.startsWith("http")
-		? current.document_url
-		: `http://localhost:8000${current.document_url}`;
+	const url = getBackendUrl(current.document_url);
 
 	return (
 		<div className="flex-1 flex flex-col min-h-[220px]">
@@ -169,57 +178,57 @@ function SingleViewer({ category }: GeneralDocumentViewerProps) {
 						</button>
 					</div>
 
-					<div className="flex-1 overflow-y-auto pr-2 custom-scrollbar grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 content-start">
-						{allDocuments.map((doc, idx) => {
-							const docUrl = doc.document_url?.startsWith("http")
-								? doc.document_url
-								: `http://localhost:8000${doc.document_url}`;
-							const docIsPdf = doc.mime_type === "application/pdf";
+					<div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+							{allDocuments.map((doc, idx) => {
+								const docUrl = getBackendUrl(doc.document_url);
+								const docIsPdf = doc.mime_type === "application/pdf";
 
-							return (
-								<div
-									key={doc.id || idx}
-									className="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 flex flex-col group"
-								>
-									<div className="h-48 bg-slate-900 relative flex items-center justify-center p-4">
-										{docIsPdf ? (
-											<iframe
-												src={`${docUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
-												className="w-full h-full border-0 pointer-events-none"
-												title={doc.title}
-											/>
-										) : (
-											<img
-												src={docUrl}
-												alt={doc.title}
-												className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-											/>
-										)}
-										<button
-											type="button"
-											onClick={() =>
-												setSelectedDoc({ url: docUrl, title: doc.title })
-											}
-											className="absolute inset-0 z-10 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity w-full h-full cursor-pointer"
-										>
-											<span className="bg-blue-600 text-white px-4 py-2 rounded-full font-bold text-sm hover:scale-105 transition-transform">
-												Buka Dokumen
-											</span>
-										</button>
-									</div>
-									<div className="p-4 flex-1 flex flex-col">
-										<p className="text-white text-sm font-bold line-clamp-2">
-											{doc.title}
-										</p>
-										{doc.description && (
-											<p className="text-slate-400 text-xs mt-1.5 line-clamp-2">
-												{doc.description}
+								return (
+									<div
+										key={doc.id || idx}
+										className="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 flex flex-col group h-full"
+									>
+										<div className="h-48 shrink-0 bg-slate-900 relative flex items-center justify-center p-4">
+											{docIsPdf ? (
+												<iframe
+													src={`${docUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+													className="w-full h-full border-0 pointer-events-none"
+													title={doc.title}
+												/>
+											) : (
+												<img
+													src={docUrl}
+													alt={doc.title}
+													className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+												/>
+											)}
+											<button
+												type="button"
+												onClick={() =>
+													setSelectedDoc({ url: docUrl, title: doc.title })
+												}
+												className="absolute inset-0 z-10 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity w-full h-full cursor-pointer"
+											>
+												<span className="bg-blue-600 text-white px-4 py-2 rounded-full font-bold text-sm hover:scale-105 transition-transform">
+													Buka Dokumen
+												</span>
+											</button>
+										</div>
+										<div className="p-4 flex-1 flex flex-col">
+											<p className="text-white text-sm font-bold line-clamp-2">
+												{doc.title}
 											</p>
-										)}
+											{doc.description && (
+												<p className="text-slate-400 text-xs mt-1.5 line-clamp-2">
+													{doc.description}
+												</p>
+											)}
+										</div>
 									</div>
-								</div>
-							);
-						})}
+								);
+							})}
+						</div>
 					</div>
 				</div>
 			)}
