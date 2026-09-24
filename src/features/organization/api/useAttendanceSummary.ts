@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { api } from "@/lib/api";
 import type {
 	ApiSuccessResponse,
 	AttendanceSummaryResponse,
@@ -9,9 +9,9 @@ export function useAttendanceSummary() {
 	return useQuery({
 		queryKey: ["attendanceSummary"],
 		queryFn: async () => {
-			const response = await axios.get<
+			const response = await api.get<
 				ApiSuccessResponse<AttendanceSummaryResponse>
-			>("http://localhost:8000/api/v1/hr/kiosk/attendance-summary");
+			>("/hr/kiosk/attendance-summary");
 			return response.data.data;
 		},
 		refetchInterval: 300000,
