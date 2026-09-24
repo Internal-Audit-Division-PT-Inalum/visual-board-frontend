@@ -1,6 +1,7 @@
-import { FileText, Loader2, Maximize2, X } from "lucide-react";
+import { FileText, Loader2, Maximize2 } from "lucide-react";
 import { useState } from "react";
 import { DocumentViewerModal } from "@/components/shared/DocumentViewerModal";
+import { getBackendUrl } from "@/lib/utils";
 import type { OrganizationDocument } from "@/types/api";
 import { useOrganizationDocuments } from "../../../hooks/useOrganizationDocuments";
 
@@ -57,9 +58,7 @@ export function DocumentViewer({
 			>
 				{documents.map((doc) => {
 					const isPdf = doc.image_url?.toLowerCase().endsWith(".pdf");
-					const fileUrl = doc.image_url?.startsWith("http")
-						? doc.image_url
-						: `http://localhost:8000${doc.image_url}`;
+					const fileUrl = getBackendUrl(doc.image_url);
 
 					return (
 						<div
@@ -134,11 +133,7 @@ export function DocumentViewer({
 
 			{selectedDoc && selectedDoc.image_url && (
 				<DocumentViewerModal
-					url={
-						selectedDoc.image_url.startsWith("http")
-							? selectedDoc.image_url
-							: `http://localhost:8000${selectedDoc.image_url}`
-					}
+					url={getBackendUrl(selectedDoc.image_url)}
 					title={selectedDoc.title}
 					description={selectedDoc.description}
 					onClose={() => setSelectedDoc(null)}
