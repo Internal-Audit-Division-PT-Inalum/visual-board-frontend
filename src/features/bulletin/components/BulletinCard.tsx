@@ -2,13 +2,15 @@ import {
 	Calendar,
 	Clock,
 	FileText,
+	Maximize2,
 	Megaphone,
 	ShieldAlert,
 	User,
 	X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DocumentViewerModal } from "@/components/shared/DocumentViewerModal";
+import { getBackendUrl } from "@/lib/utils";
 import type { Bulletin } from "@/types/api";
 
 interface BulletinCardProps {
@@ -18,7 +20,7 @@ interface BulletinCardProps {
 export function BulletinCard({ bulletin }: BulletinCardProps) {
 	const [imageError, setImageError] = useState(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [isPdfViewerOpen, setIsPdfViewerOpen] = useState(false);
+	const [viewerUrl, setViewerUrl] = useState<string | null>(null);
 
 	const themeConfig = {
 		health_safety: {
@@ -81,28 +83,62 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
 		},
 	);
 
-	const imageUrl = bulletin.image_url
-		? bulletin.image_url.replace("http://localhost/", "http://localhost:8000/")
+	const formattedExpiredDate = bulletin.expired_at
+		? new Date(bulletin.expired_at).toLocaleDateString("id-ID", {
+				day: "numeric",
+				month: "short",
+				year: "numeric",
+			})
 		: null;
 
-	const docUrl = bulletin.document_url
-		? bulletin.document_url.replace(
-				"http://localhost/",
-				"http://localhost:8000/",
-			)
-		: null;
+	const imageUrl = getBackendUrl(bulletin.image_url);
+	const docUrl = getBackendUrl(bulletin.document_url);
 
 	return (
 		<div className="relative flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group h-full">
 			{}
 			<div className="w-full h-48 sm:h-52 overflow-hidden shrink-0 relative bg-slate-100">
 				{imageUrl && !imageError ? (
-					<img
-						src={imageUrl}
-						alt={bulletin.title}
-						onError={() => setImageError(true)}
-						className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-					/>
+					<div className="w-full h-full relative group/imgcard bg-white">
+						<img
+							src={imageUrl}
+							alt={bulletin.title}
+							onError={() => setImageError(true)}
+							className="w-full h-full object-cover transition-transform duration-700 group-hover/imgcard:scale-110"
+						/>
+						<div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/imgcard:opacity-100 transition-all duration-200 flex items-center justify-center backdrop-blur-[2px] z-10">
+							<button
+								type="button"
+								onClick={(e) => {
+									e.stopPropagation();
+									setViewerUrl(imageUrl);
+								}}
+								className="bg-white/90 text-slate-800 px-5 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-white hover:scale-105 transition-all shadow-lg text-xs"
+							>
+								<Maximize2 className="w-4 h-4" /> Perbesar Gambar
+							</button>
+						</div>
+					</div>
+				) : docUrl ? (
+					<div className="w-full h-full relative group/pdfcard bg-white">
+						<iframe
+							src={`${docUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+							className="w-full h-full border-0 pointer-events-none object-cover"
+							title={bulletin.title}
+						/>
+						<div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/pdfcard:opacity-100 transition-all duration-200 flex items-center justify-center backdrop-blur-[2px] z-10">
+							<button
+								type="button"
+								onClick={(e) => {
+									e.stopPropagation();
+									setViewerUrl(docUrl);
+								}}
+								className="bg-white/90 text-slate-800 px-5 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-white hover:scale-105 transition-all shadow-lg text-xs"
+							>
+								<FileText className="w-4 h-4" /> Buka PDF
+							</button>
+						</div>
+					</div>
 				) : (
 					<div
 						className={`w-full h-full bg-gradient-to-br ${theme.gradient} flex items-center justify-center`}
@@ -115,15 +151,15 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
 				<div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/10 to-transparent" />
 
 				{}
-				<div className="absolute top-4 left-4">
-					<div
-						className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full ${theme.badgeBg} ${theme.badgeText} shadow-md backdrop-blur-sm bg-opacity-90`}
-					>
-						{theme.icon}
-						<span className="font-bold text-[10px] sm:text-xs uppercase tracking-wider">
-							{theme.label}
-						</span>
-					</div>
+				<div className="absolute top-4 left-4 flex flex-col gap-2">
+					{formattedExpiredDate && (
+						<div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-500/90 text-white shadow-sm backdrop-blur-md w-fit border border-red-400/50">
+							<Clock className="w-3 h-3" />
+							<span className="font-bold text-[9px] uppercase tracking-wider">
+								Exp: {formattedExpiredDate}
+							</span>
+						</div>
+					)}
 				</div>
 			</div>
 
@@ -149,24 +185,6 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
 			</div>
 
 			{}
-			<div className="bg-slate-50 border-t border-slate-100 px-5 py-3.5 mt-auto flex items-center justify-between text-xs font-bold text-slate-500 shrink-0">
-				<div className="flex items-center gap-2">
-					<div className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center shrink-0">
-						<User className="w-3.5 h-3.5 text-slate-500" />
-					</div>
-					<span className="truncate max-w-[100px] sm:max-w-[150px]">
-						{bulletin.author}
-					</span>
-				</div>
-				<div className="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-md border border-slate-200 shadow-sm shrink-0">
-					<Clock className="w-3.5 h-3.5 text-blue-500" />
-					<span>
-						{formattedDate.split(" ")[0]} {formattedDate.split(" ")[1]}{" "}
-						{formattedDate.split(" ")[2]}
-					</span>
-				</div>
-			</div>
-
 			{}
 			{isModalOpen && (
 				<div className="fixed inset-0 z-[100] bg-slate-900/95 flex items-center justify-center p-4 sm:p-8 backdrop-blur-sm overflow-y-auto">
@@ -183,13 +201,24 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
 
 						<div className="overflow-y-auto flex-1 custom-scrollbar">
 							{}
-							<div className="w-full h-48 sm:h-72 overflow-hidden shrink-0 relative bg-slate-100">
+							<div className="w-full h-48 sm:h-72 overflow-hidden shrink-0 relative bg-slate-100 group">
 								{imageUrl && !imageError ? (
-									<img
-										src={imageUrl}
-										alt={bulletin.title}
-										className="w-full h-full object-cover"
-									/>
+									<>
+										<img
+											src={imageUrl}
+											alt={bulletin.title}
+											className="w-full h-full object-cover"
+										/>
+										<div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-all duration-200 flex items-center justify-center backdrop-blur-[2px] z-10">
+											<button
+												type="button"
+												onClick={() => setViewerUrl(imageUrl)}
+												className="bg-white/90 text-slate-800 px-6 py-2.5 rounded-full font-bold flex items-center gap-2 hover:bg-white hover:scale-105 transition-all shadow-lg text-sm cursor-pointer"
+											>
+												<Maximize2 className="w-4 h-4" /> Perbesar Gambar
+											</button>
+										</div>
+									</>
 								) : docUrl ? (
 									<>
 										<iframe
@@ -200,7 +229,7 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
 										<div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-all duration-200 flex items-center justify-center backdrop-blur-[2px] z-10">
 											<button
 												type="button"
-												onClick={() => setIsPdfViewerOpen(true)}
+												onClick={() => setViewerUrl(docUrl)}
 												className="bg-white/90 text-slate-800 px-6 py-2.5 rounded-full font-bold flex items-center gap-2 hover:bg-white hover:scale-105 transition-all shadow-lg text-sm"
 											>
 												<FileText className="w-4 h-4" /> Perbesar PDF
@@ -216,14 +245,6 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
 								)}
 								<div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent pointer-events-none z-0" />
 								<div className="absolute bottom-6 left-6 right-6">
-									<div
-										className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full ${theme.badgeBg} ${theme.badgeText} shadow-md mb-3`}
-									>
-										{theme.icon}
-										<span className="font-bold text-[10px] sm:text-xs uppercase tracking-wider">
-											{theme.label}
-										</span>
-									</div>
 									<h2 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight drop-shadow-sm">
 										{bulletin.title}
 									</h2>
@@ -232,7 +253,7 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
 
 							{}
 							<div className="p-6 sm:p-8 bg-white">
-								<div className="flex items-center gap-4 text-sm font-bold text-slate-500 mb-8 pb-4 border-b border-slate-100">
+								<div className="flex flex-wrap items-center gap-4 text-sm font-bold text-slate-500 mb-8 pb-4 border-b border-slate-100">
 									<div className="flex items-center gap-2">
 										<User className="w-4 h-4 text-slate-400" />
 										<span>{bulletin.author}</span>
@@ -241,6 +262,12 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
 										<Clock className="w-4 h-4 text-slate-400" />
 										<span>{formattedDate}</span>
 									</div>
+									{formattedExpiredDate && (
+										<div className="flex items-center gap-2 text-red-500 bg-red-50 px-2.5 py-1 rounded-md">
+											<Clock className="w-4 h-4" />
+											<span>Berlaku Hingga: {formattedExpiredDate}</span>
+										</div>
+									)}
 								</div>
 
 								<div
@@ -254,7 +281,7 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
 											Lampiran Dokumen
 										</h4>
 										<button
-											onClick={() => setIsPdfViewerOpen(true)}
+											onClick={() => setViewerUrl(docUrl)}
 											className="inline-flex items-center gap-3 px-6 py-3 bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 rounded-xl text-sm font-bold transition-all w-full sm:w-auto group/pdf"
 										>
 											<FileText className="w-5 h-5 text-red-500 group-hover/pdf:scale-110 transition-transform" />
@@ -269,11 +296,11 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
 			)}
 
 			{}
-			{isPdfViewerOpen && docUrl && (
+			{viewerUrl && (
 				<DocumentViewerModal
-					url={docUrl}
+					url={viewerUrl}
 					title={bulletin.title}
-					onClose={() => setIsPdfViewerOpen(false)}
+					onClose={() => setViewerUrl(null)}
 				/>
 			)}
 		</div>
