@@ -40,72 +40,98 @@ export function DivisionEmployees({
 			</div>
 
 			<div className="p-5 flex-1 overflow-y-auto">
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-					{employees.map((employee, index) => {
-						const isManagement =
-							employee.hierarchy_level && employee.hierarchy_level <= 2;
-						const spanClass = isManagement ? "sm:col-span-2" : "";
-
-						const getBorderColor = (level?: number) => {
-							if (level === 1) return "bg-amber-400 group-hover:bg-amber-500";
-							if (level === 2)
-								return "bg-emerald-400 group-hover:bg-emerald-500";
-							return "bg-slate-300 group-hover:bg-blue-500";
-						};
-
-						const getAvatarStyle = (level?: number) => {
-							if (level === 1)
-								return "from-amber-500 to-amber-700 ring-amber-100 group-hover:ring-amber-200";
-							if (level === 2)
-								return "from-emerald-500 to-emerald-700 ring-emerald-100 group-hover:ring-emerald-200";
-							return "from-[#0A2F66] to-[#1E40AF] ring-slate-100 group-hover:ring-blue-100";
-						};
-
-						return (
-							<div
-								key={employee.user_id + index}
-								className={`group relative bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-blue-300 hover:shadow-md transition-all duration-300 overflow-hidden ${onEmployeeClick ? "cursor-pointer" : "cursor-default"} ${spanClass}`}
-								onClick={() => onEmployeeClick?.(employee.user_id)}
-							>
-								<div
-									className={`absolute top-0 left-0 w-1 h-full transition-colors ${getBorderColor(employee.hierarchy_level)}`}
-								></div>
-
-								<div className="flex items-center gap-4 relative z-10">
-									<div
-										className={`w-14 h-14 rounded-full bg-gradient-to-br flex items-center justify-center text-white font-black text-lg uppercase shadow-sm shrink-0 border-2 border-white ring-2 transition-all overflow-hidden ${getAvatarStyle(employee.hierarchy_level)}`}
-									>
-										{employee.avatar_url ? (
-											<img
-												src={employee.avatar_url}
-												alt={employee.name}
-												className="w-full h-full object-cover"
-											/>
-										) : (
-											employee.name
-												.split(" ")
-												.map((n) => n[0])
-												.join("")
-												.substring(0, 2)
-										)}
-									</div>
-
-									<div className="flex-1 min-w-0">
-										<p className="font-extrabold text-slate-800 text-sm truncate">
-											{employee.name}
-										</p>
-										<p className="text-blue-600 font-bold text-[10px] uppercase tracking-wider mt-0.5 truncate">
-											{employee.role_label}
-										</p>
-										<p className="text-slate-500 text-xs font-medium truncate mt-1 flex items-center gap-1">
-											<ChevronRight className="w-3 h-3 text-slate-400" />
-											{employee.unit}
-										</p>
-									</div>
-								</div>
+				<div className="space-y-8">
+					{Object.entries(
+						employees.reduce(
+							(acc, employee) => {
+								const unit = employee.unit || "Lainnya";
+								if (!acc[unit]) acc[unit] = [];
+								acc[unit].push(employee);
+								return acc;
+							},
+							{} as Record<string, DivisionEmployee[]>,
+						),
+					).map(([unitName, unitEmployees]) => (
+						<div key={unitName}>
+							<div className="flex items-center gap-3 mb-4 pb-2 border-b border-slate-200">
+								<h4 className="font-bold text-slate-700 uppercase tracking-wide text-sm">
+									Departemen: <span className="text-blue-700">{unitName}</span>
+								</h4>
+								<div className="flex-1 border-t border-dashed border-slate-200"></div>
+								<span className="text-xs font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded-md">
+									{unitEmployees.length} Pegawai
+								</span>
 							</div>
-						);
-					})}
+							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+								{unitEmployees.map((employee, index) => {
+									const isManagement =
+										employee.hierarchy_level && employee.hierarchy_level <= 2;
+									const spanClass = isManagement ? "sm:col-span-2" : "";
+
+									const getBorderColor = (level?: number) => {
+										if (level === 1)
+											return "bg-amber-400 group-hover:bg-amber-500";
+										if (level === 2)
+											return "bg-emerald-400 group-hover:bg-emerald-500";
+										return "bg-slate-300 group-hover:bg-blue-500";
+									};
+
+									const getAvatarStyle = (level?: number) => {
+										if (level === 1)
+											return "from-amber-500 to-amber-700 ring-amber-100 group-hover:ring-amber-200";
+										if (level === 2)
+											return "from-emerald-500 to-emerald-700 ring-emerald-100 group-hover:ring-emerald-200";
+										return "from-[#0A2F66] to-[#1E40AF] ring-slate-100 group-hover:ring-blue-100";
+									};
+
+									return (
+										<div
+											key={employee.user_id + index}
+											className={`group relative bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-blue-300 hover:shadow-md transition-all duration-300 overflow-hidden ${onEmployeeClick ? "cursor-pointer" : "cursor-default"} ${spanClass}`}
+											onClick={() => onEmployeeClick?.(employee.user_id)}
+										>
+											<div
+												className={`absolute top-0 left-0 w-1 h-full transition-colors ${getBorderColor(employee.hierarchy_level)}`}
+											></div>
+
+											<div className="flex items-center gap-4 relative z-10">
+												<div
+													className={`w-14 h-14 rounded-full bg-gradient-to-br flex items-center justify-center text-white font-black text-lg uppercase shadow-sm shrink-0 border-2 border-white ring-2 transition-all overflow-hidden ${getAvatarStyle(employee.hierarchy_level)}`}
+												>
+													{employee.avatar_url ? (
+														<img
+															src={employee.avatar_url}
+															alt={employee.name}
+															className="w-full h-full object-cover"
+														/>
+													) : (
+														employee.name
+															.split(" ")
+															.map((n) => n[0])
+															.join("")
+															.substring(0, 2)
+													)}
+												</div>
+
+												<div className="flex-1 min-w-0">
+													<p className="font-extrabold text-slate-800 text-sm truncate">
+														{employee.name}
+													</p>
+													<p className="text-blue-600 font-bold text-[10px] uppercase tracking-wider mt-0.5 truncate">
+														{employee.role_label}
+													</p>
+													<p className="text-slate-500 text-xs font-medium truncate mt-1 flex items-center gap-1">
+														<ChevronRight className="w-3 h-3 text-slate-400" />
+														{employee.unit}
+													</p>
+												</div>
+											</div>
+										</div>
+									);
+								})}
+							</div>
+						</div>
+					))}
 				</div>
 			</div>
 		</div>
