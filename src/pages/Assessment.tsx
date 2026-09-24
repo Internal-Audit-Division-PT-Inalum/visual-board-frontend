@@ -69,13 +69,14 @@ function AssessmentDocumentCard({
 			</div>
 
 			{/* Document Preview */}
-			<div className="relative h-48 bg-slate-100 flex-1 border-b border-slate-100 overflow-hidden">
+			<div className="relative h-48 bg-slate-100 flex-1 border-b border-slate-100 overflow-hidden scrollbar-hide">
 				{url ? (
 					isPdf ? (
 						<iframe
 							src={`${url}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
-							className="w-full h-full border-0 pointer-events-none object-cover"
+							className="w-full h-full border-0 pointer-events-none object-cover scrollbar-hide"
 							title={evaluation.title}
+							scrolling="no"
 						/>
 					) : (
 						<img

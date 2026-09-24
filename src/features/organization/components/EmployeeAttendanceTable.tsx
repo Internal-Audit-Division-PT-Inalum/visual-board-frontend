@@ -22,7 +22,7 @@ export function EmployeeAttendanceTable({
 				</h3>
 			</div>
 
-			<div className="overflow-x-auto">
+			<div className="overflow-x-auto scrollbar-hide">
 				<table className="w-full text-left border-collapse min-w-max">
 					<thead>
 						<tr className="bg-slate-50 border-b border-slate-200">
