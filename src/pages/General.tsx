@@ -15,7 +15,7 @@ export default function General() {
 				<div className="lg:col-span-2 h-full">
 					<KpiRow data={data} isLoading={isLoading} />
 				</div>
-				<div className="lg:col-span-1 h-[250px] lg:h-auto flex">
+				<div className="lg:col-span-1 min-h-[300px] flex">
 					<div className="flex-1 w-full">
 						<EvaluationTrendChart />
 					</div>

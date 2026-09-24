@@ -39,7 +39,7 @@ export function KpiRow({ data, isLoading }: KpiRowProps) {
 				icon={Lightbulb}
 				colorTheme="warning"
 				isLoading={isLoading}
-				tagText="Bulan Ini"
+				tagText="Tahun Ini"
 				tagColor="amber"
 			/>
 		</div>

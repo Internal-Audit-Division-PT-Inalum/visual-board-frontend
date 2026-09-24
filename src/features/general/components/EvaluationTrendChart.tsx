@@ -102,17 +102,17 @@ export const EvaluationTrendChart: React.FC = () => {
 					Trend Assessment & Assessment by Asesor
 				</h3>
 			</div>
-			<div className="flex-1 p-6 relative min-h-[120px]">
+			<div className="flex-1 p-2 sm:p-4 min-h-[250px]">
 				{chartData.length === 0 ? (
-					<div className="absolute inset-0 flex items-center justify-center">
+					<div className="w-full h-full flex items-center justify-center">
 						<p className="text-slate-400">Belum ada data evaluasi</p>
 					</div>
 				) : (
-					<div className="absolute inset-0 p-6">
+					<div className="w-full h-full">
 						<ResponsiveContainer width="100%" height="100%">
 							<LineChart
 								data={chartData}
-								margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+								margin={{ top: 20, right: 30, left: -20, bottom: 5 }}
 							>
 								<CartesianGrid
 									strokeDasharray="3 3"
