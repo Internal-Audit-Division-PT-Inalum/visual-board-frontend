@@ -61,6 +61,9 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 		{
 			label: "SELF ASSESSMENT",
 			value: "self_assessment",
+			badge: kioskData?.assessment_docs
+				? `${kioskData.assessment_docs.length} Dokumen`
+				: "...",
 		},
 	];
 
