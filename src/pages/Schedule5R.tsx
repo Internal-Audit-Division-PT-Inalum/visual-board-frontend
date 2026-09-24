@@ -24,18 +24,8 @@ export default function Schedule5R() {
 	);
 
 	return (
-		<div className="p-4 sm:p-6 lg:p-8 space-y-6 lg:space-y-10 max-w-[1920px] mx-auto font-sans">
-			<div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 pb-2 border-b border-slate-200">
-				<div>
-					<div className="flex items-center gap-2 text-[#0A2F66] font-bold text-xs tracking-widest mb-1 uppercase">
-						<span className="w-1.5 h-1.5 rounded-full bg-[#0A2F66]"></span>
-						DIVISI IIA • MANAJEMEN MATRIKS
-					</div>
-					<h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-						Standard & Check Sheet 5R
-					</h2>
-				</div>
-
+		<div className="w-full p-4 sm:p-6 lg:p-8 space-y-6 lg:space-y-10 font-sans">
+			<div className="flex justify-end items-center gap-4">
 				<div className="flex flex-wrap items-center gap-3 text-xs font-bold tracking-wide">
 					<div className="flex items-center gap-2 bg-white px-3 py-2 rounded-full border border-slate-200 shadow-sm text-slate-700">
 						<Filter className="w-3.5 h-3.5 text-slate-400" />
@@ -102,6 +92,7 @@ export default function Schedule5R() {
 						) || {
 							id: "",
 							name: zoneName,
+							area: null,
 							standard_image_url: null,
 							pic_utama: null,
 							pic_pengganti: null,
@@ -113,6 +104,7 @@ export default function Schedule5R() {
 									<div>
 										<h3 className="text-xl font-extrabold text-slate-800 bg-slate-100 px-4 py-2 rounded-xl border border-slate-200 inline-block">
 											{zoneName}
+											{zoneDetail.area ? ` - ${zoneDetail.area}` : ""}
 										</h3>
 									</div>
 									<div className="flex flex-col sm:flex-row gap-2 sm:gap-6 text-sm">
@@ -136,12 +128,12 @@ export default function Schedule5R() {
 									<div className="hidden sm:block flex-1 h-px bg-slate-200" />
 								</div>
 
-								<div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
-									<div className="xl:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-6">
-										<div className="lg:col-span-5 h-full">
+								<div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+									<div className="xl:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+										<div className="lg:col-span-5 sticky top-6">
 											<ZoneStandardImage zone={zoneDetail} />
 										</div>
-										<div className="lg:col-span-7 h-full">
+										<div className="lg:col-span-7">
 											<CheckSheetMatrix zoneName={zoneName} data={zoneData} />
 										</div>
 									</div>
