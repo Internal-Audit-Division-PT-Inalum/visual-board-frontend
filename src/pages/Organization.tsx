@@ -4,6 +4,7 @@ import { useAttendanceSummary } from "../features/organization/api/useAttendance
 import { AttendanceStats } from "../features/organization/components/AttendanceStats";
 import { DivisionEmployees } from "../features/organization/components/DivisionEmployees";
 import { DocumentViewer } from "../features/organization/components/DocumentViewer";
+import { EmployeeAttendanceTable } from "../features/organization/components/EmployeeAttendanceTable";
 import { UnavailableList } from "../features/organization/components/UnavailableList";
 import { EmployeeWorkstationModal } from "../features/workstation/components/EmployeeWorkstationModal";
 
@@ -40,18 +41,8 @@ export default function Organization() {
 	}
 
 	return (
-		<div className="max-w-[1920px] mx-auto p-4 sm:p-6 lg:p-8 font-sans space-y-6">
-			<div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 pb-2 mb-8 border-b border-slate-200">
-				<div>
-					<div className="flex items-center gap-2 text-[#0A2F66] font-bold text-xs tracking-widest mb-1 uppercase">
-						<span className="w-1.5 h-1.5 rounded-full bg-[#0A2F66]"></span>
-						DIVISI IIA • MANAJEMEN SDM
-					</div>
-					<h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-						Organisasi & Presensi
-					</h2>
-				</div>
-
+		<div className="w-full p-4 sm:p-6 lg:p-8 font-sans space-y-6">
+			<div className="flex flex-col sm:flex-row justify-end items-start sm:items-end gap-4 pb-2 mb-8 border-b border-slate-200">
 				<div className="flex items-center gap-2 bg-slate-100 p-1.5 rounded-full border border-slate-200">
 					<button
 						onClick={() => setActiveTab("structure")}
@@ -104,21 +95,24 @@ export default function Organization() {
 
 				{activeTab === "attendance" && (
 					<div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
-						<div className="lg:col-span-8 h-full min-h-[500px] flex flex-col gap-6">
+						<div className="lg:col-span-7 h-full min-h-[500px] flex flex-col gap-6">
 							<DivisionEmployees
 								employees={data.division_employees}
 								onEmployeeClick={(id) => setSelectedEmployeeId(id)}
 							/>
 						</div>
 
-						<div className="lg:col-span-4 flex flex-col gap-6">
+						<div className="lg:col-span-5 flex flex-col gap-6">
 							<AttendanceStats
 								total={data.total_employees}
 								present={data.present_count}
-								sick={data.sick_count}
 								leave={data.on_leave_count}
+								business_trip={data.business_trip_count ?? 0}
 							/>
-							<div className="flex-1 min-h-[400px]">
+							<div className="flex-1">
+								<EmployeeAttendanceTable employees={data.division_employees} />
+							</div>
+							<div className="flex-1 min-h-[200px]">
 								<UnavailableList employees={data.unavailable_today} />
 							</div>
 						</div>
