@@ -272,5 +272,11 @@ export interface WorkstationData {
 		avatar_url?: string;
 	};
 	items?: WorkstationItem[];
+	master_criterias?: {
+		id: string;
+		item_group: string;
+		criteria_code: string;
+		standard_criteria: string;
+	}[];
 	created_at: string;
 }
