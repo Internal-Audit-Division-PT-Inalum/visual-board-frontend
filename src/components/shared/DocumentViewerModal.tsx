@@ -23,7 +23,7 @@ export function DocumentViewerModal({
 				url.includes("/document");
 
 	return (
-		<div className="fixed inset-0 z-[120] bg-slate-900/95 flex items-center justify-center p-4 lg:p-8 backdrop-blur-sm animate-in fade-in duration-200">
+		<div className="fixed inset-0 z-[120] bg-slate-900/95 flex flex-col p-4 lg:p-8 pt-20 backdrop-blur-sm animate-in fade-in duration-200">
 			<div className="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-black/60 to-transparent pointer-events-none" />
 
 			<div className="absolute top-6 left-6 right-20 z-10">
@@ -48,15 +48,17 @@ export function DocumentViewerModal({
 			{computedIsPdf ? (
 				<iframe
 					src={`${url}#toolbar=1&navpanes=0&scrollbar=1&view=FitH`}
-					className="w-full h-full rounded-xl drop-shadow-2xl bg-white"
+					className="w-full flex-1 rounded-xl drop-shadow-2xl bg-white"
 					title={title}
 				/>
 			) : (
-				<img
-					src={url}
-					alt={title}
-					className="max-w-full max-h-full object-contain rounded-xl drop-shadow-2xl"
-				/>
+				<div className="flex-1 w-full flex items-center justify-center overflow-auto">
+					<img
+						src={url}
+						alt={title}
+						className="max-w-full max-h-full object-contain rounded-xl drop-shadow-2xl"
+					/>
+				</div>
 			)}
 		</div>
 	);
