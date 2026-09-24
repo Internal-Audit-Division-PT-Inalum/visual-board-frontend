@@ -55,12 +55,12 @@ export function UnavailableList({ employees }: UnavailableListProps) {
 			</div>
 
 			<div className="divide-y divide-slate-100 overflow-y-auto flex-1">
-				{employees.map((emp) => {
+				{employees.map((emp, index) => {
 					const badge = getLeaveTypeLabel(emp.leave_type);
 
 					return (
 						<div
-							key={emp.user_id}
+							key={emp.user_id || index}
 							className="p-4 flex items-center justify-between hover:bg-slate-50 transition-colors"
 						>
 							<div className="flex items-center gap-3">
