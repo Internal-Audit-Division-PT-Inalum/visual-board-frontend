@@ -86,9 +86,17 @@ export function DivisionEmployees({
 
 									return (
 										<div
-											key={employee.user_id + index}
-											className={`group relative bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-blue-300 hover:shadow-md transition-all duration-300 overflow-hidden ${onEmployeeClick ? "cursor-pointer" : "cursor-default"} ${spanClass}`}
+											key={`${employee.user_id}-${index}`}
+											className={`group relative text-left bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-blue-300 hover:shadow-md transition-all duration-300 overflow-hidden ${onEmployeeClick ? "cursor-pointer" : "cursor-default"} ${spanClass}`}
 											onClick={() => onEmployeeClick?.(employee.user_id)}
+											onKeyDown={(e) => {
+												if (e.key === "Enter" || e.key === " ") {
+													e.preventDefault();
+													onEmployeeClick?.(employee.user_id);
+												}
+											}}
+											role="button"
+											tabIndex={0}
 										>
 											<div
 												className={`absolute top-0 left-0 w-1 h-full transition-colors ${getBorderColor(employee.hierarchy_level)}`}
