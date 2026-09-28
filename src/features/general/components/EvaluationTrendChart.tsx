@@ -3,6 +3,7 @@ import type React from "react";
 import { useMemo } from "react";
 import {
 	CartesianGrid,
+	LabelList,
 	Legend,
 	Line,
 	LineChart,
@@ -38,9 +39,11 @@ export const EvaluationTrendChart: React.FC = () => {
 		if (!data?.five_r_evaluations) return [];
 
 		const evaluations = data.five_r_evaluations;
-		const yearGroup = new Map<number, any>();
+		const yearGroup = new Map<
+			number,
+			{ month: string; self_assessment: number | null; asesor: number | null }
+		>();
 
-		// Group by month
 		evaluations.forEach((evalData: FiveREvaluation) => {
 			if (!yearGroup.has(evalData.month)) {
 				yearGroup.set(evalData.month, {
@@ -51,14 +54,15 @@ export const EvaluationTrendChart: React.FC = () => {
 			}
 
 			const monthData = yearGroup.get(evalData.month);
-			if (evalData.type === "self_assessment") {
-				monthData.self_assessment = evalData.total_score;
-			} else {
-				monthData.asesor = evalData.total_score;
+			if (monthData) {
+				if (evalData.type === "self_assessment") {
+					monthData.self_assessment = evalData.total_score;
+				} else {
+					monthData.asesor = evalData.total_score;
+				}
 			}
 		});
 
-		// Sort by month (1-12)
 		const sorted = Array.from(yearGroup.keys())
 			.sort((a, b) => a - b)
 			.map((key) => yearGroup.get(key));
@@ -96,9 +100,13 @@ export const EvaluationTrendChart: React.FC = () => {
 	}
 
 	return (
-		<div className="h-full bg-slate-900 border border-slate-800 shadow-2xl rounded-xl flex flex-col overflow-hidden">
-			<div className="p-4 sm:p-5 border-b border-slate-800/50 bg-slate-900/50">
-				<h3 className="text-sm sm:text-base text-slate-100 font-bold uppercase tracking-wider flex items-center gap-2">
+		<div className="h-full bg-gradient-to-br from-[#1E40AF] to-[#3B82F6] border border-[#3b82f6]/40 shadow-[0_8px_30px_rgb(37,99,235,0.2)] rounded-xl flex flex-col overflow-hidden relative group z-10">
+			{/* Decorative Glowing Orbs */}
+			<div className="absolute -bottom-24 -left-12 w-72 h-72 bg-blue-400 rounded-full blur-3xl opacity-40 group-hover:opacity-60 group-hover:scale-125 transition-all duration-700 -z-10 pointer-events-none" />
+			<div className="absolute top-0 right-0 w-64 h-64 bg-cyan-300 rounded-full blur-3xl opacity-30 group-hover:opacity-50 transition-all duration-700 -z-10 pointer-events-none" />
+
+			<div className="p-4 sm:p-5 border-b border-white/20 bg-white/10 backdrop-blur-md">
+				<h3 className="text-sm sm:text-base text-white/90 font-bold uppercase tracking-wider flex items-center gap-2 drop-shadow-sm">
 					Trend Assessment & Assessment by Asesor
 				</h3>
 			</div>
@@ -116,47 +124,67 @@ export const EvaluationTrendChart: React.FC = () => {
 							>
 								<CartesianGrid
 									strokeDasharray="3 3"
-									stroke="#334155"
-									opacity={0.5}
+									stroke="#ffffff"
+									opacity={0.15}
 								/>
 								<XAxis
 									dataKey="month"
-									stroke="#94a3b8"
-									tick={{ fill: "#94a3b8", fontSize: 12 }}
+									stroke="#ffffff"
+									opacity={0.7}
+									tick={{ fill: "#ffffff", fontSize: 12, opacity: 0.8 }}
 								/>
 								<YAxis
 									domain={[0, 5]}
-									stroke="#94a3b8"
-									tick={{ fill: "#94a3b8", fontSize: 12 }}
+									stroke="#ffffff"
+									opacity={0.7}
+									tick={{ fill: "#ffffff", fontSize: 12, opacity: 0.8 }}
 								/>
 								<Tooltip
 									contentStyle={{
-										backgroundColor: "#0f172a",
-										borderColor: "#1e293b",
-										color: "#f8fafc",
+										backgroundColor: "#0A2F66",
+										borderColor: "rgba(255,255,255,0.2)",
+										color: "#ffffff",
 										borderRadius: "8px",
+										boxShadow:
+											"0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2)",
 									}}
-									itemStyle={{ color: "#f8fafc" }}
+									itemStyle={{ color: "#ffffff", fontWeight: "bold" }}
 								/>
-								<Legend wrapperStyle={{ paddingTop: "20px" }} />
+								<Legend wrapperStyle={{ paddingTop: "20px", opacity: 0.9 }} />
 								<Line
 									type="monotone"
 									name="Self Assessment"
 									dataKey="self_assessment"
-									stroke="#38bdf8"
+									stroke="#ffffff"
 									strokeWidth={3}
-									dot={{ r: 4, fill: "#38bdf8", strokeWidth: 2 }}
+									dot={{ r: 4, fill: "#ffffff", strokeWidth: 2 }}
 									activeDot={{ r: 6 }}
-								/>
+								>
+									<LabelList
+										dataKey="self_assessment"
+										position="top"
+										fill="#ffffff"
+										fontSize={10}
+										fontWeight="bold"
+									/>
+								</Line>
 								<Line
 									type="monotone"
 									name="Asesor"
 									dataKey="asesor"
-									stroke="#fbbf24"
+									stroke="#6ee7b7"
 									strokeWidth={3}
-									dot={{ r: 4, fill: "#fbbf24", strokeWidth: 2 }}
+									dot={{ r: 4, fill: "#6ee7b7", strokeWidth: 2 }}
 									activeDot={{ r: 6 }}
-								/>
+								>
+									<LabelList
+										dataKey="asesor"
+										position="bottom"
+										fill="#6ee7b7"
+										fontSize={10}
+										fontWeight="bold"
+									/>
+								</Line>
 							</LineChart>
 						</ResponsiveContainer>
 					</div>
