@@ -1,12 +1,17 @@
 import { Link as LinkIcon } from "lucide-react";
-import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { BulletinBoard } from "@/features/bulletin/components/BulletinBoard";
 import { QrCodeGrid } from "@/features/bulletin/components/QrCodeGrid";
 
 type HubTab = "" | "general" | "health_safety" | "event" | "policy" | "cog_sor";
 
 export default function DepartmentHub() {
-	const [activeTab, setActiveTab] = useState<HubTab>("");
+	const [searchParams, setSearchParams] = useSearchParams();
+	const activeTab = (searchParams.get("sub") as HubTab) || "";
+
+	const setActiveTab = (sub: HubTab) => {
+		setSearchParams({ tab: "department_hub", sub });
+	};
 
 	const categories = [
 		{ id: "", label: "Semua Kategori" },
