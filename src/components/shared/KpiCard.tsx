@@ -47,43 +47,28 @@ export function KpiCard({
 		);
 	}
 
-	const themes = {
-		primary: {
-			icon: "text-[#0A2F66]",
-			bg: "bg-[#0A2F66]/10",
-			border: "border-[#0A2F66]/20",
-		},
-		success: {
-			icon: "text-emerald-600",
-			bg: "bg-emerald-500/10",
-			border: "border-emerald-500/20",
-		},
-		warning: {
-			icon: "text-amber-500",
-			bg: "bg-amber-500/10",
-			border: "border-amber-500/20",
-		},
-		danger: {
-			icon: "text-red-500",
-			bg: "bg-red-500/10",
-			border: "border-red-500/20",
-		},
-	};
-
 	const tagColors = {
-		red: "bg-red-50 text-red-600 border-red-200",
-		emerald: "bg-emerald-50 text-emerald-600 border-emerald-200",
-		blue: "bg-blue-50 text-blue-600 border-blue-200",
-		amber: "bg-amber-50 text-amber-600 border-amber-200",
+		red: "bg-red-500/20 text-red-100 border-red-500/30",
+		emerald: "bg-emerald-500/20 text-emerald-100 border-emerald-500/30",
+		blue: "bg-white/20 text-white border-white/30",
+		amber: "bg-amber-500/20 text-amber-100 border-amber-500/30",
 	};
 
-	const theme = themes[colorTheme] || themes.primary;
+	const theme = {
+		bg: "bg-white/10 backdrop-blur-md",
+		border: "border-white/20",
+		icon: "text-white",
+	};
 	const tagClass = tagColors[tagColor] || tagColors.blue;
 
 	return (
-		<div className="bg-white rounded-2xl p-5 sm:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 flex flex-col justify-between hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all h-full">
+		<div className="relative overflow-hidden bg-gradient-to-br from-[#1E40AF] to-[#3B82F6] rounded-2xl p-5 sm:p-6 shadow-[0_8px_30px_rgb(37,99,235,0.2)] border border-[#3b82f6]/40 flex flex-col justify-between hover:shadow-[0_12px_40px_rgb(37,99,235,0.4)] hover:-translate-y-1 transition-all duration-500 h-full group z-10">
+			{/* Decorative Glowing Orbs */}
+			<div className="absolute -bottom-16 -right-16 w-56 h-56 bg-blue-400 rounded-full blur-3xl opacity-40 group-hover:opacity-60 group-hover:scale-125 transition-all duration-700 -z-10" />
+			<div className="absolute -top-16 -left-16 w-40 h-40 bg-cyan-300 rounded-full blur-3xl opacity-30 group-hover:opacity-50 transition-all duration-700 -z-10" />
+
 			<div className="flex justify-between items-start mb-2">
-				<h3 className="text-slate-500 font-bold text-[10px] sm:text-xs uppercase tracking-widest">
+				<h3 className="text-white/80 font-bold text-[10px] sm:text-xs uppercase tracking-widest">
 					{title}
 				</h3>
 				<div
@@ -104,7 +89,7 @@ export function KpiCard({
 				<div className="flex items-end gap-3">
 					<div
 						className={cn(
-							"text-4xl sm:text-5xl font-black text-slate-800 leading-none tracking-tighter",
+							"text-4xl sm:text-5xl font-black text-white leading-none tracking-tighter drop-shadow-sm",
 							valueClassName,
 						)}
 					>
@@ -136,10 +121,15 @@ export function KpiCard({
 
 				{(bottomLeftText || bottomRightText) && (
 					<div className="flex justify-between items-center text-[10px] sm:text-xs pt-1">
-						<div className="font-semibold text-slate-400 tracking-wide">
+						<div className="font-semibold text-white/60 tracking-wide">
 							{bottomLeftText}
 						</div>
-						<div className={cn("font-bold tracking-wide", bottomRightColor)}>
+						<div
+							className={cn(
+								"font-bold tracking-wide drop-shadow-sm",
+								bottomRightColor,
+							)}
+						>
 							{bottomRightText}
 						</div>
 					</div>
