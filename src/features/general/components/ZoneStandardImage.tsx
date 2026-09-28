@@ -33,6 +33,7 @@ export function ZoneStandardImage({ zone }: ZoneStandardImageProps) {
 							/>
 							<div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/pdf:opacity-100 transition-all duration-200 flex items-center justify-center rounded-md">
 								<button
+									type="button"
 									onClick={() => setIsModalOpen(true)}
 									className="bg-white/90 text-slate-800 px-4 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-white hover:scale-105 transition-all text-xs shadow-lg"
 								>
@@ -49,6 +50,7 @@ export function ZoneStandardImage({ zone }: ZoneStandardImageProps) {
 							/>
 							<div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-b-xl backdrop-blur-[2px]">
 								<button
+									type="button"
 									onClick={() => setIsModalOpen(true)}
 									className="bg-white/20 backdrop-blur-md border border-white/40 text-white px-5 py-2.5 rounded-full font-bold flex items-center gap-2 hover:bg-white/30 hover:scale-105 transition-all text-sm shadow-xl"
 								>
@@ -68,6 +70,7 @@ export function ZoneStandardImage({ zone }: ZoneStandardImageProps) {
 			{isModalOpen && imageUrl && (
 				<div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-8">
 					<button
+						type="button"
 						onClick={() => setIsModalOpen(false)}
 						className="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-2 transition-colors"
 					>
