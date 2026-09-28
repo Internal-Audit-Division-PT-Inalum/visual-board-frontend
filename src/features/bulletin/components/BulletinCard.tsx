@@ -1,4 +1,5 @@
 import {
+	ArrowRight,
 	Calendar,
 	Clock,
 	FileText,
@@ -95,7 +96,7 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
 	const docUrl = getBackendUrl(bulletin.document_url);
 
 	return (
-		<div className="relative flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group h-full">
+		<div className="relative flex flex-col bg-white rounded-2xl border-2 border-blue-100 shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:border-blue-300 hover:shadow-[0_12px_40px_rgb(59,130,246,0.15)] hover:-translate-y-1 transition-all duration-300 overflow-hidden group h-full">
 			{}
 			<div className="w-full h-48 sm:h-52 overflow-hidden shrink-0 relative bg-slate-100">
 				{imageUrl && !imageError ? (
@@ -164,7 +165,7 @@ export function BulletinCard({ bulletin }: BulletinCardProps) {
 			</div>
 
 			{}
-			<div className="p-5 sm:p-6 flex flex-col flex-1 bg-white">
+			<div className="p-5 sm:p-6 flex flex-col flex-1 bg-transparent">
 				<h3 className="text-lg sm:text-xl font-extrabold text-slate-800 leading-snug mb-3 group-hover:text-blue-700 transition-colors line-clamp-2">
 					{bulletin.title}
 				</h3>
