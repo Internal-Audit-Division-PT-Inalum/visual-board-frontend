@@ -1,5 +1,6 @@
 import { AlertCircle, Building2, Loader2, Map, Users } from "lucide-react";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useAttendanceSummary } from "../features/organization/api/useAttendanceSummary";
 import { AttendanceStats } from "../features/organization/components/AttendanceStats";
 import { DivisionEmployees } from "../features/organization/components/DivisionEmployees";
@@ -10,9 +11,17 @@ import { EmployeeWorkstationModal } from "../features/workstation/components/Emp
 
 export default function Organization() {
 	const { data, isLoading, isError } = useAttendanceSummary();
-	const [activeTab, setActiveTab] = useState<
-		"structure" | "map_area" | "attendance"
-	>("structure");
+	const [searchParams, setSearchParams] = useSearchParams();
+	const activeTab =
+		(searchParams.get("sub") as "structure" | "map_area" | "attendance") ||
+		"structure";
+
+	const setActiveTab = (tab: "structure" | "map_area" | "attendance") => {
+		const newParams = new URLSearchParams(searchParams);
+		newParams.set("sub", tab);
+		setSearchParams(newParams);
+	};
+
 	const [selectedEmployeeId, setSelectedEmployeeId] = useState<string | null>(
 		null,
 	);
