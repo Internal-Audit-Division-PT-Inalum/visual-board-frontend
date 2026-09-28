@@ -59,7 +59,7 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 			badge: bulletinsData ? `${bulletinsData.length} Info` : "...",
 		},
 		{
-			label: "SELF ASSESSMENT",
+			label: "ASSESSMENT",
 			value: "self_assessment",
 			badge: kioskData?.assessment_docs
 				? `${kioskData.assessment_docs.length} Dokumen`
@@ -68,7 +68,7 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 	];
 
 	return (
-		<header className="bg-gradient-to-r from-[#0C3B82] via-[#0D4494] to-[#0A2F66] text-white flex flex-col pt-5 pb-5 px-8 shadow-lg z-10 shrink-0 font-sans border-b-4 border-[#0F3D8C]">
+		<header className="bg-gradient-to-r from-[#071F42] via-[#0A2F66] to-[#05152E] text-white flex flex-col pt-5 pb-5 px-8 shadow-lg z-10 shrink-0 font-sans border-b-4 border-[#08224A]">
 			<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2 border-b-4 border-white/20 mb-2">
 				<div className="flex gap-4 items-center">
 					<div className="h-16 sm:h-20 lg:h-24 shrink-0 flex items-center justify-center">
@@ -132,7 +132,7 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
                 ${
 									activeTab === tab.value
 										? "bg-white text-[#0A2F66] border-white shadow-lg"
-										: "bg-white/5 text-blue-100 border-white/10 hover:bg-white/10 hover:border-white/30"
+										: "bg-white/5 text-white border-white/10 hover:bg-white/10 hover:border-white/30"
 								}
               `}
 						>
