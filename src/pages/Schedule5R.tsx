@@ -1,7 +1,6 @@
 import { Filter, RefreshCw } from "lucide-react";
 import { useState } from "react";
 import { useKioskData } from "@/features/general/api/useKioskData";
-import { CheckSheetMatrix } from "@/features/general/components/CheckSheetMatrix";
 import { ScheduleMatrix } from "@/features/general/components/ScheduleMatrix";
 import { ZoneStandardImage } from "@/features/general/components/ZoneStandardImage";
 
@@ -61,6 +60,7 @@ export default function Schedule5R() {
 					</div>
 
 					<button
+						type="button"
 						onClick={() => refetch()}
 						className="flex items-center gap-2 bg-[#E6F0FD] text-[#0A2F66] px-4 py-2 rounded-full border border-[#B3D4FF] hover:bg-[#CCE0FF] transition-colors"
 					>
@@ -128,17 +128,12 @@ export default function Schedule5R() {
 									<div className="hidden sm:block flex-1 h-px bg-slate-200" />
 								</div>
 
-								<div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
-									<div className="xl:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-										<div className="lg:col-span-5 sticky top-6">
-											<ZoneStandardImage zone={zoneDetail} />
-										</div>
-										<div className="lg:col-span-7">
-											<CheckSheetMatrix zoneName={zoneName} data={zoneData} />
-										</div>
+								<div className="flex flex-col gap-10 items-center w-full">
+									<div className="w-full xl:w-4/5">
+										<ZoneStandardImage zone={zoneDetail} />
 									</div>
 
-									<div className="xl:col-span-12 mt-2">
+									<div className="w-full">
 										<ScheduleMatrix data={zoneData} />
 									</div>
 								</div>
