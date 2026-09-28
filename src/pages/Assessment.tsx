@@ -55,7 +55,7 @@ function AssessmentDocumentCard({
 		: "";
 
 	return (
-		<div className="bg-white rounded-2xl shadow-sm border border-slate-100 flex flex-col overflow-hidden group">
+		<div className="bg-white rounded-2xl border-2 border-blue-100 shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:border-blue-300 hover:shadow-[0_12px_40px_rgb(59,130,246,0.15)] hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden group">
 			{/* Card Header */}
 			<div className="p-4 border-b border-slate-100 bg-slate-50/50">
 				<p className="font-bold text-slate-800 text-sm leading-tight line-clamp-2">
