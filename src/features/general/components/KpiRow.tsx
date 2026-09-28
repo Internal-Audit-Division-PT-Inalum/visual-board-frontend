@@ -22,7 +22,6 @@ export function KpiRow({ data, isLoading }: KpiRowProps) {
 			<KpiCard
 				title="Temuan Abnormality Aktif"
 				value={formattedActiveCount}
-				valueClassName="text-red-500"
 				icon={AlertTriangle}
 				colorTheme="danger"
 				isLoading={isLoading}
@@ -30,7 +29,7 @@ export function KpiRow({ data, isLoading }: KpiRowProps) {
 				tagColor="red"
 				bottomLeftText={`${openCount} Terbuka • ${inProgressCount} Diproses`}
 				bottomRightText={`${resolvedToday} Selesai Hari Ini`}
-				bottomRightColor="text-emerald-500"
+				bottomRightColor="text-emerald-300"
 			/>
 
 			<KpiCard
