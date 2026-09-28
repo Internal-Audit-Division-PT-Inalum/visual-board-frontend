@@ -58,7 +58,7 @@ Aplikasi ini diatur menggunakan arsitektur **Feature-Sliced Design (FSD)** — s
 │                                                                  │
 │  ┌─────────────────────────────────────────────────────────┐    │
 │  │                   React Router v7                        │    │
-│  │   AppShell (AppHeader + Outlet + BottomTicker)           │    │
+│  │   AppShell (AppHeader + Kiosk Scroll Container + Outlet) │    │
 │  │                                                          │    │
 │  │  /general   /mading   /organisasi   /jadwal   /mobile    │    │
 │  └────────────────────────┬────────────────────────────────┘    │
@@ -92,8 +92,14 @@ Aplikasi ini diatur menggunakan arsitektur **Feature-Sliced Design (FSD)** — s
 
 ## Features
 
-### 📈 Dasbor Utama 5R (General)
-- **Matriks Kelengkapan Piket** — Ceklis *check-sheet* area secara silang (*cross-checking*).
+### 📺 Smart Kiosk Mode (Auto-Play)
+- **TV Playlist Auto-Scroll** — Sistem otomatis yang merotasi seluruh halaman (*General, Mading, Organisasi, Jadwal*) secara halus menggunakan fungsi *sine easing* untuk diputar di TV 24/7.
+- **WakeLock API & Idle Detection** — Mencegah TV masuk mode *sleep* secara otomatis, sekaligus mampu mendeteksi aktivitas sentuhan jika ada *user* yang berinteraksi.
+- **URL State Navigation** — Sistem *Routing* mendalam yang menyimpan posisi *tab/sub-tab* aktif langsung ke dalam Parameter URL, memastikan Kiosk tidak tersesat saat berganti halaman.
+
+### 📈 Dasbor Utama 5R & Estetika (General)
+- **Blue Glassmorphism UI** — Antarmuka pengguna kelas *Enterprise* yang kaya warna dengan efek kaca (*glassmorphism*), orb cahaya gradasi yang *glowing*, dan kontras visual yang memanjakan mata.
+- **Matriks Kalender Piket** — Ceklis *check-sheet* area secara vertikal.
 - **Leaderboard Kaizen & K3** — Visualisasi skor ide perbaikan (Kaizen) dan Hari Bebas Kecelakaan.
 - **Abnormality Feed** — Lini masa kerusakan/temuan dari lantai pabrik yang masuk secara *real-time*.
 
