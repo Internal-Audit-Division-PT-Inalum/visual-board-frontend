@@ -18,17 +18,35 @@ const MONTH_LABELS = [
 	"Des",
 ];
 
-function CellGroup({ data }: { data: TrendMonthData }) {
+function CellGroup({
+	data,
+	month,
+	year,
+}: {
+	data: TrendMonthData;
+	month: number;
+	year: number;
+}) {
+	const currentMonth = new Date().getMonth() + 1;
+	const currentYear = new Date().getFullYear();
+
 	if (data.temuan === null) {
+		const shouldDisplayZero =
+			year < currentYear || (year === currentYear && month < currentMonth);
+		const displayValue = shouldDisplayZero ? "0" : "—";
+		const textClass = shouldDisplayZero
+			? "text-slate-500 font-bold"
+			: "text-slate-300";
+
 		return (
 			<td className="border border-slate-200 p-0" colSpan={1}>
 				<div className="grid grid-cols-3 divide-x divide-slate-200 h-full">
 					{[0, 1, 2].map((i) => (
 						<div
 							key={i}
-							className="px-1.5 py-2 text-center text-slate-300 text-[10px]"
+							className={`px-1.5 py-2 text-center text-[10px] ${textClass}`}
 						>
-							—
+							{displayValue}
 						</div>
 					))}
 				</div>
@@ -158,6 +176,8 @@ export function TrendMatrix() {
 									{Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
 										<CellGroup
 											key={m}
+											month={m}
+											year={year}
 											data={
 												row.months[m] ?? {
 													temuan: null,
