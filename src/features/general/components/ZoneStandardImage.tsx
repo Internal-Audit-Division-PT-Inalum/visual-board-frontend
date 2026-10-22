@@ -1,5 +1,6 @@
-import { Image as ImageIcon, Maximize2, X } from "lucide-react";
+import { Image as ImageIcon, Maximize2 } from "lucide-react";
 import { useState } from "react";
+import { DocumentViewerModal } from "@/components/shared/DocumentViewerModal";
 import { getBackendUrl } from "@/lib/utils";
 import type { ZoneDetail } from "@/types/api";
 
@@ -35,7 +36,7 @@ export function ZoneStandardImage({ zone }: ZoneStandardImageProps) {
 								<button
 									type="button"
 									onClick={() => setIsModalOpen(true)}
-									className="bg-white/90 text-slate-800 px-4 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-white hover:scale-105 transition-all text-xs shadow-lg"
+									className="bg-white/90 text-slate-800 px-4 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-white hover:scale-105 transition-all text-xs shadow-lg cursor-pointer"
 								>
 									<Maximize2 className="w-4 h-4" /> Buka PDF
 								</button>
@@ -52,7 +53,7 @@ export function ZoneStandardImage({ zone }: ZoneStandardImageProps) {
 								<button
 									type="button"
 									onClick={() => setIsModalOpen(true)}
-									className="bg-white/20 backdrop-blur-md border border-white/40 text-white px-5 py-2.5 rounded-full font-bold flex items-center gap-2 hover:bg-white/30 hover:scale-105 transition-all text-sm shadow-xl"
+									className="bg-white/20 backdrop-blur-md border border-white/40 text-white px-5 py-2.5 rounded-full font-bold flex items-center gap-2 hover:bg-white/30 hover:scale-105 transition-all text-sm shadow-xl cursor-pointer"
 								>
 									<Maximize2 className="w-4 h-4" /> Perbesar Gambar
 								</button>
@@ -68,28 +69,13 @@ export function ZoneStandardImage({ zone }: ZoneStandardImageProps) {
 			</div>
 
 			{isModalOpen && imageUrl && (
-				<div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-8">
-					<button
-						type="button"
-						onClick={() => setIsModalOpen(false)}
-						className="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-2 transition-colors"
-					>
-						<X className="w-7 h-7" />
-					</button>
-					{isPdf ? (
-						<iframe
-							src={`${imageUrl}#view=FitH`}
-							className="w-full h-full border-0 rounded-lg bg-white"
-							title={`Standar Zona ${zone.name}`}
-						/>
-					) : (
-						<img
-							src={imageUrl}
-							alt={`Standar Zona ${zone.name}`}
-							className="w-full h-full object-contain rounded-lg"
-						/>
-					)}
-				</div>
+				<DocumentViewerModal
+					url={imageUrl}
+					title={`Standar Zona ${zone.name}`}
+					description={zone.area ? `Area: ${zone.area}` : undefined}
+					isPdf={isPdf}
+					onClose={() => setIsModalOpen(false)}
+				/>
 			)}
 		</div>
 	);
