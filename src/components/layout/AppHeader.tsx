@@ -5,8 +5,8 @@ import { createPortal } from "react-dom";
 import { useBulletins } from "@/features/bulletin/api/useBulletins";
 import { useKioskData } from "@/features/general/api/useKioskData";
 import { useAttendanceSummary } from "@/features/organization/api/useAttendanceSummary";
+import { EmployeeAvatar } from "@/features/organization/components/EmployeeAvatar";
 import { useClock } from "@/hooks/useClock";
-import { getBackendUrl } from "@/lib/utils";
 
 export type TabSlug =
 	| "general"
@@ -162,19 +162,11 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 									{kioskData.pic.name}
 								</span>
 							</div>
-							<div className="w-10 h-10 rounded-full overflow-hidden bg-slate-800 border-2 border-blue-400/30 shrink-0 flex items-center justify-center text-sm font-bold shadow-md">
-								{kioskData.pic.avatar_url ? (
-									<img
-										src={getBackendUrl(kioskData.pic.avatar_url)}
-										alt="PIC Avatar"
-										className="w-full h-full object-cover"
-									/>
-								) : (
-									<span className="text-blue-100">
-										{kioskData.pic.name.charAt(0)}
-									</span>
-								)}
-							</div>
+							<EmployeeAvatar
+								src={kioskData.pic.avatar_url}
+								name={kioskData.pic.name}
+								className="w-10 h-10 border-blue-400/40 text-xs shadow-md"
+							/>
 						</div>
 					)}
 
@@ -194,7 +186,6 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 				</div>
 			</div>
 
-			{/* QR Code Modal (Fullscreen Popup) */}
 			{isQrModalOpen &&
 				createPortal(
 					<div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-8 bg-slate-900/80 backdrop-blur-sm animate-in fade-in duration-200">
