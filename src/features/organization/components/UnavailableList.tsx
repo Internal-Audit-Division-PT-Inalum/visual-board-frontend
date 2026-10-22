@@ -1,4 +1,5 @@
 import type { UnavailableEmployee } from "@/types/api";
+import { EmployeeAvatar } from "./EmployeeAvatar";
 
 interface UnavailableListProps {
 	employees: UnavailableEmployee[];
@@ -64,9 +65,11 @@ export function UnavailableList({ employees }: UnavailableListProps) {
 							className="p-4 flex items-center justify-between hover:bg-slate-50 transition-colors"
 						>
 							<div className="flex items-center gap-3">
-								<div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center text-slate-600 font-bold uppercase shadow-inner">
-									{emp.name.substring(0, 2)}
-								</div>
+								<EmployeeAvatar
+									src={emp.avatar_url}
+									name={emp.name}
+									className="w-10 h-10 text-xs shadow-inner"
+								/>
 								<div>
 									<p className="font-bold text-slate-800 text-sm">{emp.name}</p>
 									<p className="text-xs text-slate-500 font-medium">
