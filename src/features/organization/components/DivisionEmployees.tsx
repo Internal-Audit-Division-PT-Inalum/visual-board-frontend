@@ -1,5 +1,6 @@
 import { ChevronRight, Users } from "lucide-react";
 import type { DivisionEmployee } from "@/types/api";
+import { EmployeeAvatar } from "./EmployeeAvatar";
 
 interface DivisionEmployeesProps {
 	employees: DivisionEmployee[];
@@ -76,14 +77,6 @@ export function DivisionEmployees({
 										return "bg-slate-300 group-hover:bg-blue-500";
 									};
 
-									const getAvatarStyle = (level?: number) => {
-										if (level === 1)
-											return "from-amber-500 to-amber-700 ring-amber-100 group-hover:ring-amber-200";
-										if (level === 2)
-											return "from-emerald-500 to-emerald-700 ring-emerald-100 group-hover:ring-emerald-200";
-										return "from-[#0A2F66] to-[#1E40AF] ring-slate-100 group-hover:ring-blue-100";
-									};
-
 									return (
 										<div
 											key={`${employee.user_id}-${index}`}
@@ -103,23 +96,12 @@ export function DivisionEmployees({
 											></div>
 
 											<div className="flex items-center gap-4 relative z-10">
-												<div
-													className={`w-14 h-14 rounded-full bg-gradient-to-br flex items-center justify-center text-white font-black text-lg uppercase shadow-sm shrink-0 border-2 border-white ring-2 transition-all overflow-hidden ${getAvatarStyle(employee.hierarchy_level)}`}
-												>
-													{employee.avatar_url ? (
-														<img
-															src={employee.avatar_url}
-															alt={employee.name}
-															className="w-full h-full object-cover"
-														/>
-													) : (
-														employee.name
-															.split(" ")
-															.map((n) => n[0])
-															.join("")
-															.substring(0, 2)
-													)}
-												</div>
+												<EmployeeAvatar
+													src={employee.avatar_url}
+													name={employee.name}
+													level={employee.hierarchy_level}
+													className="w-14 h-14"
+												/>
 
 												<div className="flex-1 min-w-0">
 													<p className="font-extrabold text-slate-800 text-sm truncate">
