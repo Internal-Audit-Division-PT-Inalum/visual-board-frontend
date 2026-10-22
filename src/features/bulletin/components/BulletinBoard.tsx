@@ -1,6 +1,10 @@
 import { Loader2, Megaphone, WifiOff } from "lucide-react";
+import { useState } from "react";
+import { DocumentViewerModal } from "@/components/shared/DocumentViewerModal";
+import type { Bulletin } from "@/types/api";
 import { useBulletins } from "../api/useBulletins";
 import { BulletinCard } from "./BulletinCard";
+import { BulletinDetailModal } from "./BulletinDetailModal";
 
 interface BulletinBoardProps {
 	selectedCategory: string;
@@ -12,6 +16,15 @@ export function BulletinBoard({ selectedCategory }: BulletinBoardProps) {
 		isLoading,
 		isError,
 	} = useBulletins(12, selectedCategory || undefined);
+
+	const [selectedBulletin, setSelectedBulletin] = useState<Bulletin | null>(
+		null,
+	);
+	const [viewerDoc, setViewerDoc] = useState<{
+		url: string;
+		title: string;
+		isPdf?: boolean;
+	} | null>(null);
 
 	if (isLoading) {
 		return (
@@ -35,7 +48,7 @@ export function BulletinBoard({ selectedCategory }: BulletinBoardProps) {
 						<h3 className="text-xl font-extrabold text-red-700 mb-2">
 							Koneksi Terputus
 						</h3>
-						<p className="text-red-600">
+						<p className="text-red-600 text-sm">
 							Gagal menarik data mading dari server pusat. Sistem akan mencoba
 							kembali secara otomatis.
 						</p>
@@ -65,13 +78,36 @@ export function BulletinBoard({ selectedCategory }: BulletinBoardProps) {
 
 	return (
 		<div className="w-full h-full font-sans animate-in fade-in duration-500 pb-12 flex flex-col mt-4">
-			<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 lg:gap-8 items-stretch auto-rows-fr">
+			<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 lg:gap-8 items-stretch">
 				{bulletins.map((bulletin) => (
-					<div key={bulletin.id} className="h-[450px]">
-						<BulletinCard bulletin={bulletin} />
+					<div key={bulletin.id} className="min-h-[440px] flex flex-col">
+						<BulletinCard
+							bulletin={bulletin}
+							onSelect={setSelectedBulletin}
+							onOpenViewer={(url, title, isPdf) =>
+								setViewerDoc({ url, title, isPdf })
+							}
+						/>
 					</div>
 				))}
 			</div>
+
+			<BulletinDetailModal
+				bulletin={selectedBulletin}
+				onClose={() => setSelectedBulletin(null)}
+				onOpenViewer={(url, title, isPdf) =>
+					setViewerDoc({ url, title, isPdf })
+				}
+			/>
+
+			{viewerDoc && (
+				<DocumentViewerModal
+					url={viewerDoc.url}
+					title={viewerDoc.title}
+					isPdf={viewerDoc.isPdf}
+					onClose={() => setViewerDoc(null)}
+				/>
+			)}
 		</div>
 	);
 }
