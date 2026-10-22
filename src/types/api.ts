@@ -270,6 +270,7 @@ export interface WorkstationData {
 		namecode: string;
 		name: string;
 		avatar_url?: string;
+		hierarchy_level?: number;
 	};
 	items?: WorkstationItem[];
 	master_criterias?: {
