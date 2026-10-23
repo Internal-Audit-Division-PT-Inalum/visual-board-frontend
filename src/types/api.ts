@@ -281,3 +281,39 @@ export interface WorkstationData {
 	}[];
 	created_at: string;
 }
+
+// ==========================================
+// KIOSK INVENTORY TYPES (Phase V)
+// ==========================================
+
+export type InventoryItemType = "consumable" | "asset";
+
+export type KioskItemStockStatus = "ok" | "low" | "empty";
+
+export interface KioskInventoryItem {
+	id: string;
+	name: string;
+	type: InventoryItemType;
+	unit: string;
+	image_url: string | null;
+	image_thumb_url?: string | null;
+	current_stock: number;
+	minimum_stock: number;
+	stock_status: KioskItemStockStatus;
+	borrowed_quantity: number | null;
+}
+
+export interface KioskLocationWithItems {
+	id: string;
+	name: string;
+	code: string;
+	items: KioskInventoryItem[];
+}
+
+export interface KioskInventoryResponse {
+	success: boolean;
+	data: KioskLocationWithItems[];
+	meta?: {
+		generated_at: string;
+	};
+}
