@@ -3,6 +3,7 @@ import { useKioskAutoPlay } from "@/hooks/useKioskAutoPlay";
 import Assessment from "@/pages/Assessment";
 import DepartmentHub from "@/pages/DepartmentHub";
 import General from "@/pages/General";
+import Inventory from "@/pages/Inventory";
 import Organization from "@/pages/Organization";
 import Schedule5R from "@/pages/Schedule5R";
 import { AppHeader, type TabSlug } from "./AppHeader";
@@ -34,6 +35,7 @@ export function AppShell() {
 						{activeTab === "schedule_5r" && <Schedule5R />}
 						{activeTab === "organization" && <Organization />}
 						{activeTab === "department_hub" && <DepartmentHub />}
+						{activeTab === "inventory" && <Inventory />}
 						{activeTab === "self_assessment" && <Assessment />}
 					</div>
 					<Footer />

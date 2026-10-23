@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useBulletins } from "@/features/bulletin/api/useBulletins";
 import { useKioskData } from "@/features/general/api/useKioskData";
+import { useKioskInventory } from "@/features/inventory/api/useKioskInventory";
 import { useAttendanceSummary } from "@/features/organization/api/useAttendanceSummary";
 import { EmployeeAvatar } from "@/features/organization/components/EmployeeAvatar";
 import { useClock } from "@/hooks/useClock";
@@ -13,6 +14,7 @@ export type TabSlug =
 	| "schedule_5r"
 	| "organization"
 	| "department_hub"
+	| "inventory"
 	| "self_assessment";
 
 interface AppHeaderProps {
@@ -26,6 +28,12 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 	const { data: kioskData } = useKioskData();
 	const { data: attendanceData } = useAttendanceSummary();
 	const { data: bulletinsData } = useBulletins(12);
+	const { data: inventoryData } = useKioskInventory();
+
+	const totalInventoryItems = inventoryData?.reduce(
+		(sum, loc) => sum + loc.items.length,
+		0,
+	);
 
 	const [isQrModalOpen, setIsQrModalOpen] = useState(false);
 
@@ -57,6 +65,14 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 			label: "MADING DIVISI",
 			value: "department_hub",
 			badge: bulletinsData ? `${bulletinsData.length} Info` : "...",
+		},
+		{
+			label: "INVENTARIS",
+			value: "inventory",
+			badge:
+				totalInventoryItems !== undefined
+					? `${totalInventoryItems} Item`
+					: "...",
 		},
 		{
 			label: "ASSESSMENT",

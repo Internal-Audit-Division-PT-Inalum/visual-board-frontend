@@ -20,6 +20,7 @@ const TV_PLAYLIST: Scene[] = [
 	{ tab: "department_hub", subTab: "event", durationMs: 10000 },
 	{ tab: "department_hub", subTab: "policy", durationMs: 10000 },
 	{ tab: "department_hub", subTab: "cog_sor", durationMs: 10000 },
+	{ tab: "inventory", durationMs: 20000 },
 	{ tab: "self_assessment", durationMs: 15000 },
 ];
 
@@ -71,8 +72,11 @@ export function useKioskAutoPlay() {
 		const requestWakeLock = async () => {
 			try {
 				if ("wakeLock" in navigator) {
-					// @ts-expect-error WakeLock is standard but might miss in older TS DOM libs
-					wakeLock = await navigator.wakeLock.request("screen");
+					wakeLock = await (
+						navigator as unknown as {
+							wakeLock: { request: (type: string) => Promise<unknown> };
+						}
+					).wakeLock.request("screen");
 				}
 			} catch (err) {
 				console.warn("Wake Lock gagal, layar mungkin mati otomatis:", err);
