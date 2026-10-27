@@ -6,8 +6,12 @@
   "scripts": {
     "dev": "vite --host",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "format": "biome check --write ./src",
+    "lint": "biome lint ./src",
+    "format": "biome format --write ./src",
+    "check": "biome check --write ./src",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "ci": "biome check ./src && tsc -b && vitest run && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -40,6 +44,8 @@
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
     "@eslint/js": "^9.39.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
     "@types/node": "^24.13.5",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
@@ -49,9 +55,11 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "glob": "^13.0.6",
     "globals": "^16.5.0",
+    "jsdom": "^29.1.1",
     "strip-comments": "^2.0.1",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "vitest": "^5.0.5"
   }
 }
