@@ -56,7 +56,6 @@ function AssessmentDocumentCard({
 
 	return (
 		<div className="bg-white rounded-2xl border-2 border-blue-100 shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:border-blue-300 hover:shadow-[0_12px_40px_rgb(59,130,246,0.15)] hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden group">
-			{/* Card Header */}
 			<div className="p-4 border-b border-slate-100 bg-slate-50/50">
 				<p className="font-bold text-slate-800 text-sm leading-tight line-clamp-2">
 					{evaluation.title}
@@ -68,7 +67,6 @@ function AssessmentDocumentCard({
 				)}
 			</div>
 
-			{/* Document Preview */}
 			<div className="relative h-48 bg-slate-100 flex-1 border-b border-slate-100 overflow-hidden scrollbar-hide">
 				{url ? (
 					isPdf ? (
@@ -123,7 +121,6 @@ function AssessmentViewer({ evaluations, section }: AssessmentViewerProps) {
 				className={`absolute top-0 left-0 w-full h-1.5 ${section.iconBg.split(" ")[0]}`}
 			/>
 
-			{/* Header */}
 			<div className="p-6 pb-5 border-b border-slate-100 bg-slate-50/50">
 				<div className="flex items-center gap-4 relative z-10">
 					<div
@@ -142,7 +139,6 @@ function AssessmentViewer({ evaluations, section }: AssessmentViewerProps) {
 				</div>
 			</div>
 
-			{/* Content */}
 			<div className="p-6 flex-1 bg-slate-50/30 relative">
 				<div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] pointer-events-none" />
 				<div className="relative z-10">
@@ -173,7 +169,6 @@ function AssessmentViewer({ evaluations, section }: AssessmentViewerProps) {
 				</div>
 			</div>
 
-			{/* Viewer Modal */}
 			{selectedEval && selectedEval.document_url && (
 				<DocumentViewerModal
 					url={getBackendUrl(selectedEval.document_url)}
