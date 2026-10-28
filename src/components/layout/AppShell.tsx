@@ -42,7 +42,6 @@ export function AppShell() {
 				</main>
 			</div>
 
-			{/* Kiosk Mode Indicator */}
 			{isKioskMode && (
 				<div
 					className={`fixed bottom-16 right-6 px-4 py-2 rounded-full font-bold text-xs uppercase tracking-widest shadow-xl transition-all duration-500 backdrop-blur-md z-50 flex items-center gap-2 ${isIdle ? "bg-blue-500/80 text-white border border-blue-400" : "bg-amber-500/80 text-white border border-amber-400"}`}
