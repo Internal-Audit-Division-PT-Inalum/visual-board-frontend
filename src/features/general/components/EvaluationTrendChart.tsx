@@ -101,7 +101,6 @@ export const EvaluationTrendChart: React.FC = () => {
 
 	return (
 		<div className="h-full bg-gradient-to-br from-[#1E40AF] to-[#3B82F6] border border-[#3b82f6]/40 shadow-[0_8px_30px_rgb(37,99,235,0.2)] rounded-xl flex flex-col overflow-hidden relative group z-10">
-			{/* Decorative Glowing Orbs */}
 			<div className="absolute -bottom-24 -left-12 w-72 h-72 bg-blue-400 rounded-full blur-3xl opacity-40 group-hover:opacity-60 group-hover:scale-125 transition-all duration-700 -z-10 pointer-events-none" />
 			<div className="absolute top-0 right-0 w-64 h-64 bg-cyan-300 rounded-full blur-3xl opacity-30 group-hover:opacity-50 transition-all duration-700 -z-10 pointer-events-none" />
 
