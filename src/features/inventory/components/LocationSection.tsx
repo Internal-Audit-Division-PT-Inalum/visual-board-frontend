@@ -17,7 +17,6 @@ export function LocationSection({ location }: LocationSectionProps) {
 
 	return (
 		<section className="flex flex-col gap-4">
-			{/* Location Header Banner */}
 			<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 sm:p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
 				<div className="flex items-center gap-3">
 					<div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-[#0A2F66] to-[#1E40AF] text-white flex items-center justify-center shrink-0 shadow-md">
@@ -38,7 +37,6 @@ export function LocationSection({ location }: LocationSectionProps) {
 					</div>
 				</div>
 
-				{/* Location Quick Stats */}
 				<div className="flex items-center gap-2 flex-wrap">
 					<span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200">
 						<Package className="w-3.5 h-3.5 text-slate-500" />
@@ -61,7 +59,6 @@ export function LocationSection({ location }: LocationSectionProps) {
 				</div>
 			</div>
 
-			{/* Grid Barang */}
 			{totalItems === 0 ? (
 				<div className="bg-slate-50/70 border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center flex flex-col items-center justify-center gap-2">
 					<Package className="w-10 h-10 text-slate-300" />
