@@ -5,7 +5,6 @@ export function Footer() {
 		<footer className="bg-[#0f172a] text-slate-300 w-full shrink-0 border-t-4 border-blue-600 z-10 relative">
 			<div className="w-full px-6 lg:px-12 py-4 lg:py-5">
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16">
-					{/* Brand & Description */}
 					<div className="flex flex-col gap-4">
 						<div className="flex items-center gap-4 bg-white/5 p-3 rounded-xl w-fit border border-white/10">
 							<div className="font-black text-xl tracking-tighter text-white flex items-center gap-3">
@@ -28,7 +27,6 @@ export function Footer() {
 						</p>
 					</div>
 
-					{/* Contact Info */}
 					<div className="flex flex-col gap-4 md:items-end md:text-right">
 						<h3 className="text-white font-bold tracking-widest uppercase text-xs mb-1 border-b border-slate-700 pb-2 inline-block w-fit">
 							Hubungi Kami
@@ -69,7 +67,6 @@ export function Footer() {
 				</div>
 			</div>
 
-			{/* Copyright Bar */}
 			<div className="bg-[#0b1121] py-2.5 px-6 text-center text-xs text-slate-500 font-medium">
 				<p>
 					© {new Date().getFullYear()} PT Indonesia Asahan Aluminium (Persero) -
