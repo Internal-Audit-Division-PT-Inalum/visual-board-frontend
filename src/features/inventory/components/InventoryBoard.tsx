@@ -53,7 +53,6 @@ export function InventoryBoard({
 	if (isLoading && locations.length === 0) {
 		return (
 			<div className="w-full flex flex-col gap-8 animate-in fade-in duration-300">
-				{/* Skeleton KPI Bar */}
 				<div className="grid grid-cols-2 md:grid-cols-5 gap-4">
 					{["kpi-1", "kpi-2", "kpi-3", "kpi-4", "kpi-5"].map((kpiKey) => (
 						<div
@@ -66,7 +65,6 @@ export function InventoryBoard({
 					))}
 				</div>
 
-				{/* Skeleton Location Sections */}
 				<div className="flex flex-col gap-6">
 					{["loc-1", "loc-2"].map((locKey) => (
 						<div key={locKey} className="flex flex-col gap-4">
@@ -133,7 +131,6 @@ export function InventoryBoard({
 
 	return (
 		<div className="w-full flex flex-col gap-8 pb-12 font-sans animate-in fade-in duration-500">
-			{/* Indikator Peringatan Offline Resilience jika API gagal tapi data cache ada */}
 			{isError && locations.length > 0 && (
 				<div className="bg-amber-500/10 border-2 border-amber-500/30 text-amber-900 px-5 py-3 rounded-2xl flex items-center justify-between gap-4 shadow-sm">
 					<div className="flex items-center gap-3 text-xs sm:text-sm font-bold">
@@ -151,9 +148,7 @@ export function InventoryBoard({
 				</div>
 			)}
 
-			{/* KPI Summary Header Cards */}
 			<div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4">
-				{/* 1. Total Lokasi */}
 				<div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-blue-400 transition-all">
 					<div className="flex items-center justify-between text-slate-400 mb-2">
 						<span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider">
@@ -171,7 +166,6 @@ export function InventoryBoard({
 					</div>
 				</div>
 
-				{/* 2. Total Barang */}
 				<div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-blue-400 transition-all">
 					<div className="flex items-center justify-between text-slate-400 mb-2">
 						<span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider">
@@ -189,7 +183,6 @@ export function InventoryBoard({
 					</div>
 				</div>
 
-				{/* 3. Stok Aman */}
 				<div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-emerald-400 transition-all">
 					<div className="flex items-center justify-between text-slate-400 mb-2">
 						<span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider">
@@ -205,7 +198,6 @@ export function InventoryBoard({
 					</div>
 				</div>
 
-				{/* 4. Perlu Restock / Kritis */}
 				<div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-amber-400 transition-all">
 					<div className="flex items-center justify-between text-slate-400 mb-2">
 						<span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider">
@@ -225,7 +217,6 @@ export function InventoryBoard({
 					</div>
 				</div>
 
-				{/* 5. Aset Sedang Dipinjam */}
 				<div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-blue-400 transition-all col-span-2 md:col-span-1">
 					<div className="flex items-center justify-between text-slate-400 mb-2">
 						<span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider">
@@ -244,7 +235,6 @@ export function InventoryBoard({
 				</div>
 			</div>
 
-			{/* Sub-Header Bar: Keterangan & Auto-Sync Timestamp */}
 			<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-1 border-b border-slate-200 pb-3">
 				<div className="flex items-center gap-2">
 					<Layers className="w-5 h-5 text-[#0A2F66]" />
@@ -268,7 +258,6 @@ export function InventoryBoard({
 				)}
 			</div>
 
-			{/* Daftar Section per Lokasi */}
 			<div className="flex flex-col gap-10">
 				{locations.map((location) => (
 					<LocationSection key={location.id} location={location} />
