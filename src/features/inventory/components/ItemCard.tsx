@@ -55,7 +55,6 @@ export function ItemCard({ item }: ItemCardProps) {
 
 	return (
 		<div className="relative flex flex-col bg-white rounded-2xl border border-slate-200/90 shadow-[0_4px_20px_rgb(0,0,0,0.04)] hover:border-blue-400 hover:shadow-[0_12px_32px_rgb(59,130,246,0.12)] transition-all duration-300 overflow-hidden group h-full select-none">
-			{/* Gambar Barang / Visual Header */}
 			<div className="w-full h-40 sm:h-44 bg-slate-900 relative overflow-hidden shrink-0 flex items-center justify-center">
 				{imageUrl && !imageError ? (
 					<>
@@ -94,7 +93,6 @@ export function ItemCard({ item }: ItemCardProps) {
 					</div>
 				)}
 
-				{/* Badge Status Stok (Pojok Kiri Atas) */}
 				<div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 pointer-events-none">
 					<span
 						className={cn(
@@ -107,7 +105,6 @@ export function ItemCard({ item }: ItemCardProps) {
 					</span>
 				</div>
 
-				{/* Badge Tipe Barang (Pojok Kanan Atas) */}
 				<div className="absolute top-3 right-3 z-10 pointer-events-none">
 					<span
 						className={cn(
@@ -130,7 +127,6 @@ export function ItemCard({ item }: ItemCardProps) {
 				</div>
 			</div>
 
-			{/* Konten Kartu */}
 			<div className="p-4 sm:p-5 flex flex-col flex-1 justify-between gap-3 bg-white">
 				<div>
 					<h3
@@ -142,7 +138,6 @@ export function ItemCard({ item }: ItemCardProps) {
 				</div>
 
 				<div className="pt-2 border-t border-slate-100 flex flex-col gap-2.5">
-					{/* Tampilan Stok Utama */}
 					<div className="flex items-baseline justify-between gap-2">
 						<span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
 							{isAsset ? "Tersedia di Rak" : "Stok Saat Ini"}
@@ -162,7 +157,6 @@ export function ItemCard({ item }: ItemCardProps) {
 						</div>
 					</div>
 
-					{/* Breakdown Aset (Tersedia · Dipinjam) atau Min. Stok Consumable */}
 					{isAsset ? (
 						<div className="bg-slate-50 rounded-xl p-2.5 border border-slate-200/70 flex items-center justify-between text-xs font-semibold">
 							<div className="flex items-center gap-1.5 text-emerald-700">
