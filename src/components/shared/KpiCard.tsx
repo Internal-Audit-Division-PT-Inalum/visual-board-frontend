@@ -63,7 +63,6 @@ export function KpiCard({
 
 	return (
 		<div className="relative overflow-hidden bg-gradient-to-br from-[#1E40AF] to-[#3B82F6] rounded-2xl p-5 sm:p-6 shadow-[0_8px_30px_rgb(37,99,235,0.2)] border border-[#3b82f6]/40 flex flex-col justify-between hover:shadow-[0_12px_40px_rgb(37,99,235,0.4)] hover:-translate-y-1 transition-all duration-500 h-full group z-10">
-			{/* Decorative Glowing Orbs */}
 			<div className="absolute -bottom-16 -right-16 w-56 h-56 bg-blue-400 rounded-full blur-3xl opacity-40 group-hover:opacity-60 group-hover:scale-125 transition-all duration-700 -z-10" />
 			<div className="absolute -top-16 -left-16 w-40 h-40 bg-cyan-300 rounded-full blur-3xl opacity-30 group-hover:opacity-50 transition-all duration-700 -z-10" />
 
