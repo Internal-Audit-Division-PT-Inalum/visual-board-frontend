@@ -82,7 +82,6 @@ export default function MobileAttendance() {
 
 	return (
 		<div className="min-h-screen bg-slate-50 flex flex-col font-sans">
-			{/* Mobile Header */}
 			<div className="bg-[#0A2F66] text-white p-6 rounded-b-3xl shadow-lg relative overflow-hidden">
 				<div className="absolute -right-10 -top-10 w-40 h-40 bg-blue-500/20 rounded-full blur-2xl"></div>
 				<div className="relative z-10 flex items-center gap-4">
@@ -100,7 +99,6 @@ export default function MobileAttendance() {
 				</div>
 			</div>
 
-			{/* Form Container */}
 			<div className="flex-1 p-6 flex flex-col justify-center max-w-md w-full mx-auto">
 				<div className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100 p-6 sm:p-8">
 					<div className="text-center mb-8">
