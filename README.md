@@ -1,289 +1,460 @@
 <div align="center">
 
-<img src="https://vitejs.dev/logo.svg" width="80" alt="Vite Logo" />
+<img src="https://vitejs.dev/logo.svg" width="70" alt="Vite Logo" />
 &nbsp;&nbsp;
-<img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="80" alt="React Logo" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="70" alt="React Logo" />
 
 # visual-board-frontend
 
-**Aplikasi Layar Publik & Kiosk — Visual Board 5R PT INALUM**
+**Aplikasi Layar Publik & Kiosk — Visual Board 5R & Telemetri Divisi Internal Audit PT INALUM**
 
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 [![TanStack Query](https://img.shields.io/badge/TanStack%20Query-5-FF4154?logo=reactquery&logoColor=white)](https://tanstack.com/query)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Biome](https://img.shields.io/badge/Linter-Biome-60A5FA?logo=biome&logoColor=white)](https://biomejs.dev/)
+[![Vitest](https://img.shields.io/badge/Testing-Vitest-FCC72B?logo=vitest&logoColor=white)](https://vitest.dev/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-*Portal tatap muka layar sentuh (Kiosk) untuk mengawal kedisiplinan 5R di pabrik PT INALUM — menyajikan dasbor tren, pengumuman mading, dan interaksi presensi berbasis QR dalam satu kanvas Single Page Application (SPA) yang elegan.*
+*Portal antarmuka layar sentuh (*Smart Kiosk*) dan display TV pabrik 24/7 untuk mengawal kedisiplinan 5R, pengumuman mading digital, matriks organisasi, status katalog inventaris publik, serta endpoint presensi gawai berbasis kode QR terintegrasi.*
 
 </div>
 
 ---
 
-## Table of Contents
+## Daftar Isi
 
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Prerequisites](#prerequisites)
-- [Getting Started](#getting-started)
-- [Environment Configuration](#environment-configuration)
-- [Application Routes](#application-routes)
-- [Feature Modules](#feature-modules)
-- [UI Component System](#ui-component-system)
-- [Data Fetching](#data-fetching)
-- [Code Quality](#code-quality)
-- [Build & Deployment](#build--deployment)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [Security](#security)
+- [Gambaran Umum](#gambaran-umum)
+- [Arsitektur Sistem & FSD](#arsitektur-sistem--fsd)
+- [Fitur Utama](#fitur-utama)
+  - [1. Smart TV Kiosk Engine (Auto-Play & Playlist)](#1-smart-tv-kiosk-engine-auto-play--playlist)
+  - [2. Dasbor Utama 5R (General)](#2-dasbor-utama-5r-general)
+  - [3. Matriks Kalender Piket (Schedule 5R)](#3-matriks-kalender-piket-schedule-5r)
+  - [4. Struktur Organisasi & Presensi (Organization)](#4-struktur-organisasi--presensi-organization)
+  - [5. Mading Digital & Universal PDF Viewer (Department Hub)](#5-mading-digital--universal-pdf-viewer-department-hub)
+  - [6. Katalog Inventaris Publik (Inventory Display)](#6-katalog-inventaris-publik-inventory-display)
+  - [7. Evaluasi & Panduan 5R (Self Assessment)](#7-evaluasi--panduan-5r-self-assessment)
+  - [8. Presensi Gawai Karyawan (Mobile Attendance QR Endpoint)](#8-presensi-gawai-karyawan-mobile-attendance-qr-endpoint)
+- [Teknologi & Dependensi](#teknologi--dependensi)
+- [Persyaratan Sistem](#persyaratan-sistem)
+- [Panduan Instalasi & Menjalankan](#panduan-instalasi--menjalankan)
+- [Konfigurasi Lingkungan (.env & Vite Proxy)](#konfigurasi-lingkungan-env--vite-proxy)
+- [Struktur Rute & Parameter URL](#struktur-rute--parameter-url)
+- [Modul Fitur (Feature-Sliced Design)](#modul-fitur-feature-sliced-design)
+- [Sistem Komponen UI & shadcn/ui](#sistem-komponen-ui--shadcnui)
+- [Manajemen State & Data Fetching (TanStack Query)](#manajemen-state--data-fetching-tanstack-query)
+- [Kualitas Kode, Linting & Pengujian](#kualitas-kode-linting--pengujian)
+- [Build & Deployment TV Kiosk Produksi](#build--deployment-tv-kiosk-produksi)
+- [Struktur Repositori](#struktur-repositori)
+- [Keamanan & Anti-Memory Leak](#keamanan--anti-memory-leak)
 
 ---
 
-## Overview
+## Gambaran Umum
 
-`visual-board-frontend` adalah aplikasi layar publik (*Kiosk SPA*) untuk inisiatif **Visual Board 5R** PT INALUM. Dibangun dengan React 19 dan Vite 7, aplikasi ini bertugas menarik data dari `visual-board-inventory-backend` secara asinkron tanpa henti (*24/7*) untuk menampilkan metrik operasional secara *real-time*.
+`visual-board-frontend` adalah aplikasi antarmuka Single Page Application (SPA) berbasis web modern yang didesain khusus untuk berjalan secara tangguh (*resilient*) di layar TV pabrik dan mesin anjungan (*Kiosk*) 24 jam sehari, 7 hari seminggu tanpa henti.
 
-Aplikasi ini diatur menggunakan arsitektur **Feature-Sliced Design (FSD)** — setiap wilayah fungsional (seperti *mading*, *presensi*, atau *matriks 5R*) beroperasi sebagai modul tertutup dengan lapisan API, komponen, dan deklarasi tipenya masing-masing.
+Aplikasi ini menyajikan visualisasi data terpadu untuk Divisi Internal Audit PT INALUM:
+1. **Pemantauan Disiplin 5R**: Visualisasi skor kebersihan zona, matriks piket harian, dan lini masa abnormalitas lantai kerja.
+2. **Keterbukaan Informasi**: Mading digital resolusi tinggi dengan kemampuan *preview* dokumen PDF resmi tanpa konflik ekstensi peramban.
+3. **Telemetri Personel & Aset**: Status absensi aktual, peta penugasan zona, dan visibilitas katalog inventaris publik secara *real-time*.
+4. **Presensi Mandiri**: Integrasi kode QR dinamis yang menghubungkan ponsel cerdas karyawan ke modul presensi berbasis web mobile.
+
+Aplikasi ini dibangun menggunakan arsitektur **Feature-Sliced Design (FSD)** yang memisahkan perhatian (*separation of concerns*) berdasarkan wilayah bisnis, menghasilkan basis kode yang modular, mudah diuji, dan skalabel.
 
 ---
 
-## Architecture
+## Arsitektur Sistem & FSD
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│                      Layar Kiosk (SPA)                           │
-│                                                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │                   React Router v7                        │    │
-│  │   AppShell (AppHeader + Kiosk Scroll Container + Outlet) │    │
-│  │                                                          │    │
-│  │  /general   /mading   /organisasi   /jadwal   /mobile    │    │
-│  └────────────────────────┬────────────────────────────────┘    │
-│                           │                                      │
-│  ┌────────────────────────▼────────────────────────────────┐    │
-│  │              Feature Modules (FSD Domain)                │    │
-│  │                                                          │    │
-│  │  bulletin · general · organization · workstation         │    │
-│  │                                                          │    │
-│  │  Setiap modul memiliki:                                  │    │
-│  │    api/         ← fetch axios + TanStack hooks           │    │
-│  │    components/  ← React components spesifik domain       │    │
-│  └────────────────────────┬────────────────────────────────┘    │
-│                           │                                      │
-│  ┌────────────────────────▼────────────────────────────────┐    │
-│  │                  Shared Infrastructure                   │    │
-│  │  src/components/ui  — shadcn/ui primitive components     │    │
-│  │  src/lib/api.ts     — Interceptor Axios & Vite Proxy     │    │
-│  │  src/types/api.ts   — TypeScript interfaces (Strict)     │    │
-│  └────────────────────────┬────────────────────────────────┘    │
-│                           │ HTTP (JSON REST API)                 │
-└───────────────────────────┼──────────────────────────────────────┘
-                            │
-            ┌───────────────▼───────────────────┐
-            │    Backend REST API (Laravel)     │
-            │    /api/visual-board/...          │
-            └───────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────┐
+│                      Layar Kiosk / TV Display (SPA)                     │
+│                                                                        │
+│  ┌───────────────────────────────────────────────────────────────┐    │
+│  │                     React Router DOM v7                        │    │
+│  │                                                               │    │
+│  │  [ / ] → <AppShell /> (Kiosk Shell + Auto-Play Engine)        │    │
+│  │          ├── Header (Jam Real-time, Navigasi Tab, Tombol QR) │    │
+│  │          ├── Scroll Container (Sine Easing Smooth Scroller)   │    │
+│  │          │   ├── ?tab=general           → <General />          │    │
+│  │          │   ├── ?tab=schedule_5r       → <Schedule5R />      │    │
+│  │          │   ├── ?tab=organization      → <Organization />    │    │
+│  │          │   ├── ?tab=department_hub    → <DepartmentHub />   │    │
+│  │          │   ├── ?tab=inventory         → <Inventory />       │    │
+│  │          │   └── ?tab=self_assessment   → <Assessment />      │    │
+│  │          └── Footer (Running Ticker & Copyright Status)       │    │
+│  │                                                               │    │
+│  │  [ /presensi ] → <MobileAttendance /> (Standalone PWA Landing)│    │
+│  └──────────────────────────────┬────────────────────────────────┘    │
+│                                 │                                      │
+│  ┌──────────────────────────────▼────────────────────────────────┐    │
+│  │                 Feature Modules (FSD Domain)                  │    │
+│  │                                                               │    │
+│  │  bulletin · general · inventory · organization · workstation  │    │
+│  │                                                               │    │
+│  │  Struktur baku per modul:                                     │    │
+│  │    api/         ← TanStack Query hooks + Axios fetcher        │    │
+│  │    components/  ← Komponen visual spesifik domain bisnis      │    │
+│  └──────────────────────────────┬────────────────────────────────┘    │
+│                                 │                                      │
+│  ┌──────────────────────────────▼────────────────────────────────┐    │
+│  │                    Shared Infrastructure                      │    │
+│  │  src/components/ui/     ← shadcn/ui primitives (Radix/Base-UI)│    │
+│  │  src/components/shared/ ← DocumentViewerModal (Anti-IDM PDF)  │    │
+│  │  src/hooks/             ← useKioskAutoPlay, useClock          │    │
+│  │  src/lib/api.ts         ← Axios client instance + interceptor │    │
+│  │  src/types/api.ts       ← TypeScript strictly-typed interfaces│    │
+│  └──────────────────────────────┬────────────────────────────────┘    │
+│                                 │ HTTP JSON REST API                   │
+└─────────────────────────────────┼──────────────────────────────────────┘
+                                  │
+                  ┌───────────────▼──────────────────┐
+                  │    Backend REST API (Laravel)    │
+                  │    /api/visual-board/...         │
+                  │    /api/v1/inventory/...         │
+                  └──────────────────────────────────┘
 ```
 
 ---
 
-## Features
+## Fitur Utama
 
-### 📺 Smart Kiosk Mode (Auto-Play)
-- **TV Playlist Auto-Scroll** — Sistem otomatis yang merotasi seluruh halaman (*General, Mading, Organisasi, Jadwal*) secara halus menggunakan fungsi *sine easing* untuk diputar di TV 24/7.
-- **WakeLock API & Idle Detection** — Mencegah TV masuk mode *sleep* secara otomatis, sekaligus mampu mendeteksi aktivitas sentuhan jika ada *user* yang berinteraksi.
-- **URL State Navigation** — Sistem *Routing* mendalam yang menyimpan posisi *tab/sub-tab* aktif langsung ke dalam Parameter URL, memastikan Kiosk tidak tersesat saat berganti halaman.
+### 1. Smart TV Kiosk Engine (Auto-Play & Playlist)
+- **Rotasi Adegan Otomatis (*Scene Playlist*)**: Mengorkestrasi pergantian tab dan sub-tab secara terjadwal dengan durasi optimal untuk tayangan TV publik:
+  - `general`: 20 detik
+  - `schedule_5r`: 20 detik
+  - `organization` (Struktur): 15 detik
+  - `organization` (Peta Area): 15 detik
+  - `organization` (Absensi): 15 detik
+  - `department_hub` (Index Mading): 15 detik
+  - `department_hub` (Kategori Umum, K3, Event, Policy, COG/SOR): masing-masing 10 detik
+  - `inventory`: 20 detik
+  - `self_assessment`: 15 detik
+- **Sine Easing Smooth Auto-Scroll**: Menggulirkan konten halaman vertikal secara halus dari atas ke bawah sebelum berpindah adegan berikutnya.
+- **Screen WakeLock API**: Mengunci layar peramban agar TV tidak mati (*sleep/standby*) secara otomatis.
+- **Idle Detection & Touch Interruption**: Jika staf menyentuh layar, menggeser kursor, atau menekan tombol, mode putar otomatis seketika dihentikan sementara (*PAUSED*). Setelah 15 detik tidak ada aktivitas (*idle*), playlist otomatis melanjutkan rotasi (*RESUMED*).
+- **Aktivasi URL Flag**: Cukup tambahkan parameter `?kiosk=true` pada URL untuk mengaktifkan seluruh orkestrasi otomatis.
 
-### 📈 Dasbor Utama 5R & Estetika (General)
-- **Blue Glassmorphism UI** — Antarmuka pengguna kelas *Enterprise* yang kaya warna dengan efek kaca (*glassmorphism*), orb cahaya gradasi yang *glowing*, dan kontras visual yang memanjakan mata.
-- **Matriks Kalender Piket** — Ceklis *check-sheet* area secara vertikal.
-- **Leaderboard Kaizen & K3** — Visualisasi skor ide perbaikan (Kaizen) dan Hari Bebas Kecelakaan.
-- **Abnormality Feed** — Lini masa kerusakan/temuan dari lantai pabrik yang masuk secara *real-time*.
+### 2. Dasbor Utama 5R (General)
+- **Blue Glassmorphism UI**: Tampilan kelas industri berlatar gradasi lembut, kartu kaca (*glass card*), dan tipografi *Plus Jakarta Sans* yang ergonomis.
+- **Ringkasan KPI Disiplin**: Menampilkan hari kerja aktif, skor rata-rata 5R, dan peringatan abnormalitas aktif.
+- **Leaderboard Kaizen & K3**: Visualisasi kontribusi ide perbaikan (Kaizen) per karyawan serta pelacak Hari Bebas Kecelakaan (*Zero Accident Tracker*).
+- **Abnormality Feed**: Lini masa real-time status temuan ketidaksesuaian 5R yang membutuhkan tindakan korektif.
 
-### 📰 Mading Digital (Bulletin)
-- **Smart Bulletin Board** — Layar interaktif yang menayangkan pengumuman resmi.
-- **Universal Document Viewer** — Menggunakan `<iframe src="...">` terisolasi berbekal Vite Proxy. Tahan banting terhadap blokir CORS maupun ekstensi pengunduh (seperti IDM) yang kerap mengacaukan *render* file PDF.
+### 3. Matriks Kalender Piket (Schedule 5R)
+- **Grid Kalender Interaktif**: Memetakan jadwal kebersihan 5R per hari dalam bulan berjalan.
+- **Ceklis Kriteria 5R**: Pemantauan kepatuhan *Ringkas, Rapi, Resik, Rawat, Rajin* per zona kerja.
 
-### 👥 Struktur Organisasi (Organization)
-- **Statistik Absensi Aktual** — Daftar perbandingan jumlah karyawan yang hadir, sakit, atau cuti.
-- **Penampil Hierarki & Peta** — Menampilkan bagan struktur departemen resmi yang diambil langsung dari backend (sekarang menyatu melalui *General Documents*).
+### 4. Struktur Organisasi & Presensi (Organization)
+- **Hierarki Organisasi Internal**: Visualisasi bagan departemen, manajer, tim audit, dan staf pendukung.
+- **Peta Lokasi Area Kerja**: Peta denah interaktif yang memetakan stasiun kerja dan penanggung jawabnya.
+- **Statistik Kehadiran Harian**: Rekapitulasi jumlah staf yang hadir (*present*), dinas luar (*business trip*), izin, maupun sakit.
 
-### 📍 Stasiun Kerja (Workstation)
-- **Peta Lokasi Penugasan** — Melihat secara spesifik karyawan mana yang bertanggung jawab merawat area/zona tertentu pada hari itu.
+### 5. Mading Digital & Universal PDF Viewer (Department Hub)
+- **Pusat Pengumuman & Kebijakan**: Saluran komunikasi digital untuk kebijakan internal, panduan K3 (*Safety*), kegiatan korporat, dan standarisasi operasional (COG/SOR).
+- **Universal Document Viewer Modal**: Solusi penampil berkas PDF dan gambar beresolusi tinggi menggunakan kontainer terisolasi berbekal Vite Proxy. Terbukti kebal terhadap blokir CORS dan gangguan ekstensi *download manager* (seperti IDM) yang kerap merusak rendering dokumen PDF pada peramban.
 
-### 📱 Presensi Gawai (Mobile Attendance)
-- **QR Scanner Endpoint** — Halaman khusus (`/mobile`) yang dirancang beroperasi terpisah sebagai tempat mendaratnya kamera *smartphone* saat karyawan memindai kode QR untuk mencatatkan diri.
+### 6. Katalog Inventaris Publik (Inventory Display)
+- **Visibilitas Logistik Transparan**: Tab khusus (`?tab=inventory`) yang menampilkan katalog aset dan barang habis pakai di ruang audit.
+- **Monitoring Lokasi & Status**: Menampilkan stok tersedia, batas minimum stok (*low-stock badge*), dan status peminjaman aset tanpa memerlukan otentikasi login pada TV Kiosk.
+
+### 7. Evaluasi & Panduan 5R (Self Assessment)
+- **Dokumen Panduan Standar**: Daftar materi penilaian mandiri 5R, kriteria audit lingkungan kerja, dan berkas acuan inspeksi.
+- **Akses Cepat Unduh & Baca**: Membuka langsung berkas panduan ke dalam *Document Viewer Modal*.
+
+### 8. Presensi Gawai Karyawan (Mobile Attendance QR Endpoint)
+- **Floating QR Code**: Kode QR dinamis yang dapat diklik atau dipindai langsung dari header Kiosk.
+- **Halaman Presensi Mandiri (`/presensi`)**: Halaman responsif yang dirancang untuk layar gawai (*smartphone*) karyawan untuk mencatatkan kehadiran secara cepat dan higienis.
 
 ---
 
-## Tech Stack
+## Teknologi & Dependensi
 
-| Category | Library | Version |
-|---|---|---|
-| UI Framework | React | ^19.x |
-| Language | TypeScript | ^5.x |
-| Build Tool | Vite + `@vitejs/plugin-react` | ^7.x |
-| Routing | React Router DOM | ^7.x |
-| Server State | TanStack Query (React Query) | ^5.x |
-| HTTP Client | Axios | ^1.x |
-| Styling | Tailwind CSS v4 | ^4.x |
-| Component Library | shadcn/ui | — |
-| Linting & Format | Biome | ^1.x |
+| Kategori | Paket / Pustaka | Versi | Peran & Kegunaan |
+|---|---|---|---|
+| **UI Framework** | React | `^19.2.0` | Library utama perender komponen berbasis Virtual DOM |
+| **Bahasa** | TypeScript | `~5.9.3` | Pengetikan statis ketat (*type safety*) |
+| **Build Tool & Bundler** | Vite + `@vitejs/plugin-react` | `^7.x` / `^5.1.1` | Peladen pengembang HMR instan & bundler rollup |
+| **Routing** | React Router DOM | `^7.18.4` | Manajemen rute dan sinkronisasi parameter URL |
+| **Manajemen Server State**| TanStack Query | `^5.102.8` | Pengambilan data, *caching*, dan *auto-refresh* |
+| **Klien HTTP** | Axios | `^1.20.0` | Komunikasi REST API dengan backend Laravel |
+| **Styling & Desain** | Tailwind CSS v4 | `^4.1.18` | Desain utilitas modern berbasis CSS Variables |
+| **Komponen UI Primitives**| shadcn/ui + `@base-ui/react` | `^4.21.0` | Komponen aksesibel tanpa dependensi gaya kaku |
+| **Tipografi** | Plus Jakarta Sans & Geist | `^5.3.0` | Huruf standar industri dan keterbacaan tinggi |
+| **Ikonografi** | Lucide React | `^1.46.0` | Koleksi ikon SVG modern berbobot ringan |
+| **QR Code Engine** | qrcode.react | `^4.2.0` | Pembangkit kode QR SVG untuk presensi mobile |
+| **Notifikasi Toast** | Sonner | `^2.0.8` | Sistem umpan balik interaksi toast mengambang |
+| **Linter & Formatter** | Biome | `2.5.14` | Pemeriksa sintaks dan pemformat kode secepat kilat |
+| **Unit & Component Test** | Vitest + Testing Library | `^5.0.5` | Mesin uji unit dan integrasi layout komponen |
 
 ---
 
-## Prerequisites
+## Persyaratan Sistem
 
-| Tool | Minimum Version |
+Pastikan lingkungan komputer pengembang atau perangkat TV Kiosk Anda memenuhi syarat berikut:
+
+| Perangkat Lunak | Versi Minimal yang Disarankan |
 |---|---|
-| Node.js | 20.x LTS |
-| npm | 10.x |
-
-*Pastikan peladen `visual-board-inventory-backend` (Laravel) Anda sudah menyala di `localhost:8000` sebelum menjalankan Kiosk ini.*
+| **Node.js** | `>= 20.x LTS` (Disarankan Node 22) |
+| **npm** | `>= 10.x` |
+| **Backend API** | `visual-board-inventory-backend` menyala di port `8000` |
+| **Peramban Target** | Google Chrome / Chromium `>= 120` (Mendukung Screen WakeLock) |
 
 ---
 
-## Getting Started
+## Panduan Instalasi & Menjalankan
 
 ### 1. Kloning Repositori
-
 ```bash
 git clone https://github.com/Internal-Audit-Division-PT-Inalum/visual-board-frontend.git
 cd visual-board-frontend
 ```
 
-### 2. Instalasi Dependensi
-
+### 2. Instalasi Paket Dependensi
 ```bash
 npm install
 ```
 
 ### 3. Konfigurasi Lingkungan
-
-Gandakan file `.env`:
+Buat berkas `.env` dari salinan contoh:
 ```bash
 cp .env.example .env
 ```
 
-**Perhatian tentang Vite Proxy:** 
-Aplikasi ini diatur menggunakan `server.proxy` di dalam `vite.config.ts`. Ini berarti panggilan ke `/api` atau `/storage` secara otomatis akan diteruskan ke peladen *backend* Anda di port `8000`. Ini adalah trik vital yang menyelesaikan kendala CORS saat memuat PDF mading!
-
-### 4. Jalankan Development Server
-
+### 4. Menjalankan Server Pengembangan
 ```bash
 npm run dev
 ```
-
-Layar Kiosk akan terbuka seketika (secara bawaan di `http://localhost:5173`).
-
----
-
-## Application Routes
-
-| Path | Page Component | Feature Module | Deskripsi |
-|---|---|---|---|
-| `/` | `General` | `general` | Tampilan matriks 5R dan telemetri |
-| `/mading` | `DepartmentHub` | `bulletin` | Pusat pengumuman dan pembaca PDF interaktif |
-| `/organisasi` | `Organization` | `organization` | Absensi dan struktur organisasi |
-| `/jadwal` | `Schedule5R` | `general` | Matriks kalender per zona |
-| `/mobile` | `MobileAttendance` | *(Standalone)* | QR Code endpoint untuk ponsel karyawan |
+Aplikasi dapat diakses melalui:
+- Mode Layar Normal: `http://localhost:5173/`
+- Mode TV Kiosk Otomatis: `http://localhost:5173/?kiosk=true`
+- Endpoint Presensi Gawai: `http://localhost:5173/presensi`
 
 ---
 
-## UI Component System
+## Konfigurasi Lingkungan (.env & Vite Proxy)
 
-Proyek ini telah memusnahkan komponen-komponen statis kuno (*legacy*) dan bermigrasi menggunakan standar modern **shadcn/ui**. Segala elemen UI *primitives* berada di `src/components/ui/`.
+Secara bawaan berkas `.env` mengatur konfigurasi alamat API:
+```env
+VITE_API_BASE_URL=/api
+```
 
-Beberapa komponen esensial meliputi:
-- `Badge`, `Button`, `Card`, `Skeleton`, `Dialog`.
+### Mekanisme Vite Reverse Proxy
+Untuk meniadakan kendala **CORS (*Cross-Origin Resource Sharing*)** serta mengamankan pemuatan dokumen mading dari gangguan pengunduh berkas (*IDM / Chrome download interrupter*), Vite dikonfigurasi sebagai *reverse proxy* di [`vite.config.ts`](file:///c:/Users/LENOVO/Projek/Internal%20Audit%20PT%20Inalum/Visual%20Board%20and%20Inventory%20System/Visual%20Board%20Frontend/vite.config.ts):
 
-### Komponen Universal (*Shared*)
-**`DocumentViewerModal.tsx`:** Permata utama pada versi ini. Sebuah modal tingkat tinggi yang mampu merender berkas gambar maharesolusi atau membaca .PDF tanpa bentrok dengan pemblokir peramban, menyingkirkan kebergantungan kita pada `react-pdf`.
-
----
-
-## Data Fetching
-
-Dilarang keras melakukan *fetching* secara "telanjang" di dalam `useEffect`. 
-Semua panggilan data harus didefinisikan sebagai *Custom Hooks* dari TanStack Query di dalam direktori `api/` dari masing-masing fitur.
-
-Contoh yang benar:
 ```typescript
-// Di dalam src/features/general/api/useKioskData.ts
-export function useKioskData() {
-  return useQuery({
-    queryKey: ['kiosk-data'],
-    queryFn: async () => {
-      const response = await api.get('/visual-board/kiosk');
-      return response.data;
+server: {
+  proxy: {
+    '/api': {
+      target: 'http://localhost:8000',
+      changeOrigin: true,
     },
-    refetchInterval: 300000, // Kiosk Auto-Refresh tiap 5 menit
-  });
+    '/storage': {
+      target: 'http://localhost:8000',
+      changeOrigin: true,
+    },
+  },
+}
+```
+*Dengan pengaturan ini, permintaan `/api/...` dan `/storage/...` dari peramban akan diteruskan secara transparan ke backend Laravel di port `8000`.*
+
+---
+
+## Struktur Rute & Parameter URL
+
+Aplikasi ini menggunakan perpaduan rute utama dan *search parameters* mendalam agar posisi tab tetap terjaga saat terjadi penyegaran (*refresh*) halaman:
+
+| Rute URL | Parameter Tab (`?tab=`) | Komponen Halaman | Modul FSD | Deskripsi Fungsional |
+|---|---|---|---|---|
+| `/` | `general` *(default)* | `<General />` | `features/general` | Dasbor utama metrik 5R, Kaizen, dan abnormality |
+| `/` | `schedule_5r` | `<Schedule5R />` | `features/general` | Matriks kalender jadwal piket 5R per zona |
+| `/` | `organization` | `<Organization />` | `features/organization` | Struktur hierarki departemen, peta area, & absensi |
+| `/` | `department_hub` | `<DepartmentHub />` | `features/bulletin` | Pusat mading digital, SOP, policy, & viewer PDF |
+| `/` | `inventory` | `<Inventory />` | `features/inventory` | Katalog aset publik & ketersediaan inventaris |
+| `/` | `self_assessment` | `<Assessment />` | `features/general` | Materi evaluasi mandiri & dokumen kepatuhan 5R |
+| `/presensi` | — | `<MobileAttendance />`| *(Standalone)* | Endpoint presensi mandiri gawai via scan QR |
+
+---
+
+## Modul Fitur (Feature-Sliced Design)
+
+Setiap direktori di bawah `src/features/` berfungsi mandiri dengan batas tanggung jawab domain yang jelas:
+
+```text
+src/features/
+├── bulletin/
+│   ├── api/          # useBulletins, useBulletinCategories, useCreateBulletin
+│   └── components/   # BulletinCard, BulletinGrid, CategoryFilter
+├── general/
+│   ├── api/          # useKioskData, useZoneDetails, useAbnormalities
+│   └── components/   # MetricsSummary, KaizenLeaderboard, ScheduleMatrix
+├── inventory/
+│   ├── api/          # useKioskInventory (Endpoint publik /v1/inventory/kiosk)
+│   └── components/   # InventoryBoard, ItemCard, LocationSection
+├── organization/
+│   ├── api/          # useAttendanceSummary, useEmployees, useOrganizationDocs
+│   └── components/   # DivisionEmployees, AttendanceList, AreaMapViewer
+└── workstation/
+    ├── api/          # useWorkstationByEmployee, useZoneAssignment
+    └── components/   # WorkstationBadge, ZoneCard
+```
+
+---
+
+## Sistem Komponen UI & shadcn/ui
+
+Elemen antarmuka generik dibangun menggunakan pustaka standar industri **shadcn/ui** yang tersimpan di `src/components/ui/`:
+- `badge.tsx`: Label status (Hadir, Aman, Low Stock, Warning).
+- `button.tsx`: Tombol interaktif dengan varian standar, outline, dan ghost.
+- `card.tsx`: Kontainer kartu dengan efek bayangan dan border modern.
+- `dialog.tsx`: Jendela modal berbasis Radix/Base-UI primitive.
+- `skeleton.tsx`: Efek pemuatan berkedip (*shimmer loading*) untuk pengalaman pengguna yang halus.
+
+### Komponen Universal Kustom
+- **`DocumentViewerModal.tsx`**: Modal terisolasi yang mampu menampilkan berkas PDF dan citra beresolusi tinggi langsung di dalam kanvas layar Kiosk tanpa memicu unduhan lokal di peramban.
+
+---
+
+## Manajemen State & Data Fetching (TanStack Query)
+
+Seluruh panggilan jaringan dikelola oleh TanStack Query v5 dengan konfigurasi optimal untuk layar Kiosk:
+```typescript
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false, // Menghindari fetch berlebih saat window switch
+      retry: 2,                    // Mentoleransi fluktuasi jaringan mikro
+      staleTime: 10_000,           // Data segar selama 10 detik
+    },
+  },
+});
+```
+
+Pembaruan otomatis data Kiosk dilakukan di latar belakang secara berkala (misal: `refetchInterval: 300_000` atau setiap 5 menit) untuk menjamin informasi di TV selalu mutakhir tanpa perlu memuat ulang seluruh peramban.
+
+---
+
+## Kualitas Kode, Linting & Pengujian
+
+Aplikasi ini menerapkan standar kualitas kode yang ketat sebelum kode dapat digabungkan (*merge*):
+
+| Perintah | Deskripsi |
+|---|---|
+| `npm run lint` | Menjalankan linter Biome untuk mendeteksi potensi masalah sintaks dan aksesibilitas |
+| `npm run format` | Memformat kode secara otomatis sesuai standar konvensi Biome |
+| `npm run check` | Menjalankan diagnosa Biome sekaligus menerapkan pemformatan kode secara langsung |
+| `npx tsc -b` | Memverifikasi seluruh tipe data TypeScript (*Strict Type Checking*) tanpa emisi berkas |
+| `npm run test` | Menjalankan seluruh pengujian unit dan layout komponen menggunakan Vitest |
+| `npm run test:watch` | Menjalankan pengujian Vitest secara interaktif dalam mode pemantau (*watch mode*) |
+| `npm run ci` | Skrip lengkap integrasi berkelanjutan: `biome check && tsc -b && vitest run && vite build` |
+
+---
+
+## Build & Deployment TV Kiosk Produksi
+
+### 1. Kompilasi Aset Produksi
+```bash
+npm run build
+```
+Hasil kompilasi bundel teroptimasi akan berada di dalam direktori `dist/`.
+
+### 2. Uji Coba Pratinjau Lokal
+```bash
+npm run preview
+```
+
+### 3. Penerapan di Web Server (Nginx)
+Contoh blok konfigurasi Nginx untuk menyajikan Visual Board Kiosk:
+```nginx
+server {
+    listen 80;
+    server_name visual-board.internal.inalum.id;
+
+    root /var/www/visual-board-frontend/dist;
+    index index.html;
+
+    # Single Page Application Fallback
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Proxy API Request ke Peladen Backend Laravel
+    location /api/ {
+        proxy_pass http://127.0.0.1:8000/api/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Proxy Media Storage Dokumen & Mading
+    location /storage/ {
+        proxy_pass http://127.0.0.1:8000/storage/;
+        proxy_set_header Host $host;
+    }
 }
 ```
 
----
-
-## Code Quality (Biome Linter)
-
-Proyek ini menggunakan **Biome** untuk analisis statis (*linting*) yang secepat kilat.
-Sebelum melakukan *Push* ke GitHub, sangat diwajibkan untuk menjalankan pemformatan otomatis:
-
+### 4. Otomatisasi Startup Mini-PC / Raspberry Pi (Chromium Kiosk Mode)
+Jalankan perintah ini pada berkas autostart OS Kiosk (misal `.bashrc` atau skrip display manager):
 ```bash
-npm run format
+chromium-browser \
+  --kiosk \
+  --noerrdialogs \
+  --disable-infobars \
+  --check-for-update-interval=31536000 \
+  "http://visual-board.internal.inalum.id/?kiosk=true"
 ```
 
-Biome akan menata ulang jarak baris, menghapus variabel yang menggantung, dan menyingkirkan *import* usang yang membuat bundel React memberat.
-
 ---
 
-## Build & Deployment
-
-Ketika akan di-instal di *mini-PC* atau *Raspberry Pi* yang tertanam pada TV Pabrik:
-
-1. **Jalankan Proses Build**
-   ```bash
-   npm run build
-   ```
-2. **Uji Coba Statis**
-   ```bash
-   npm run preview
-   ```
-3. **Deployment (Nginx / Apache)**
-   Tarik isi direktori `/dist` ke dalam peladen web statis Kiosk. Jangan lupa tambahkan konfigurasi '*fallback*' (*try_files*) agar semua *refresh* rute dikembalikan ke `index.html`.
-
----
-
-## Project Structure
+## Struktur Repositori
 
 ```text
 visual-board-frontend/
-├── public/                      # Statis logo & aset
+├── public/                      # Aset statis favicon dan gambar publik
 ├── src/
 │   ├── components/
-│   │   ├── layout/              # Cangkang Aplikasi Utama (AppShell)
-│   │   ├── shared/              # DocumentViewerModal
-│   │   └── ui/                  # Komponen shadcn murni
-│   ├── features/                # Modul Domain-Driven (FSD)
-│   │   ├── bulletin/            # (Mading & QR)
-│   │   ├── general/             # (Matriks, Kaizen, Abnormality)
-│   │   ├── organization/        # (Kehadiran & Struktur Bagan)
-│   │   └── workstation/         # (Penugasan Area Kerja)
-│   ├── hooks/                   # Custom Hooks Global (seperti useClock)
-│   ├── lib/                     # Utilitas murni & Konfigurasi Axios
-│   ├── pages/                   # Orkestrasi gabungan komponen per rute
+│   │   ├── layout/              # Cangkang aplikasi (AppShell, AppHeader, Footer)
+│   │   ├── shared/              # Komponen bersama (DocumentViewerModal)
+│   │   └── ui/                  # Komponen primitif shadcn/ui
+│   ├── features/                # Modul domain Feature-Sliced Design (FSD)
+│   │   ├── bulletin/            # Mading digital & kategori pengumuman
+│   │   ├── general/             # Dasbor 5R, Kaizen, abnormality, & matriks
+│   │   ├── inventory/           # Tampilan katalog inventaris publik & status stok
+│   │   ├── organization/        # Struktur organisasi, absensi, & denah area
+│   │   └── workstation/         # Penugasan stasiun kerja per karyawan
+│   ├── hooks/                   # Custom React hooks (useKioskAutoPlay, useClock)
+│   ├── lib/                     # Klien Axios & fungsi utilitas helper
+│   ├── pages/                   # Komponen halaman per rute utama
+│   │   ├── Assessment.tsx       # Evaluasi mandiri kepatuhan 5R
+│   │   ├── DepartmentHub.tsx    # Halaman mading dan dokumen kebijakan
+│   │   ├── General.tsx          # Halaman beranda telemetri 5R
+│   │   ├── Inventory.tsx        # Halaman display inventaris ruangan
+│   │   ├── MobileAttendance.tsx # Endpoint presensi mandiri gawai (QR landing)
+│   │   ├── Organization.tsx     # Halaman hierarki dan absensi karyawan
+│   │   └── Schedule5R.tsx       # Halaman matriks kalender piket 5R
 │   └── types/
-│       └── api.ts               # Tipisasi (Typings) mutlak untuk JSON peladen
-├── biome.json                   # Aturan ketat Linter
-├── package.json
-└── vite.config.ts               # Penggerak utama proxy (anti-CORS)
+│       └── api.ts               # Deklarasi tipe antarmuka TypeScript untuk JSON API
+├── biome.json                   # Konfigurasi linter & formatter Biome
+├── package.json                 # Skrip build dan daftar dependensi pustaka
+├── tsconfig.json                # Pengaturan kompilator TypeScript
+├── vite.config.ts               # Konfigurasi bundler Vite dan reverse proxy
+└── vitest.config.ts             # Konfigurasi lingkungan pengujian Vitest
 ```
+
+---
+
+## Keamanan & Anti-Memory Leak
+
+1. **Pembersihan Event Listener & Timer**: `useKioskAutoPlay` dan `useClock` selalu menyertakan fungsi *cleanup* pada `useEffect` guna mencegah kebocoran memori (*memory leak*) saat aplikasi menyala tanpa henti selama berbulan-bulan.
+2. **Isolasi Iframe Dokumen**: Penampil dokumen PDF menggunakan atribut isolasi aman yang membatasi hak akses skrip berbahaya dari berkas eksternal.
+3. **Penyembunyian Navigasi Internal**: Kiosk berjalan tanpa mengekspos formulir manipulasi data — seluruh interaksi pada layar publik bersifat *read-only*, sedangkan aksi pencatatan presensi dialihkan secara aman ke gawai masing-masing karyawan lewat enkripsi HTTPS.
 
 ---
 
 <div align="center">
-Sistem Kiosk ini dirancang tangguh (Anti-Memory Leak) untuk menyala terus menerus di area ekstrem. 📺 PT INALUM Internal Audit.
+  <sub>Dibangun dan dirawat dengan dedikasi tinggi untuk Divisi Internal Audit PT INALUM.</sub><br />
+  <sub>Dirancang tangguh, responsif, dan elegan untuk operasional pabrik 24/7.</sub>
 </div>
