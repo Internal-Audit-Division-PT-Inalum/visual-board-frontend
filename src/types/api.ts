@@ -257,6 +257,13 @@ export interface WorkstationItem {
 	standard_quantity: number;
 }
 
+export interface WorkstationMasterCriteria {
+	id: string;
+	item_group: string;
+	criteria_code: string;
+	standard_criteria: string;
+}
+
 export interface WorkstationData {
 	id: string;
 	name: string;
@@ -273,18 +280,9 @@ export interface WorkstationData {
 		hierarchy_level?: number;
 	};
 	items?: WorkstationItem[];
-	master_criterias?: {
-		id: string;
-		item_group: string;
-		criteria_code: string;
-		standard_criteria: string;
-	}[];
+	master_criterias?: WorkstationMasterCriteria[];
 	created_at: string;
 }
-
-// ==========================================
-// KIOSK INVENTORY TYPES (Phase V)
-// ==========================================
 
 export type InventoryItemType = "consumable" | "asset";
 

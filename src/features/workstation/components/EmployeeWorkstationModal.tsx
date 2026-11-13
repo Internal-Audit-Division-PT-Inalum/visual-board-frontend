@@ -293,7 +293,7 @@ export function EmployeeWorkstationModal({
 													</tr>
 												</thead>
 												<tbody className="divide-y divide-slate-700/50">
-													{workstation.master_criterias.map((criteria: any) => (
+													{workstation.master_criterias.map((criteria) => (
 														<tr
 															key={criteria.id}
 															className="hover:bg-slate-800/50 transition-colors"

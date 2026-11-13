@@ -1,4 +1,16 @@
-export { cn } from "cn";
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+import { sanitizeUrl } from "./security";
+
+export {
+	sanitizeRichHtml,
+	sanitizeRichHtmlToFragment,
+	sanitizeUrl,
+} from "./security";
+
+export function cn(...inputs: ClassValue[]): string {
+	return twMerge(clsx(inputs));
+}
 
 /**
  * Resolves a backend asset URL (documents, images, avatars) into a clean,
@@ -11,9 +23,10 @@ export { cn } from "cn";
  * - External CDN / third-party URLs
  */
 export function getBackendUrl(path: string | null | undefined): string {
-	if (!path || typeof path !== "string" || path.trim() === "") return "";
+	const safePath = sanitizeUrl(path);
+	if (!safePath) return "";
 
-	const trimmed = path.trim();
+	const trimmed = safePath;
 
 	// Resolve configured base from env (default to relative '/api/v1')
 	const apiBase = (import.meta.env.VITE_API_BASE_URL || "/api/v1").trim();

@@ -14,8 +14,13 @@ const getWorkstationByEmployee = async (
 export const useWorkstationByEmployee = (employeeId: string | null) => {
 	return useQuery({
 		queryKey: ["workstation-by-employee", employeeId],
-		queryFn: () => getWorkstationByEmployee(employeeId!),
-		enabled: !!employeeId,
+		queryFn: () => {
+			if (!employeeId) {
+				throw new Error("Employee ID is required to fetch workstation data.");
+			}
+			return getWorkstationByEmployee(employeeId);
+		},
+		enabled: Boolean(employeeId),
 		retry: false,
 	});
 };

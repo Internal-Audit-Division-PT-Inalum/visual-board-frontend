@@ -9,8 +9,9 @@ import {
 	User,
 	X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { sanitizeRichHtmlToFragment } from "@/lib/security";
 import { getBackendUrl } from "@/lib/utils";
 import type { Bulletin } from "@/types/api";
 
@@ -27,11 +28,20 @@ export function BulletinDetailModal({
 }: BulletinDetailModalProps) {
 	const [imageError, setImageError] = useState(false);
 	const [prevId, setPrevId] = useState(bulletin?.id);
+	const contentRef = useRef<HTMLDivElement>(null);
 
 	if (prevId !== bulletin?.id) {
 		setPrevId(bulletin?.id);
 		setImageError(false);
 	}
+
+	useEffect(() => {
+		const container = contentRef.current;
+		if (!container || !bulletin) return;
+		container.replaceChildren(
+			sanitizeRichHtmlToFragment(bulletin.content, document),
+		);
+	}, [bulletin]);
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
@@ -136,6 +146,11 @@ export function BulletinDetailModal({
 			aria-labelledby="bulletin-modal-title"
 			onClick={(e) => {
 				if (e.target === e.currentTarget) {
+					onClose();
+				}
+			}}
+			onKeyDown={(e) => {
+				if (e.key === "Escape") {
 					onClose();
 				}
 			}}
@@ -260,8 +275,8 @@ export function BulletinDetailModal({
 						</div>
 
 						<div
+							ref={contentRef}
 							className="text-slate-700 text-sm sm:text-base leading-relaxed prose prose-slate max-w-none mb-8 font-sans"
-							dangerouslySetInnerHTML={{ __html: bulletin.content }}
 						/>
 
 						{docUrl && (

@@ -62,21 +62,15 @@ export function useKioskAutoPlay() {
 		};
 	}, [isKioskMode]);
 
-	// Screen Wake Lock (Mencegah layar mati otomatis)
 	useEffect(() => {
 		if (!isKioskMode) return;
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		let wakeLock: any = null;
+		let wakeLock: WakeLockSentinel | null = null;
 
 		const requestWakeLock = async () => {
 			try {
 				if ("wakeLock" in navigator) {
-					wakeLock = await (
-						navigator as unknown as {
-							wakeLock: { request: (type: string) => Promise<unknown> };
-						}
-					).wakeLock.request("screen");
+					wakeLock = await navigator.wakeLock.request("screen");
 				}
 			} catch (err) {
 				console.warn("Wake Lock gagal, layar mungkin mati otomatis:", err);
