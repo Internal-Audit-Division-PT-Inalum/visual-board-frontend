@@ -29,3 +29,7 @@ dist-ssr
 GEMINI.md
 AGENTS.md
 CLAUDE.md
+
+# Playwright Test Artifacts
+test-results/
+playwright-report/
