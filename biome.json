@@ -24,7 +24,14 @@
 			"suspicious": {
 				"noArrayIndexKey": "error",
 				"noExplicitAny": "error",
-				"noShadowRestrictedNames": "error"
+				"noShadowRestrictedNames": "error",
+				"noDoubleEquals": "error",
+				"noVar": "error"
+			},
+			"correctness": {
+				"noUnusedImports": "error",
+				"noUnusedVariables": "error",
+				"useExhaustiveDependencies": "error"
 			},
 			"a11y": {
 				"useButtonType": "error",
@@ -37,10 +44,12 @@
 				"noLabelWithoutControl": "error"
 			},
 			"security": {
-				"noDangerouslySetInnerHtml": "error"
+				"noDangerouslySetInnerHtml": "error",
+				"noGlobalEval": "error"
 			},
 			"style": {
-				"noNonNullAssertion": "error"
+				"noNonNullAssertion": "error",
+				"useConst": "error"
 			}
 		}
 	},
