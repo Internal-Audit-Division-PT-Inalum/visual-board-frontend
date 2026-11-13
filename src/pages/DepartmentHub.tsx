@@ -24,11 +24,11 @@ export default function DepartmentHub() {
 	return (
 		<div className="bg-white flex-1 flex flex-col">
 			<div className="w-full p-4 sm:p-6 lg:p-8 space-y-6 font-sans relative">
-				{}
 				<div className="flex flex-col sm:flex-row justify-end items-start sm:items-end gap-4 pb-2 border-b border-slate-200 shrink-0">
 					<div className="flex flex-wrap items-center gap-2 bg-slate-100 p-1.5 rounded-full border border-slate-200">
 						{categories.map((cat) => (
 							<button
+								type="button"
 								key={cat.id}
 								onClick={() => setActiveTab(cat.id)}
 								className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all ${
@@ -41,6 +41,7 @@ export default function DepartmentHub() {
 							</button>
 						))}
 						<button
+							type="button"
 							onClick={() => setActiveTab("cog_sor")}
 							className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all ${
 								activeTab === "cog_sor"
@@ -53,7 +54,6 @@ export default function DepartmentHub() {
 					</div>
 				</div>
 
-				{}
 				<div className="">
 					{activeTab !== "cog_sor" && (
 						<div className="flex flex-col gap-8 pb-12 animate-in fade-in slide-in-from-bottom-2 duration-300">

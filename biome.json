@@ -22,25 +22,25 @@
 		"rules": {
 			"preset": "recommended",
 			"suspicious": {
-				"noArrayIndexKey": "warn",
-				"noExplicitAny": "warn",
-				"noShadowRestrictedNames": "warn"
+				"noArrayIndexKey": "error",
+				"noExplicitAny": "error",
+				"noShadowRestrictedNames": "error"
 			},
 			"a11y": {
-				"useButtonType": "warn",
-				"useSemanticElements": "warn",
-				"useKeyWithClickEvents": "warn",
-				"noNoninteractiveElementToInteractiveRole": "warn",
-				"noStaticElementInteractions": "warn",
-				"useValidAriaProps": "warn",
-				"noAutofocus": "warn",
-				"noLabelWithoutControl": "warn"
+				"useButtonType": "error",
+				"useSemanticElements": "error",
+				"useKeyWithClickEvents": "error",
+				"noNoninteractiveElementToInteractiveRole": "error",
+				"noStaticElementInteractions": "error",
+				"useValidAriaProps": "error",
+				"noAutofocus": "error",
+				"noLabelWithoutControl": "error"
 			},
 			"security": {
-				"noDangerouslySetInnerHtml": "warn"
+				"noDangerouslySetInnerHtml": "error"
 			},
 			"style": {
-				"noNonNullAssertion": "warn"
+				"noNonNullAssertion": "error"
 			}
 		}
 	},

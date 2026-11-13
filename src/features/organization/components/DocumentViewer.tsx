@@ -131,7 +131,7 @@ export function DocumentViewer({
 				})}
 			</div>
 
-			{selectedDoc && selectedDoc.image_url && (
+			{selectedDoc?.image_url && (
 				<DocumentViewerModal
 					url={getBackendUrl(selectedDoc.image_url)}
 					title={selectedDoc.title}

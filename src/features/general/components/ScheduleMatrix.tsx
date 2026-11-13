@@ -129,7 +129,7 @@ export function ScheduleMatrix({ data }: ScheduleMatrixProps) {
 
 										return groupRows.map((row, index) => (
 											<tr
-												key={`${row.zone_id}-${row.criteria_code}-${index}`}
+												key={`${row.zone_id}-${row.item_group}-${row.criteria_code}`}
 												className="hover:bg-blue-50/30 transition-colors"
 											>
 												{index === 0 && (

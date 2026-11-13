@@ -103,6 +103,7 @@ function SingleViewer({ category }: GeneralDocumentViewerProps) {
 								<FileText className="w-4 h-4" /> Buka PDF
 							</button>
 							<button
+								type="button"
 								onClick={() => setIsGalleryOpen(true)}
 								className="bg-white/90 text-slate-800 px-4 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-white text-xs shadow-lg"
 							>
@@ -147,9 +148,9 @@ function SingleViewer({ category }: GeneralDocumentViewerProps) {
 
 			{documents.length > 1 && (
 				<div className="flex justify-center gap-1 mt-2">
-					{documents.map((_, i) => (
+					{documents.map((doc, i) => (
 						<button
-							key={i}
+							key={doc.id}
 							type="button"
 							onClick={() => setCurrentIndex(i)}
 							className={`w-1.5 h-1.5 rounded-full transition-all ${i === currentIndex ? "bg-blue-600 w-3" : "bg-slate-300"}`}

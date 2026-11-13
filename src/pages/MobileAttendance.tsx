@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
 	CheckCircle2,
 	Loader2,
@@ -28,7 +29,6 @@ export default function MobileAttendance() {
 		setIsLoading(true);
 
 		try {
-			// Menggunakan endpoint kiosk yang baru kita buat
 			await api.post("/hr/kiosk/attendances/scan", {
 				namecode: namecode.trim(),
 				status,
@@ -38,10 +38,11 @@ export default function MobileAttendance() {
 			toast.success("Presensi berhasil dicatat!", {
 				description: "Data kehadiran Anda sudah masuk ke sistem.",
 			});
-		} catch (error: any) {
-			const errorMessage =
-				error.response?.data?.message ||
-				"Gagal mencatat presensi. Silakan coba lagi.";
+		} catch (error: unknown) {
+			const errorMessage = axios.isAxiosError<{ message?: string }>(error)
+				? (error.response?.data?.message ??
+					"Gagal mencatat presensi. Silakan coba lagi.")
+				: "Gagal mencatat presensi. Silakan coba lagi.";
 			toast.error("Presensi Gagal", {
 				description: errorMessage,
 			});
@@ -134,15 +135,14 @@ export default function MobileAttendance() {
 									placeholder="Contoh: K-12345"
 									className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-slate-800 font-bold placeholder:font-medium placeholder:text-slate-400"
 									autoComplete="off"
-									autoFocus
 								/>
 							</div>
 						</div>
 
-						<div className="space-y-3">
-							<label className="text-sm font-bold text-slate-700 block">
+						<fieldset className="space-y-3 border-0 p-0 m-0">
+							<legend className="text-sm font-bold text-slate-700 block mb-3">
 								Status Kehadiran
-							</label>
+							</legend>
 							<div className="grid grid-cols-3 gap-2">
 								<button
 									type="button"
@@ -178,7 +178,7 @@ export default function MobileAttendance() {
 									Cuti
 								</button>
 							</div>
-						</div>
+						</fieldset>
 
 						<button
 							type="submit"

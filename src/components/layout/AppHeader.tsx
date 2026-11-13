@@ -110,6 +110,7 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 				</div>
 
 				<button
+					type="button"
 					onClick={() => setIsQrModalOpen(true)}
 					className="hidden lg:flex bg-white p-2.5 rounded-xl border border-slate-200 shadow-md items-center gap-4 hover:border-blue-400 hover:shadow-lg transition-all group text-left cursor-pointer"
 				>
@@ -133,17 +134,19 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 			</div>
 
 			<div className="flex justify-between items-center">
-				<nav
-					className="flex gap-3 overflow-x-auto scrollbar-hide pb-1 sm:pb-0"
-					role="tablist"
-				>
-					{TABS.map((tab) => (
-						<button
-							key={tab.value}
-							role="tab"
-							aria-selected={activeTab === tab.value}
-							onClick={() => onTabChange(tab.value)}
-							className={`
+				<nav aria-label="Menu Navigasi Utama">
+					<div
+						className="flex gap-3 overflow-x-auto scrollbar-hide pb-1 sm:pb-0"
+						role="tablist"
+					>
+						{TABS.map((tab) => (
+							<button
+								type="button"
+								key={tab.value}
+								role="tab"
+								aria-selected={activeTab === tab.value}
+								onClick={() => onTabChange(tab.value)}
+								className={`
                 shrink-0 flex items-center gap-2 px-4 sm:px-5 py-2.5 font-bold text-xs sm:text-sm tracking-wide transition-all rounded-full outline-none border
                 ${
 									activeTab === tab.value
@@ -151,20 +154,21 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 										: "bg-white/5 text-white border-white/10 hover:bg-white/10 hover:border-white/30"
 								}
               `}
-						>
-							{tab.label}
-							{tab.badge && (
-								<span
-									className={`
+							>
+								{tab.label}
+								{tab.badge && (
+									<span
+										className={`
                   px-2 py-0.5 rounded-full text-[10px] font-bold tracking-normal
                   ${activeTab === tab.value ? "bg-blue-100 text-[#0A2F66]" : "bg-white/10 text-white"}
                 `}
-								>
-									{tab.badge}
-								</span>
-							)}
-						</button>
-					))}
+									>
+										{tab.badge}
+									</span>
+								)}
+							</button>
+						))}
+					</div>
 				</nav>
 
 				<div className="hidden lg:flex items-stretch gap-4 mt-2">
@@ -207,6 +211,7 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 					<div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-8 bg-slate-900/80 backdrop-blur-sm animate-in fade-in duration-200">
 						<div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-12 max-w-lg w-full flex flex-col items-center relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
 							<button
+								type="button"
 								onClick={() => setIsQrModalOpen(false)}
 								className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 rounded-full bg-slate-100 text-slate-500 hover:bg-red-100 hover:text-red-500 transition-colors"
 							>

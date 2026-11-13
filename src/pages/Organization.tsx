@@ -1,4 +1,10 @@
-import { AlertCircle, Building2, Loader2, Map, Users } from "lucide-react";
+import {
+	AlertCircle,
+	Building2,
+	Loader2,
+	Map as MapIcon,
+	Users,
+} from "lucide-react";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAttendanceSummary } from "../features/organization/api/useAttendanceSummary";
@@ -54,6 +60,7 @@ export default function Organization() {
 			<div className="flex flex-col sm:flex-row justify-end items-start sm:items-end gap-4 pb-2 mb-8 border-b border-slate-200">
 				<div className="flex items-center gap-2 bg-slate-100 p-1.5 rounded-full border border-slate-200">
 					<button
+						type="button"
 						onClick={() => setActiveTab("structure")}
 						className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all ${
 							activeTab === "structure"
@@ -65,6 +72,7 @@ export default function Organization() {
 						Bagan Struktur
 					</button>
 					<button
+						type="button"
 						onClick={() => setActiveTab("map_area")}
 						className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all ${
 							activeTab === "map_area"
@@ -72,10 +80,11 @@ export default function Organization() {
 								: "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
 						}`}
 					>
-						<Map className="w-4 h-4" />
+						<MapIcon className="w-4 h-4" />
 						Map Area 5R
 					</button>
 					<button
+						type="button"
 						onClick={() => setActiveTab("attendance")}
 						className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all ${
 							activeTab === "attendance"

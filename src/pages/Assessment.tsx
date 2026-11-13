@@ -90,17 +90,15 @@ function AssessmentDocumentCard({
 					</div>
 				)}
 
-				<div
-					className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 backdrop-blur-sm cursor-pointer"
+				<button
+					type="button"
+					className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 backdrop-blur-sm cursor-pointer"
 					onClick={onClick}
 				>
-					<button
-						type="button"
-						className="bg-blue-600 text-white px-4 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-blue-700 text-xs shadow-lg"
-					>
+					<span className="bg-blue-600 text-white px-4 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-blue-700 text-xs shadow-lg">
 						<Maximize2 className="w-4 h-4" /> Buka Dokumen
-					</button>
-				</div>
+					</span>
+				</button>
 			</div>
 		</div>
 	);
@@ -169,7 +167,7 @@ function AssessmentViewer({ evaluations, section }: AssessmentViewerProps) {
 				</div>
 			</div>
 
-			{selectedEval && selectedEval.document_url && (
+			{selectedEval?.document_url && (
 				<DocumentViewerModal
 					url={getBackendUrl(selectedEval.document_url)}
 					title={selectedEval.title}

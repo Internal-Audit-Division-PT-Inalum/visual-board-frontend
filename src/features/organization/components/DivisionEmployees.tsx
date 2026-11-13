@@ -64,7 +64,7 @@ export function DivisionEmployees({
 								</span>
 							</div>
 							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-								{unitEmployees.map((employee, index) => {
+								{unitEmployees.map((employee) => {
 									const isManagement =
 										employee.hierarchy_level && employee.hierarchy_level <= 2;
 									const spanClass = isManagement ? "sm:col-span-2" : "";
@@ -78,18 +78,12 @@ export function DivisionEmployees({
 									};
 
 									return (
-										<div
-											key={`${employee.user_id}-${index}`}
-											className={`group relative text-left bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-blue-300 hover:shadow-md transition-all duration-300 overflow-hidden ${onEmployeeClick ? "cursor-pointer" : "cursor-default"} ${spanClass}`}
+										<button
+											type="button"
+											key={employee.user_id}
+											className={`group relative w-full text-left bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-blue-300 hover:shadow-md transition-all duration-300 overflow-hidden ${onEmployeeClick ? "cursor-pointer" : "cursor-default"} ${spanClass}`}
 											onClick={() => onEmployeeClick?.(employee.user_id)}
-											onKeyDown={(e) => {
-												if (e.key === "Enter" || e.key === " ") {
-													e.preventDefault();
-													onEmployeeClick?.(employee.user_id);
-												}
-											}}
-											role="button"
-											tabIndex={0}
+											disabled={!onEmployeeClick}
 										>
 											<div
 												className={`absolute top-0 left-0 w-1 h-full transition-colors ${getBorderColor(employee.hierarchy_level)}`}
@@ -116,7 +110,7 @@ export function DivisionEmployees({
 													</p>
 												</div>
 											</div>
-										</div>
+										</button>
 									);
 								})}
 							</div>

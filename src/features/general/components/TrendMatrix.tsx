@@ -94,6 +94,7 @@ export function TrendMatrix() {
 
 				<div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-full px-3 py-1.5">
 					<button
+						type="button"
 						onClick={() => setYear((y) => y - 1)}
 						className="p-0.5 text-slate-500 hover:text-slate-800 transition-colors"
 					>
@@ -103,6 +104,7 @@ export function TrendMatrix() {
 						{year}
 					</span>
 					<button
+						type="button"
 						onClick={() => setYear((y) => y + 1)}
 						disabled={year >= currentYear}
 						className="p-0.5 text-slate-500 hover:text-slate-800 disabled:opacity-30 transition-colors"
@@ -128,9 +130,9 @@ export function TrendMatrix() {
 								<th className="border border-slate-200 bg-slate-800 text-white text-center px-3 py-2 rounded-tl-lg font-bold text-[11px] sticky left-0 z-10 w-20">
 									ZONA
 								</th>
-								{MONTH_LABELS.map((m, i) => (
+								{MONTH_LABELS.map((m) => (
 									<th
-										key={i}
+										key={m}
 										colSpan={1}
 										className="border border-slate-200 bg-slate-700 text-white text-center px-1 py-2 font-bold text-[10px] tracking-widest uppercase"
 									>
@@ -141,8 +143,8 @@ export function TrendMatrix() {
 
 							<tr className="bg-slate-50">
 								<th className="border border-slate-200 bg-slate-100 sticky left-0 z-10"></th>
-								{MONTH_LABELS.map((_, i) => (
-									<td key={i} className="border border-slate-200 p-0">
+								{MONTH_LABELS.map((m) => (
+									<td key={m} className="border border-slate-200 p-0">
 										<div className="grid grid-cols-3 divide-x divide-slate-200 text-[9px] font-black text-center">
 											<span className="py-1 text-red-500">X</span>
 											<span className="py-1 text-emerald-600">O</span>

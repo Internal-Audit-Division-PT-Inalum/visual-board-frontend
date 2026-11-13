@@ -79,6 +79,7 @@ export function AbnormalityFeed({
 				<div className="flex items-center gap-3">
 					{isError ? (
 						<button
+							type="button"
 							onClick={onRetry}
 							className="flex items-center gap-1.5 text-xs font-bold text-red-600 bg-red-50 px-3 py-1.5 rounded-lg border border-red-100 hover:bg-red-100 transition-colors"
 						>

@@ -102,10 +102,7 @@ export function BulletinCard({
 		.trim();
 
 	return (
-		<div
-			className="relative flex flex-col bg-white rounded-2xl border border-slate-200 shadow-[0_4px_20px_rgb(0,0,0,0.04)] hover:border-blue-400 hover:shadow-[0_12px_32px_rgb(59,130,246,0.12)] hover:-translate-y-1 transition-all duration-300 overflow-hidden group h-full cursor-pointer select-none"
-			onClick={() => onSelect(bulletin)}
-		>
+		<article className="relative flex flex-col bg-white rounded-2xl border border-slate-200 shadow-[0_4px_20px_rgb(0,0,0,0.04)] hover:border-blue-400 hover:shadow-[0_12px_32px_rgb(59,130,246,0.12)] hover:-translate-y-1 transition-all duration-300 overflow-hidden group h-full select-none">
 			<div className="w-full h-48 overflow-hidden shrink-0 relative bg-slate-900">
 				{imageUrl && !imageError ? (
 					<div className="w-full h-full relative group/img bg-slate-900">
@@ -174,13 +171,19 @@ export function BulletinCard({
 			</div>
 
 			<div className="p-5 flex flex-col flex-1 bg-white">
-				<h3 className="text-base font-extrabold text-slate-900 leading-snug mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
-					{bulletin.title}
-				</h3>
+				<button
+					type="button"
+					onClick={() => onSelect(bulletin)}
+					className="text-left cursor-pointer focus:outline-none"
+				>
+					<h3 className="text-base font-extrabold text-slate-900 leading-snug mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
+						{bulletin.title}
+					</h3>
 
-				<p className="text-slate-500 text-xs leading-relaxed line-clamp-3 mb-4">
-					{plainText || "Tidak ada deskripsi teks untuk pengumuman ini."}
-				</p>
+					<p className="text-slate-500 text-xs leading-relaxed line-clamp-3 mb-4">
+						{plainText || "Tidak ada deskripsi teks untuk pengumuman ini."}
+					</p>
+				</button>
 
 				<div className="mt-auto pt-3 border-t border-slate-100 flex flex-col gap-3">
 					<div className="flex items-center justify-between text-[11px] font-medium text-slate-400">
@@ -207,6 +210,6 @@ export function BulletinCard({
 					</button>
 				</div>
 			</div>
-		</div>
+		</article>
 	);
 }
