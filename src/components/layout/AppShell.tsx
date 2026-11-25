@@ -22,7 +22,7 @@ export function AppShell() {
 	};
 
 	return (
-		<div className="h-screen w-screen flex flex-col bg-[#F8F9FA] overflow-hidden">
+		<div className="h-dvh w-full max-w-full flex flex-col bg-[#F8F9FA] overflow-hidden">
 			<AppHeader activeTab={activeTab} onTabChange={handleTabChange} />
 
 			<div

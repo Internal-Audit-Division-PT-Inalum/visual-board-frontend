@@ -84,22 +84,22 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 	];
 
 	return (
-		<header className="bg-gradient-to-r from-[#071F42] via-[#0A2F66] to-[#05152E] text-white flex flex-col pt-5 pb-5 px-8 shadow-lg z-10 shrink-0 font-sans border-b-4 border-[#08224A]">
-			<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2 border-b-4 border-white/20 mb-2">
-				<div className="flex gap-4 items-center">
-					<div className="h-16 sm:h-20 lg:h-24 shrink-0 flex items-center justify-center">
+		<header className="w-full min-w-0 bg-gradient-to-r from-[#071F42] via-[#0A2F66] to-[#05152E] text-white flex flex-col pt-3.5 pb-3 sm:pt-5 sm:pb-5 px-4 sm:px-6 lg:px-8 shadow-lg z-10 shrink-0 font-sans border-b-4 border-[#08224A]">
+			<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 pb-2.5 sm:pb-2 border-b-2 sm:border-b-4 border-white/20 mb-2.5 sm:mb-2">
+				<div className="flex gap-3 sm:gap-4 items-center min-w-0">
+					<div className="h-11 sm:h-16 lg:h-24 shrink-0 flex items-center justify-center">
 						<img
 							src="/inalum-logo-2.png"
 							alt="PT Inalum"
-							className="h-full w-auto object-contain drop-shadow-sm scale-110 brightness-0 invert"
+							className="h-full w-auto object-contain drop-shadow-sm sm:scale-110 brightness-0 invert"
 						/>
 					</div>
 
-					<div className="h-12 sm:h-16 w-px bg-white/20 ml-2 mr-1"></div>
+					<div className="h-9 sm:h-14 lg:h-16 w-px bg-white/20 shrink-0 sm:ml-2 sm:mr-1"></div>
 
-					<div className="flex flex-col gap-1.5 ml-2">
-						<div className="flex items-baseline gap-4">
-							<h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight drop-shadow-sm">
+					<div className="flex flex-col gap-1 min-w-0 sm:ml-2">
+						<div className="flex items-baseline gap-4 flex-wrap">
+							<h1 className="text-xl sm:text-3xl lg:text-5xl font-extrabold tracking-tight drop-shadow-sm leading-tight">
 								IIA 5R ACTIVITY BOARD
 							</h1>
 							<span className="text-white/80 font-medium text-base sm:text-lg hidden md:inline-block">
@@ -133,10 +133,13 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 				</button>
 			</div>
 
-			<div className="flex justify-between items-center">
-				<nav aria-label="Menu Navigasi Utama">
+			<div className="flex justify-between items-center gap-4 w-full min-w-0">
+				<nav
+					aria-label="Menu Navigasi Utama"
+					className="flex-1 min-w-0 w-full overflow-hidden"
+				>
 					<div
-						className="flex gap-3 overflow-x-auto scrollbar-hide pb-1 sm:pb-0"
+						className="flex items-center gap-2 sm:gap-3 overflow-x-auto overscroll-x-contain touch-pan-x scrollbar-hide py-1"
 						role="tablist"
 					>
 						{TABS.map((tab) => (
@@ -145,9 +148,16 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 								key={tab.value}
 								role="tab"
 								aria-selected={activeTab === tab.value}
-								onClick={() => onTabChange(tab.value)}
+								onClick={(e) => {
+									onTabChange(tab.value);
+									e.currentTarget.scrollIntoView({
+										behavior: "smooth",
+										block: "nearest",
+										inline: "center",
+									});
+								}}
 								className={`
-                shrink-0 flex items-center gap-2 px-4 sm:px-5 py-2.5 font-bold text-xs sm:text-sm tracking-wide transition-all rounded-full outline-none border
+                shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 font-bold text-xs sm:text-sm tracking-wide transition-all rounded-full outline-none border cursor-pointer
                 ${
 									activeTab === tab.value
 										? "bg-white text-[#0A2F66] border-white shadow-lg"
@@ -159,7 +169,7 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 								{tab.badge && (
 									<span
 										className={`
-                  px-2 py-0.5 rounded-full text-[10px] font-bold tracking-normal
+                  px-2 py-0.5 rounded-full text-[10px] font-bold tracking-normal whitespace-nowrap
                   ${activeTab === tab.value ? "bg-blue-100 text-[#0A2F66]" : "bg-white/10 text-white"}
                 `}
 									>
@@ -171,7 +181,7 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 					</div>
 				</nav>
 
-				<div className="hidden lg:flex items-stretch gap-4 mt-2">
+				<div className="hidden lg:flex items-stretch gap-4 mt-2 shrink-0">
 					{kioskData?.pic && (
 						<div className="flex items-center gap-3 bg-[#082959] border border-[#163666] px-4 py-2.5 rounded-xl shadow-inner h-[68px]">
 							<div className="text-right flex flex-col justify-center">
@@ -185,6 +195,7 @@ export function AppHeader({ activeTab, onTabChange }: AppHeaderProps) {
 							<EmployeeAvatar
 								src={kioskData.pic.avatar_url}
 								name={kioskData.pic.name}
+								level={kioskData.pic.hierarchy_level ?? undefined}
 								className="w-10 h-10 border-blue-400/40 text-xs shadow-md"
 							/>
 						</div>

@@ -7,6 +7,16 @@ import { defineConfig, loadEnv } from "vite";
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), "");
 	const backendTarget = env.VITE_BACKEND_TARGET || "http://localhost:8000";
+	const backendProxy = {
+		"/api": {
+			target: backendTarget,
+			changeOrigin: true,
+		},
+		"/storage": {
+			target: backendTarget,
+			changeOrigin: true,
+		},
+	};
 
 	return {
 		plugins: [react(), tailwindcss()],
@@ -16,20 +26,16 @@ export default defineConfig(({ mode }) => {
 			},
 		},
 		server: {
+			port: 5173,
+			strictPort: true,
 			host: true,
-			proxy: {
-				"/api": {
-					target: backendTarget,
-					changeOrigin: true,
-				},
-				"/storage": {
-					target: backendTarget,
-					changeOrigin: true,
-				},
-			},
+			proxy: backendProxy,
 		},
 		preview: {
+			port: 5173,
+			strictPort: true,
 			host: true,
+			proxy: backendProxy,
 		},
 		build: {
 			rollupOptions: {
