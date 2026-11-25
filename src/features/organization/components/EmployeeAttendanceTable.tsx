@@ -1,4 +1,5 @@
 import { Check } from "lucide-react";
+import { sortEmployeesByHierarchy } from "@/features/organization/lib/hierarchy";
 import type { DivisionEmployee } from "@/types/api";
 
 interface EmployeeAttendanceTableProps {
@@ -8,10 +9,7 @@ interface EmployeeAttendanceTableProps {
 export function EmployeeAttendanceTable({
 	employees,
 }: EmployeeAttendanceTableProps) {
-	// Urutkan pegawai berdasarkan hierarki
-	const sortedEmployees = [...employees].sort(
-		(a, b) => (a.hierarchy_level || 99) - (b.hierarchy_level || 99),
-	);
+	const sortedEmployees = sortEmployeesByHierarchy(employees);
 
 	return (
 		<div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden font-sans">

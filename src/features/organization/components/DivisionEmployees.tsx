@@ -1,4 +1,8 @@
 import { ChevronRight, Users } from "lucide-react";
+import {
+	getHierarchyBorderClass,
+	groupEmployeesByHierarchyTier,
+} from "@/features/organization/lib/hierarchy";
 import type { DivisionEmployee } from "@/types/api";
 import { EmployeeAvatar } from "./EmployeeAvatar";
 
@@ -63,56 +67,55 @@ export function DivisionEmployees({
 									{unitEmployees.length} Pegawai
 								</span>
 							</div>
-							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-								{unitEmployees.map((employee) => {
-									const isManagement =
-										employee.hierarchy_level && employee.hierarchy_level <= 2;
-									const spanClass = isManagement ? "sm:col-span-2" : "";
+							<div className="space-y-4">
+								{groupEmployeesByHierarchyTier(unitEmployees).map((group) => (
+									<div
+										key={`${unitName}-${group.tier}`}
+										className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+									>
+										{group.employees.map((employee) => {
+											const spanClass = group.fullWidthCards
+												? "sm:col-span-2"
+												: "";
 
-									const getBorderColor = (level?: number) => {
-										if (level === 1)
-											return "bg-amber-400 group-hover:bg-amber-500";
-										if (level === 2)
-											return "bg-emerald-400 group-hover:bg-emerald-500";
-										return "bg-slate-300 group-hover:bg-blue-500";
-									};
+											return (
+												<button
+													type="button"
+													key={employee.user_id}
+													className={`group relative w-full text-left bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-blue-300 hover:shadow-md transition-all duration-300 overflow-hidden ${onEmployeeClick ? "cursor-pointer" : "cursor-default"} ${spanClass}`}
+													onClick={() => onEmployeeClick?.(employee.user_id)}
+													disabled={!onEmployeeClick}
+												>
+													<div
+														className={`absolute top-0 left-0 w-1 h-full transition-colors ${getHierarchyBorderClass(employee.hierarchy_level)}`}
+													></div>
 
-									return (
-										<button
-											type="button"
-											key={employee.user_id}
-											className={`group relative w-full text-left bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-blue-300 hover:shadow-md transition-all duration-300 overflow-hidden ${onEmployeeClick ? "cursor-pointer" : "cursor-default"} ${spanClass}`}
-											onClick={() => onEmployeeClick?.(employee.user_id)}
-											disabled={!onEmployeeClick}
-										>
-											<div
-												className={`absolute top-0 left-0 w-1 h-full transition-colors ${getBorderColor(employee.hierarchy_level)}`}
-											></div>
+													<div className="flex items-center gap-4 relative z-10">
+														<EmployeeAvatar
+															src={employee.avatar_url}
+															name={employee.name}
+															level={employee.hierarchy_level}
+															className="w-14 h-14"
+														/>
 
-											<div className="flex items-center gap-4 relative z-10">
-												<EmployeeAvatar
-													src={employee.avatar_url}
-													name={employee.name}
-													level={employee.hierarchy_level}
-													className="w-14 h-14"
-												/>
-
-												<div className="flex-1 min-w-0">
-													<p className="font-extrabold text-slate-800 text-sm truncate">
-														{employee.name}
-													</p>
-													<p className="text-blue-600 font-bold text-[10px] uppercase tracking-wider mt-0.5 truncate">
-														{employee.role_label}
-													</p>
-													<p className="text-slate-500 text-xs font-medium truncate mt-1 flex items-center gap-1">
-														<ChevronRight className="w-3 h-3 text-slate-400" />
-														{employee.unit}
-													</p>
-												</div>
-											</div>
-										</button>
-									);
-								})}
+														<div className="flex-1 min-w-0">
+															<p className="font-extrabold text-slate-800 text-sm truncate">
+																{employee.name}
+															</p>
+															<p className="text-blue-600 font-bold text-[10px] uppercase tracking-wider mt-0.5 truncate">
+																{employee.role_label}
+															</p>
+															<p className="text-slate-500 text-xs font-medium truncate mt-1 flex items-center gap-1">
+																<ChevronRight className="w-3 h-3 text-slate-400" />
+																{employee.unit}
+															</p>
+														</div>
+													</div>
+												</button>
+											);
+										})}
+									</div>
+								))}
 							</div>
 						</div>
 					))}
