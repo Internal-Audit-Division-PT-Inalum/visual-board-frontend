@@ -128,7 +128,12 @@ export function ItemCard({ item }: ItemCardProps) {
 			</div>
 
 			<div className="p-4 sm:p-5 flex flex-col flex-1 justify-between gap-3 bg-white">
-				<div>
+				<div className="flex flex-col gap-1.5">
+					{item.rack_code && (
+						<span className="inline-flex w-fit items-center rounded-md bg-blue-50 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-[#0A2F66] border border-blue-200/80">
+							Rak {item.rack_code}
+						</span>
+					)}
 					<h3
 						className="text-base sm:text-lg font-extrabold text-slate-900 leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors"
 						title={item.name}
