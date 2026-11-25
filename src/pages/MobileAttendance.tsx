@@ -22,7 +22,7 @@ export default function MobileAttendance() {
 		e.preventDefault();
 
 		if (!namecode.trim()) {
-			toast.error("Silakan masukkan Kode Pegawai / NIK Anda");
+			toast.error("Silakan masukkan Namecode Anda");
 			return;
 		}
 
@@ -110,8 +110,7 @@ export default function MobileAttendance() {
 							Catat Kehadiran
 						</h2>
 						<p className="text-slate-500 text-sm mt-2 font-medium">
-							Masukkan Kode Pegawai atau NIK Anda untuk merekam kehadiran hari
-							ini.
+							Masukkan Namecode Anda untuk merekam kehadiran hari ini.
 						</p>
 					</div>
 
@@ -121,7 +120,7 @@ export default function MobileAttendance() {
 								htmlFor="namecode"
 								className="text-sm font-bold text-slate-700 block"
 							>
-								Kode Pegawai (Namecode)
+								Namecode
 							</label>
 							<div className="relative">
 								<div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -130,9 +129,10 @@ export default function MobileAttendance() {
 								<input
 									id="namecode"
 									type="text"
+									inputMode="numeric"
 									value={namecode}
 									onChange={(e) => setNamecode(e.target.value)}
-									placeholder="Contoh: K-12345"
+									placeholder="Contoh: 39014148"
 									className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-slate-800 font-bold placeholder:font-medium placeholder:text-slate-400"
 									autoComplete="off"
 								/>

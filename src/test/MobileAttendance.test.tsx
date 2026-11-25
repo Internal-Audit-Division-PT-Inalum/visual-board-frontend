@@ -30,9 +30,7 @@ describe("MobileAttendance Page", () => {
 			screen.getByRole("button", { name: "Konfirmasi Kehadiran" }),
 		);
 
-		expect(toast.error).toHaveBeenCalledWith(
-			"Silakan masukkan Kode Pegawai / NIK Anda",
-		);
+		expect(toast.error).toHaveBeenCalledWith("Silakan masukkan Namecode Anda");
 		expect(api.post).not.toHaveBeenCalled();
 	});
 
@@ -41,7 +39,7 @@ describe("MobileAttendance Page", () => {
 
 		render(<MobileAttendance />);
 
-		const input = screen.getByLabelText("Kode Pegawai (Namecode)");
+		const input = screen.getByLabelText("Namecode");
 		fireEvent.change(input, { target: { value: "K-1024" } });
 		fireEvent.click(screen.getByRole("button", { name: "Dinas" }));
 		fireEvent.click(
@@ -80,7 +78,7 @@ describe("MobileAttendance Page", () => {
 
 		render(<MobileAttendance />);
 
-		fireEvent.change(screen.getByLabelText("Kode Pegawai (Namecode)"), {
+		fireEvent.change(screen.getByLabelText("Namecode"), {
 			target: { value: "INVALID" },
 		});
 		fireEvent.click(
