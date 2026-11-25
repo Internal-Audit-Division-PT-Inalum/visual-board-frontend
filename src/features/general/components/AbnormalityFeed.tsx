@@ -1,11 +1,19 @@
 import {
 	AlertCircle,
+	Camera,
 	CheckCircle2,
 	ClipboardList,
 	Clock,
+	Expand,
 	RefreshCcw,
 } from "lucide-react";
-import type { Abnormality } from "@/types/api";
+import { useState } from "react";
+import { getBackendUrl } from "@/lib/utils";
+import type { Abnormality, AbnormalityPhoto } from "@/types/api";
+import {
+	AbnormalityPhotoModal,
+	type PhotoViewerMode,
+} from "./AbnormalityPhotoModal";
 
 interface AbnormalityFeedProps {
 	items?: Abnormality[];
@@ -14,7 +22,7 @@ interface AbnormalityFeedProps {
 	onRetry: () => void;
 }
 
-const STATUS_CONFIG = {
+export const STATUS_CONFIG = {
 	open: {
 		label: "Terbuka",
 		cls: "bg-red-100 text-red-700 border-red-200",
@@ -31,6 +39,39 @@ const STATUS_CONFIG = {
 		icon: CheckCircle2,
 	},
 };
+
+export function getZoneBadgeStyle(zoneName: string): {
+	pill: string;
+	dot: string;
+} {
+	const normalized = zoneName.toLowerCase();
+
+	if (normalized.includes("zona 1")) {
+		return {
+			pill: "bg-blue-50 text-blue-800 border-blue-200/80",
+			dot: "bg-blue-500",
+		};
+	}
+
+	if (normalized.includes("zona 2")) {
+		return {
+			pill: "bg-emerald-50 text-emerald-800 border-emerald-200/80",
+			dot: "bg-emerald-500",
+		};
+	}
+
+	if (normalized.includes("zona 3")) {
+		return {
+			pill: "bg-rose-50 text-rose-800 border-rose-200/80",
+			dot: "bg-rose-500",
+		};
+	}
+
+	return {
+		pill: "bg-slate-50 text-[#0A2F66] border-slate-200/80",
+		dot: "bg-[#0A2F66]",
+	};
+}
 
 function ProgressBar({ value }: { value: number }) {
 	const color =
@@ -52,12 +93,139 @@ function ProgressBar({ value }: { value: number }) {
 	);
 }
 
+function PhotoThumbnail({
+	photo,
+	alt,
+	className,
+}: {
+	photo: AbnormalityPhoto;
+	alt: string;
+	className: string;
+}) {
+	const [broken, setBroken] = useState(false);
+	const src = getBackendUrl(photo.thumb_url || photo.url);
+
+	if (broken || !src) {
+		return (
+			<div
+				className={`flex items-center justify-center bg-slate-100 text-slate-400 ${className}`}
+			>
+				<Camera className="w-3.5 h-3.5" aria-hidden="true" />
+			</div>
+		);
+	}
+
+	return (
+		<img
+			src={src}
+			alt={alt}
+			loading="lazy"
+			decoding="async"
+			className={`object-cover ${className}`}
+			onError={() => setBroken(true)}
+		/>
+	);
+}
+
+function PhotoCell({
+	item,
+	onOpen,
+}: {
+	item: Abnormality;
+	onOpen: (abnormality: Abnormality, mode: PhotoViewerMode) => void;
+}) {
+	const evidence = item.evidence_photos ?? [];
+	const resolution = item.resolution_photos ?? [];
+	const totalPhotos = evidence.length + resolution.length;
+
+	if (totalPhotos === 0) {
+		return <span className="text-slate-300 text-[11px]">—</span>;
+	}
+
+	// Both Before & After exist -> paired sleek comparison trigger
+	if (evidence.length > 0 && resolution.length > 0) {
+		return (
+			<button
+				type="button"
+				onClick={() => onOpen(item, "compare")}
+				aria-label={`Bandingkan foto sebelum & sesudah ${item.zone_name} (${totalPhotos} foto)`}
+				title="Klik untuk membandingkan foto Sebelum & Sesudah"
+				className="group relative inline-flex items-center gap-1 p-1 rounded-xl bg-slate-50 hover:bg-blue-50/80 border border-slate-200 hover:border-blue-300 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+			>
+				<div className="relative w-8 h-8 rounded-lg overflow-hidden ring-1 ring-rose-200">
+					<PhotoThumbnail
+						photo={evidence[0]}
+						alt={`Sebelum — ${item.zone_name}`}
+						className="w-full h-full transition-transform duration-200 group-hover:scale-110"
+					/>
+					<span
+						className="absolute bottom-0.5 left-0.5 w-1.5 h-1.5 rounded-full bg-rose-500 ring-1 ring-white"
+						aria-hidden="true"
+					/>
+				</div>
+				<div className="relative w-8 h-8 rounded-lg overflow-hidden ring-1 ring-emerald-200">
+					<PhotoThumbnail
+						photo={resolution[0]}
+						alt={`Sesudah — ${item.zone_name}`}
+						className="w-full h-full transition-transform duration-200 group-hover:scale-110"
+					/>
+					<span
+						className="absolute bottom-0.5 right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-500 ring-1 ring-white"
+						aria-hidden="true"
+					/>
+				</div>
+				{totalPhotos > 2 && (
+					<span className="absolute -top-1.5 -right-1.5 px-1.5 py-0.5 rounded-full bg-[#0A2F66] text-white text-[9px] font-black leading-none shadow-sm">
+						+{totalPhotos - 2}
+					</span>
+				)}
+			</button>
+		);
+	}
+
+	const primaryPhoto = evidence[0] ?? resolution[0];
+	const initialMode: PhotoViewerMode = evidence.length > 0 ? "before" : "after";
+	const extraCount = totalPhotos - 1;
+
+	return (
+		<button
+			type="button"
+			onClick={() => onOpen(item, initialMode)}
+			aria-label={`Lihat ${totalPhotos} foto temuan ${item.zone_name}`}
+			title="Klik untuk memperbesar foto dokumentasi"
+			className="group relative inline-flex items-center justify-center w-11 h-11 rounded-xl overflow-hidden border border-slate-200 hover:border-blue-400 shadow-xs transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+		>
+			<PhotoThumbnail
+				photo={primaryPhoto}
+				alt={`Bukti temuan ${item.zone_name}`}
+				className="w-full h-full transition-transform duration-200 group-hover:scale-110"
+			/>
+			<div
+				className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/40 transition-colors flex items-center justify-center"
+				aria-hidden="true"
+			>
+				<Expand className="w-3.5 h-3.5 text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow" />
+			</div>
+			{extraCount > 0 && (
+				<span className="absolute bottom-0.5 right-0.5 px-1 py-0.5 rounded-md bg-slate-950/80 text-white text-[9px] font-black leading-none backdrop-blur-xs">
+					+{extraCount}
+				</span>
+			)}
+		</button>
+	);
+}
+
 export function AbnormalityFeed({
 	items,
 	isLoading,
 	isError,
 	onRetry,
 }: AbnormalityFeedProps) {
+	const [viewerState, setViewerState] = useState<{
+		abnormality: Abnormality;
+		mode: PhotoViewerMode;
+	} | null>(null);
+
 	const activeCount = items?.filter((i) => i.status !== "resolved").length ?? 0;
 
 	return (
@@ -121,8 +289,11 @@ export function AbnormalityFeed({
 									<th className="px-3 py-3 border-b-2 border-slate-100">
 										Penemu / Grup
 									</th>
-									<th className="px-3 py-3 border-b-2 border-slate-100">
+									<th className="px-3 py-3 border-b-2 border-slate-100 text-center whitespace-nowrap">
 										Zona
+									</th>
+									<th className="px-3 py-3 border-b-2 border-slate-100 text-center whitespace-nowrap">
+										Foto
 									</th>
 									<th className="px-3 py-3 border-b-2 border-slate-100 w-1/4">
 										Kondisi Abnormal
@@ -154,6 +325,7 @@ export function AbnormalityFeed({
 								{items.map((item, idx) => {
 									const statusCfg = STATUS_CONFIG[item.status];
 									const StatusIcon = statusCfg.icon;
+									const zoneStyle = getZoneBadgeStyle(item.zone_name);
 									return (
 										<tr
 											key={item.id}
@@ -186,10 +358,24 @@ export function AbnormalityFeed({
 													</div>
 												)}
 											</td>
-											<td className="px-3 py-3">
-												<span className="bg-blue-50 text-[#0A2F66] border border-blue-100 px-2 py-0.5 rounded-md font-bold text-[10px]">
+											<td className="px-3 py-3 whitespace-nowrap text-center">
+												<span
+													className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border font-bold text-[11px] leading-none whitespace-nowrap shadow-[0_1px_2px_rgba(0,0,0,0.03)] ${zoneStyle.pill}`}
+												>
+													<span
+														className={`w-1.5 h-1.5 rounded-full shrink-0 ${zoneStyle.dot}`}
+														aria-hidden="true"
+													/>
 													{item.zone_name}
 												</span>
+											</td>
+											<td className="px-3 py-3 whitespace-nowrap text-center">
+												<PhotoCell
+													item={item}
+													onOpen={(abnormality, mode) =>
+														setViewerState({ abnormality, mode })
+													}
+												/>
 											</td>
 											<td className="px-3 py-3">
 												<p className="text-slate-700 line-clamp-2 leading-relaxed">
@@ -283,6 +469,14 @@ export function AbnormalityFeed({
 					TTD = Tanda Tangan
 				</span>
 			</div>
+
+			{viewerState && (
+				<AbnormalityPhotoModal
+					abnormality={viewerState.abnormality}
+					initialMode={viewerState.mode}
+					onClose={() => setViewerState(null)}
+				/>
+			)}
 		</div>
 	);
 }
