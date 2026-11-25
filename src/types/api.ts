@@ -2,6 +2,13 @@ export type AbnormalityStatus = "open" | "in_progress" | "resolved";
 
 export type DayStatus = "rencana" | "ok_tanpa_5r" | "ok_dengan_5r" | "abnormal";
 
+export interface AbnormalityPhoto {
+	id: number;
+	url: string;
+	thumb_url: string;
+	name: string;
+}
+
 export interface Abnormality {
 	id: string;
 
@@ -34,6 +41,10 @@ export interface Abnormality {
 	signed_by_staff: string | null;
 
 	signed_by_ms: string | null;
+
+	evidence_photos?: AbnormalityPhoto[];
+
+	resolution_photos?: AbnormalityPhoto[];
 
 	created_at: string;
 
@@ -71,6 +82,7 @@ export interface Zone {
 }
 
 export interface ScheduleZoneRow {
+	record_id?: string;
 	zone_id: string;
 	zone_name: string;
 	item_group: string;
@@ -83,7 +95,8 @@ export interface ScheduleZoneRow {
 export interface KioskDashboardResponse {
 	pic?: {
 		name: string;
-		position_title: string;
+		position_title: string | null;
+		hierarchy_level?: number | null;
 		avatar_url: string | null;
 	} | null;
 	open_abnormality_count: number;
@@ -161,6 +174,7 @@ export interface AttendanceSummaryResponse {
 
 export interface DivisionEmployee {
 	user_id: string;
+	namecode?: string | null;
 	name: string;
 	role_label: string;
 	unit: string;
@@ -291,6 +305,8 @@ export type KioskItemStockStatus = "ok" | "low" | "empty";
 export interface KioskInventoryItem {
 	id: string;
 	name: string;
+	sku?: string;
+	rack_code?: string | null;
 	type: InventoryItemType;
 	unit: string;
 	image_url: string | null;
@@ -305,6 +321,7 @@ export interface KioskLocationWithItems {
 	id: string;
 	name: string;
 	code: string;
+	description?: string | null;
 	items: KioskInventoryItem[];
 }
 
