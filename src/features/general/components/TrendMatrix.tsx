@@ -18,6 +18,27 @@ const MONTH_LABELS = [
 	"Des",
 ];
 
+const EMPTY_MONTH: TrendMonthData = {
+	temuan: null,
+	tindak_lanjut: null,
+	belum_selesai: null,
+};
+
+export function resolveMonthData(
+	months: Record<string, TrendMonthData> | TrendMonthData[] | undefined,
+	month: number,
+): TrendMonthData {
+	if (!months) {
+		return EMPTY_MONTH;
+	}
+
+	if (Array.isArray(months)) {
+		return months[month - 1] ?? EMPTY_MONTH;
+	}
+
+	return months[String(month)] ?? months[month] ?? EMPTY_MONTH;
+}
+
 function CellGroup({
 	data,
 	month,
@@ -32,7 +53,7 @@ function CellGroup({
 
 	if (data.temuan === null) {
 		const shouldDisplayZero =
-			year < currentYear || (year === currentYear && month < currentMonth);
+			year < currentYear || (year === currentYear && month <= currentMonth);
 		const displayValue = shouldDisplayZero ? "0" : "—";
 		const textClass = shouldDisplayZero
 			? "text-slate-500 font-bold"
@@ -71,7 +92,9 @@ function CellGroup({
 }
 
 export function TrendMatrix() {
-	const currentYear = new Date().getFullYear();
+	const now = new Date();
+	const currentYear = now.getFullYear();
+	const currentMonth = now.getMonth() + 1;
 	const [year, setYear] = useState(currentYear);
 	const { data, isLoading, error } = useKioskData(undefined, year);
 
@@ -130,15 +153,21 @@ export function TrendMatrix() {
 								<th className="border border-slate-200 bg-slate-800 text-white text-center px-3 py-2 rounded-tl-lg font-bold text-[11px] sticky left-0 z-10 w-20">
 									ZONA
 								</th>
-								{MONTH_LABELS.map((m) => (
-									<th
-										key={m}
-										colSpan={1}
-										className="border border-slate-200 bg-slate-700 text-white text-center px-1 py-2 font-bold text-[10px] tracking-widest uppercase"
-									>
-										{m}
-									</th>
-								))}
+								{MONTH_LABELS.map((m, idx) => {
+									const isCurrentMonth =
+										year === currentYear && idx + 1 === currentMonth;
+									return (
+										<th
+											key={m}
+											colSpan={1}
+											className={`border border-slate-200 text-white text-center px-1 py-2 font-bold text-[10px] tracking-widest uppercase ${
+												isCurrentMonth ? "bg-[#0A2F66]" : "bg-slate-700"
+											}`}
+										>
+											{m}
+										</th>
+									);
+								})}
 							</tr>
 
 							<tr className="bg-slate-50">
@@ -180,13 +209,7 @@ export function TrendMatrix() {
 											key={m}
 											month={m}
 											year={year}
-											data={
-												row.months[m] ?? {
-													temuan: null,
-													tindak_lanjut: null,
-													belum_selesai: null,
-												}
-											}
+											data={resolveMonthData(row.months, m)}
 										/>
 									))}
 								</tr>
